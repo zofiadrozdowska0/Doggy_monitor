@@ -18,3 +18,9 @@ Celem jest stworzenie prototypu urządzenia umożliwiającego monitorowanie psa 
 5. Aplikacja dla właściciela psa;
     - umożliwia odczyt emocji docelowo w czasie rzeczywistym, jednak należy uwzględnić opóźnienia zależne od czasu trwania przetwarzania danych
     - zapis historii emocji wraz z obrazem o zmniejszonej jakości 
+
+<B>Stack technologiczny:</B>
+    - Python; pytorch (Modified BSD License), OpenCV (Apache 2 License)
+    - Kotlin
+    - RPI
+    - telefon (lub kamera)
