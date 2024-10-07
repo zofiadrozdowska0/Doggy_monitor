@@ -34,7 +34,7 @@ Celem jest stworzenie prototypu urządzenia umożliwiającego monitorowanie psa 
 
 ## Harmonogram
 
-| Nazwa zadania                                | Czas pracy          | Ilość osób |
+| Nazwa zadania                                | Czas pracy          | Liczba osób |
 |----------------------------------------------|---------------------|------------|
 | Zbieranie i wstępne przetwarzanie danych      | Tydzień 1 i 2       | 4          |
 | Prototypowanie mechanizmu śledzenia           | Tydzień 1 i 2       | 3          |
