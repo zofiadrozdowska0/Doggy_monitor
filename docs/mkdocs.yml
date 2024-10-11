@@ -1,0 +1,8 @@
+site_name: Doggy Monitor
+
+nav:
+  - Strona główna: index.md
+  - Camera:
+      - Gimball: camera/gimball.md
+      - Architektura: camera/arch.md
+
