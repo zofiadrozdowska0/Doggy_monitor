@@ -1,0 +1,13 @@
+image: python:3.10
+
+pages:
+  script:
+    - pip install mkdocs
+    - cd docs
+    - mkdocs build --strict
+  artifacts:
+    paths:
+      - public
+  only:
+    - deploy-mkdocs
+
