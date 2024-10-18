@@ -20,8 +20,10 @@ Kamera jest zamontowana na gimbalu za pomocą specjalnego adaptera do Raspberry 
 
 **Montaż**
 
-Kamera jest montowana na gimbalu za pomocą wydrukowanego uchwytu 3D. Można pobrać plik STL adaptera [tutaj](#files/adapter.stl).
+Kamera jest montowana na gimbalu za pomocą wydrukowanego uchwytu 3D. Można pobrać plik STL adaptera [tutaj](assets/adapter3d.stl).
 
 **Render adaptera 3D:**
+
+![Zdjęcie adaptera](assets/adapter3d.png)
 
 
