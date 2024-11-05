@@ -1,0 +1,146 @@
+[
+  {
+    "name": "Dog",
+    "type": "skeleton",
+    "sublabels": [
+      {
+        "name": "prawa_przednia_lapa",
+        "color": "",
+        "type": "points",
+        "attributes": []
+      },
+      {
+        "name": "prawy_przedni_nadgarstek",
+        "type": "points",
+        "attributes": []
+      },
+      {
+        "name": "prawy_przedni_lokiec",
+        "type": "points",
+        "attributes": []
+      },
+      {
+        "name": "lewa_przednia_lapa",
+        "type": "points",
+        "attributes": []
+      },
+      {
+        "name": "lewy_przedni_nadgarstek",
+        "type": "points",
+        "attributes": []
+      },
+      {
+        "name": "lewy_przedni_lokiec",
+        "type": "points",
+        "attributes": []
+      },
+      {
+        "name": "prawa_tylna_lapa",
+        "type": "points",
+        "attributes": []
+      },
+      {
+        "name": "prawy_tylny_nadgarstek",
+        "type": "points",
+        "attributes": []
+      },
+      {
+        "name": "prawy_tylny_lokiec",
+        "type": "points",
+        "attributes": []
+      },
+      {
+        "name": "lewa_tylna_lapa",
+        "type": "points",
+        "attributes": []
+      },
+      {
+        "name": "lewy_tylny_nadgarstek",
+        "type": "points",
+        "attributes": []
+      },
+      {
+        "name": "lewy_tylny_lokiec",
+        "type": "points",
+        "attributes": []
+      },
+      {
+        "name": "poczatek_ogona",
+        "type": "points",
+        "attributes": []
+      },
+      {
+        "name": "koniec_ogona",
+        "type": "points",
+        "attributes": []
+      },
+      {
+        "name": "kark",
+        "type": "points",
+        "attributes": []
+      },
+      {
+        "name": "gardlo",
+        "type": "points",
+        "attributes": []
+      },
+      {
+        "name": "prawa_podstawa_ucha",
+        "type": "points",
+        "attributes": []
+      },
+      {
+        "name": "prawy_czubek_ucha",
+        "type": "points",
+        "attributes": []
+      },
+      {
+        "name": "lewa_podstawa_ucha",
+        "type": "points",
+        "attributes": []
+      },
+      {
+        "name": "lewy_czubek_ucha",
+        "type": "points",
+        "attributes": []
+      },
+      {
+        "name": "pod_nosem",
+        "type": "points",
+        "attributes": []
+      },
+      {
+        "name": "dolna_warga",
+        "type": "points",
+        "attributes": []
+      },
+      {
+        "name": "prawy_kacik_wargi",
+        "type": "points",
+        "attributes": []
+      },
+      {
+        "name": "lewy_kacik_wargi",
+        "type": "points",
+        "attributes": []
+      },
+      {
+        "name": "czubek_jezyka",
+        "type": "points",
+        "attributes": []
+      },
+      {
+        "name": "gorne_zeby",
+        "type": "points",
+        "attributes": []
+      },
+      {
+        "name": "dolne_zeby",
+        "type": "points",
+        "attributes": []
+      }
+    ],
+    "svg": "<line x1=&quot;47.12374496459961&quot; y1=&quot;91.24372863769531&quot; x2=&quot;58.99665451049805&quot; y2=&quot;83.38419342041016&quot; data-type=&quot;edge&quot; data-node-from=&quot;25&quot; data-node-to=&quot;24&quot;></line>\n<line x1=&quot;47.12374496459961&quot; y1=&quot;91.24372863769531&quot; x2=&quot;39.096988677978516&quot; y2=&quot;84.55476379394531&quot; data-type=&quot;edge&quot; data-node-from=&quot;25&quot; data-node-to=&quot;23&quot;></line>\n<line x1=&quot;46.956520080566406&quot; y1=&quot;84.2203140258789&quot; x2=&quot;39.096988677978516&quot; y2=&quot;84.55476379394531&quot; data-type=&quot;edge&quot; data-node-from=&quot;21&quot; data-node-to=&quot;23&quot;></line>\n<line x1=&quot;58.99665451049805&quot; y1=&quot;83.38419342041016&quot; x2=&quot;46.956520080566406&quot; y2=&quot;84.2203140258789&quot; data-type=&quot;edge&quot; data-node-from=&quot;24&quot; data-node-to=&quot;21&quot;></line>\n<line x1=&quot;58.99665451049805&quot; y1=&quot;83.38419342041016&quot; x2=&quot;47.62541580200195&quot; y2=&quot;94.08654022216797&quot; data-type=&quot;edge&quot; data-node-from=&quot;24&quot; data-node-to=&quot;22&quot;></line>\n<line x1=&quot;39.096988677978516&quot; y1=&quot;84.55476379394531&quot; x2=&quot;47.62541580200195&quot; y2=&quot;94.08654022216797&quot; data-type=&quot;edge&quot; data-node-from=&quot;23&quot; data-node-to=&quot;22&quot;></line>\n<line x1=&quot;67.69230651855469&quot; y1=&quot;4.621654987335205&quot; x2=&quot;58.99665451049805&quot; y2=&quot;83.38419342041016&quot; data-type=&quot;edge&quot; data-node-from=&quot;19&quot; data-node-to=&quot;24&quot;></line>\n<line x1=&quot;65.18394470214844&quot; y1=&quot;5.959447383880615&quot; x2=&quot;39.096988677978516&quot; y2=&quot;84.55476379394531&quot; data-type=&quot;edge&quot; data-node-from=&quot;17&quot; data-node-to=&quot;23&quot;></line>\n<line x1=&quot;67.69230651855469&quot; y1=&quot;4.621654987335205&quot; x2=&quot;73.37792205810547&quot; y2=&quot;4.454431056976318&quot; data-type=&quot;edge&quot; data-node-from=&quot;19&quot; data-node-to=&quot;20&quot;></line>\n<line x1=&quot;57.82608413696289&quot; y1=&quot;15.992892265319824&quot; x2=&quot;67.69230651855469&quot; y2=&quot;4.621654987335205&quot; data-type=&quot;edge&quot; data-node-from=&quot;15&quot; data-node-to=&quot;19&quot;></line>\n<line x1=&quot;65.18394470214844&quot; y1=&quot;5.959447383880615&quot; x2=&quot;66.68896484375&quot; y2=&quot;13.98620319366455&quot; data-type=&quot;edge&quot; data-node-from=&quot;17&quot; data-node-to=&quot;18&quot;></line>\n<line x1=&quot;57.82608413696289&quot; y1=&quot;15.992892265319824&quot; x2=&quot;65.18394470214844&quot; y2=&quot;5.959447383880615&quot; data-type=&quot;edge&quot; data-node-from=&quot;15&quot; data-node-to=&quot;17&quot;></line>\n<line x1=&quot;57.82608413696289&quot; y1=&quot;15.992892265319824&quot; x2=&quot;64.34782409667969&quot; y2=&quot;19.839046478271484&quot; data-type=&quot;edge&quot; data-node-from=&quot;15&quot; data-node-to=&quot;16&quot;></line>\n<line x1=&quot;61.672237396240234&quot; y1=&quot;30.039714813232422&quot; x2=&quot;64.34782409667969&quot; y2=&quot;19.839046478271484&quot; data-type=&quot;edge&quot; data-node-from=&quot;6&quot; data-node-to=&quot;16&quot;></line>\n<line x1=&quot;58.1605339050293&quot; y1=&quot;30.5413875579834&quot; x2=&quot;64.34782409667969&quot; y2=&quot;19.839046478271484&quot; data-type=&quot;edge&quot; data-node-from=&quot;3&quot; data-node-to=&quot;16&quot;></line>\n<line x1=&quot;30.90300941467285&quot; y1=&quot;18.501253128051758&quot; x2=&quot;57.82608413696289&quot; y2=&quot;15.992892265319824&quot; data-type=&quot;edge&quot; data-node-from=&quot;13&quot; data-node-to=&quot;15&quot;></line>\n<line x1=&quot;30.90300941467285&quot; y1=&quot;18.501253128051758&quot; x2=&quot;25.88628578186035&quot; y2=&quot;11.477842330932617&quot; data-type=&quot;edge&quot; data-node-from=&quot;13&quot; data-node-to=&quot;14&quot;></line>\n<line x1=&quot;35.08361053466797&quot; y1=&quot;27.3641300201416&quot; x2=&quot;30.90300941467285&quot; y2=&quot;18.501253128051758&quot; data-type=&quot;edge&quot; data-node-from=&quot;12&quot; data-node-to=&quot;13&quot;></line>\n<line x1=&quot;28.896320343017578&quot; y1=&quot;28.03302574157715&quot; x2=&quot;30.90300941467285&quot; y2=&quot;18.501253128051758&quot; data-type=&quot;edge&quot; data-node-from=&quot;9&quot; data-node-to=&quot;13&quot;></line>\n<line x1=&quot;30.0668888092041&quot; y1=&quot;37.06312561035156&quot; x2=&quot;35.08361053466797&quot; y2=&quot;27.3641300201416&quot; data-type=&quot;edge&quot; data-node-from=&quot;11&quot; data-node-to=&quot;12&quot;></line>\n<line x1=&quot;33.91304397583008&quot; y1=&quot;42.07984924316406&quot; x2=&quot;30.0668888092041&quot; y2=&quot;37.06312561035156&quot; data-type=&quot;edge&quot; data-node-from=&quot;10&quot; data-node-to=&quot;11&quot;></line>\n<line x1=&quot;23.712373733520508&quot; y1=&quot;41.410953521728516&quot; x2=&quot;28.896320343017578&quot; y2=&quot;28.03302574157715&quot; data-type=&quot;edge&quot; data-node-from=&quot;8&quot; data-node-to=&quot;9&quot;></line>\n<line x1=&quot;25.217390060424805&quot; y1=&quot;48.7688102722168&quot; x2=&quot;23.712373733520508&quot; y2=&quot;41.410953521728516&quot; data-type=&quot;edge&quot; data-node-from=&quot;7&quot; data-node-to=&quot;8&quot;></line>\n<line x1=&quot;60.33444595336914&quot; y1=&quot;41.410953521728516&quot; x2=&quot;61.672237396240234&quot; y2=&quot;30.039714813232422&quot; data-type=&quot;edge&quot; data-node-from=&quot;5&quot; data-node-to=&quot;6&quot;></line>\n<line x1=&quot;63.1772575378418&quot; y1=&quot;44.75543212890625&quot; x2=&quot;60.33444595336914&quot; y2=&quot;41.410953521728516&quot; data-type=&quot;edge&quot; data-node-from=&quot;4&quot; data-node-to=&quot;5&quot;></line>\n<line x1=&quot;56.98996353149414&quot; y1=&quot;41.410953521728516&quot; x2=&quot;58.1605339050293&quot; y2=&quot;30.5413875579834&quot; data-type=&quot;edge&quot; data-node-from=&quot;2&quot; data-node-to=&quot;3&quot;></line>\n<line x1=&quot;59.8327751159668&quot; y1=&quot;46.762123107910156&quot; x2=&quot;56.98996353149414&quot; y2=&quot;41.410953521728516&quot; data-type=&quot;edge&quot; data-node-from=&quot;1&quot; data-node-to=&quot;2&quot;></line>\n<circle r=&quot;0.75&quot; cx=&quot;59.8327751159668&quot; cy=&quot;46.762123107910156&quot; data-type=&quot;element node&quot; data-element-id=&quot;1&quot; data-node-id=&quot;1&quot; data-label-name=&quot;prawa_przednia_lapa&quot;></circle>\n<circle r=&quot;0.75&quot; cx=&quot;56.98996353149414&quot; cy=&quot;41.410953521728516&quot; data-type=&quot;element node&quot; data-element-id=&quot;2&quot; data-node-id=&quot;2&quot; data-label-name=&quot;prawy_przedni_nadgarstek&quot;></circle>\n<circle r=&quot;0.75&quot; cx=&quot;58.1605339050293&quot; cy=&quot;30.5413875579834&quot; data-type=&quot;element node&quot; data-element-id=&quot;3&quot; data-node-id=&quot;3&quot; data-label-name=&quot;prawy_przedni_lokiec&quot;></circle>\n<circle r=&quot;0.75&quot; cx=&quot;63.1772575378418&quot; cy=&quot;44.75543212890625&quot; data-type=&quot;element node&quot; data-element-id=&quot;4&quot; data-node-id=&quot;4&quot; data-label-name=&quot;lewa_przednia_lapa&quot;></circle>\n<circle r=&quot;0.75&quot; cx=&quot;60.33444595336914&quot; cy=&quot;41.410953521728516&quot; data-type=&quot;element node&quot; data-element-id=&quot;5&quot; data-node-id=&quot;5&quot; data-label-name=&quot;lewy_przedni_nadgarstek&quot;></circle>\n<circle r=&quot;0.75&quot; cx=&quot;61.672237396240234&quot; cy=&quot;30.039714813232422&quot; data-type=&quot;element node&quot; data-element-id=&quot;6&quot; data-node-id=&quot;6&quot; data-label-name=&quot;lewy_przedni_lokiec&quot;></circle>\n<circle r=&quot;0.75&quot; cx=&quot;25.217390060424805&quot; cy=&quot;48.7688102722168&quot; data-type=&quot;element node&quot; data-element-id=&quot;7&quot; data-node-id=&quot;7&quot; data-label-name=&quot;prawa_tylna_lapa&quot;></circle>\n<circle r=&quot;0.75&quot; cx=&quot;23.712373733520508&quot; cy=&quot;41.410953521728516&quot; data-type=&quot;element node&quot; data-element-id=&quot;8&quot; data-node-id=&quot;8&quot; data-label-name=&quot;prawy_tylny_nadgarstek&quot;></circle>\n<circle r=&quot;0.75&quot; cx=&quot;28.896320343017578&quot; cy=&quot;28.03302574157715&quot; data-type=&quot;element node&quot; data-element-id=&quot;9&quot; data-node-id=&quot;9&quot; data-label-name=&quot;prawy_tylny_lokiec&quot;></circle>\n<circle r=&quot;0.75&quot; cx=&quot;33.91304397583008&quot; cy=&quot;42.07984924316406&quot; data-type=&quot;element node&quot; data-element-id=&quot;10&quot; data-node-id=&quot;10&quot; data-label-name=&quot;lewa_tylna_lapa&quot;></circle>\n<circle r=&quot;0.75&quot; cx=&quot;30.0668888092041&quot; cy=&quot;37.06312561035156&quot; data-type=&quot;element node&quot; data-element-id=&quot;11&quot; data-node-id=&quot;11&quot; data-label-name=&quot;lewy_tylny_nadgarstek&quot;></circle>\n<circle r=&quot;0.75&quot; cx=&quot;35.08361053466797&quot; cy=&quot;27.3641300201416&quot; data-type=&quot;element node&quot; data-element-id=&quot;12&quot; data-node-id=&quot;12&quot; data-label-name=&quot;lewy_tylny_lokiec&quot;></circle>\n<circle r=&quot;0.75&quot; cx=&quot;30.90300941467285&quot; cy=&quot;18.501253128051758&quot; data-type=&quot;element node&quot; data-element-id=&quot;13&quot; data-node-id=&quot;13&quot; data-label-name=&quot;poczatek_ogona&quot;></circle>\n<circle r=&quot;0.75&quot; cx=&quot;25.88628578186035&quot; cy=&quot;11.477842330932617&quot; data-type=&quot;element node&quot; data-element-id=&quot;14&quot; data-node-id=&quot;14&quot; data-label-name=&quot;koniec_ogona&quot;></circle>\n<circle r=&quot;0.75&quot; cx=&quot;57.82608413696289&quot; cy=&quot;15.992892265319824&quot; data-type=&quot;element node&quot; data-element-id=&quot;15&quot; data-node-id=&quot;15&quot; data-label-name=&quot;kark&quot;></circle>\n<circle r=&quot;0.75&quot; cx=&quot;64.34782409667969&quot; cy=&quot;19.839046478271484&quot; data-type=&quot;element node&quot; data-element-id=&quot;16&quot; data-node-id=&quot;16&quot; data-label-name=&quot;gardlo&quot;></circle>\n<circle r=&quot;0.75&quot; cx=&quot;65.18394470214844&quot; cy=&quot;5.959447383880615&quot; data-type=&quot;element node&quot; data-element-id=&quot;17&quot; data-node-id=&quot;17&quot; data-label-name=&quot;prawa_podstawa_ucha&quot;></circle>\n<circle r=&quot;0.75&quot; cx=&quot;66.68896484375&quot; cy=&quot;13.98620319366455&quot; data-type=&quot;element node&quot; data-element-id=&quot;18&quot; data-node-id=&quot;18&quot; data-label-name=&quot;prawy_czubek_ucha&quot;></circle>\n<circle r=&quot;0.75&quot; cx=&quot;67.69230651855469&quot; cy=&quot;4.621654987335205&quot; data-type=&quot;element node&quot; data-element-id=&quot;19&quot; data-node-id=&quot;19&quot; data-label-name=&quot;lewa_podstawa_ucha&quot;></circle>\n<circle r=&quot;0.75&quot; cx=&quot;73.37792205810547&quot; cy=&quot;4.454431056976318&quot; data-type=&quot;element node&quot; data-element-id=&quot;20&quot; data-node-id=&quot;20&quot; data-label-name=&quot;lewy_czubek_ucha&quot;></circle>\n<circle r=&quot;0.75&quot; cx=&quot;46.956520080566406&quot; cy=&quot;84.2203140258789&quot; data-type=&quot;element node&quot; data-element-id=&quot;21&quot; data-node-id=&quot;21&quot; data-label-name=&quot;pod_nosem&quot;></circle>\n<circle r=&quot;0.75&quot; cx=&quot;47.62541580200195&quot; cy=&quot;94.08654022216797&quot; data-type=&quot;element node&quot; data-element-id=&quot;22&quot; data-node-id=&quot;22&quot; data-label-name=&quot;dolna_warga&quot;></circle>\n<circle r=&quot;0.75&quot; cx=&quot;39.096988677978516&quot; cy=&quot;84.55476379394531&quot; data-type=&quot;element node&quot; data-element-id=&quot;23&quot; data-node-id=&quot;23&quot; data-label-name=&quot;prawy_kacik_wargi&quot;></circle>\n<circle r=&quot;0.75&quot; cx=&quot;58.99665451049805&quot; cy=&quot;83.38419342041016&quot; data-type=&quot;element node&quot; data-element-id=&quot;24&quot; data-node-id=&quot;24&quot; data-label-name=&quot;lewy_kacik_wargi&quot;></circle>\n<circle r=&quot;0.75&quot; cx=&quot;47.12374496459961&quot; cy=&quot;91.24372863769531&quot; data-type=&quot;element node&quot; data-element-id=&quot;25&quot; data-node-id=&quot;25&quot; data-label-name=&quot;czubek_jezyka&quot;></circle>\n<circle r=&quot;0.75&quot; cx=&quot;47.29096984863281&quot; cy=&quot;85.39088439941406&quot; data-type=&quot;element node&quot; data-element-id=&quot;26&quot; data-node-id=&quot;26&quot; data-label-name=&quot;gorne_zeby&quot;></circle>\n<circle r=&quot;0.75&quot; cx=&quot;49.464881896972656&quot; cy=&quot;92.2470703125&quot; data-type=&quot;element node&quot; data-element-id=&quot;27&quot; data-node-id=&quot;27&quot; data-label-name=&quot;dolne_zeby&quot;></circle>",
+    "attributes": []
+  }
+]
