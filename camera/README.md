@@ -33,6 +33,45 @@ graph TD
 
 > 🔌Należy najpierw podłączyć UART do rpi a dopiero później podłączyć do komputera!
 
+Serwomechanizmy należy podłączyć do urządzenia w następujący sposób:
+
+Serwo 1 - ruch kamerą na boki
+
+Serwo 2 - ruch kamerą góra, dół
+
+```mermaid
+graph TD
+    subgraph Raspberry Pi
+        VCC1[VCC: Pin 2, 5V]
+        VCC2[VCC: Pin 4, 5V]
+        GND2[GND: Pin 9]
+        GND1[GND: Pin 14]
+        PWMS1[PWM: Pin 12, GPIO18]
+        PWMS2[PWM: Pin 7, GPIO4]
+    end
+
+    subgraph Serwo1
+        PWMSERVO1[PWM]
+        VCCSERVO1[VCC]
+        GND_SERVO1[GND]
+    end
+
+    subgraph Serwo2
+        PWMSERVO2[PWM]
+        VCCSERVO2[VCC]
+        GND_SERVO2[GND]
+    end
+
+    VCC1 -- VCC --> VCCSERVO1
+    GND1 -- GND --> GND_SERVO1
+    PWMS1 -- PWM --> PWMSERVO1
+
+    VCC2 -- VCC --> VCCSERVO2
+    GND2 -- GND --> GND_SERVO2
+    PWMS2 -- PWM --> PWMSERVO2
+
+```
+
 ## Logowanie się do Raspberry Pi
 
 > user: dog
