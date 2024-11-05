@@ -1,0 +1,12 @@
+#sciezki
+path: data
+train: images/train
+val: images/val
+
+
+kpt_shape: [27,3] #iosc punktow i dimention
+flip_idx: [3,4,5,0,1,2,9,10,11,6,7,8,12,13,14,15,18,19,16,17,20,21,23,22,24,25,26] #przy augmentaci odbicie lustrzane
+
+# nasz pies
+names:
+  0: dog
