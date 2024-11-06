@@ -12,7 +12,7 @@ Filmy oznaczano na co dziesiątej klatce, a dataset eksportowano w formacie yolo
 
 W zbieraniu filmów udział brali: Zofia Drozdowska, Joanna Ryś
 
-W anotacji udział brali: Zofia Drozdowska, Joanna Ryś
+W anotacji udział brali: Zofia Drozdowska, Joanna Ryś, Łukasz Marcinkowski
 
 Uporządkowane i połączone datasety dla każdej grupy: (todo)
 - 1
