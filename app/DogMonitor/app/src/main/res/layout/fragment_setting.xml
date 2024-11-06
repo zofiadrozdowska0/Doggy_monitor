@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_weight="2"
+    android:visibility="visible">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/settinng_name_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:foregroundGravity="center"
+
+        app:cardBackgroundColor="@color/purple_200"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="2dp"
+            android:gravity="center"
+            android:includeFontPadding="true"
+            android:text="Ustawienia"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display2"
+            android:textColor="@color/cardview_light_background"
+            android:textSize="34sp"
+            android:textStyle="bold" />
+    </androidx.cardview.widget.CardView>
+
+    <ScrollView
+        android:id="@+id/scrollView2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:contentDescription="Settings List"
+        android:padding="2dp"
+        android:scrollbarAlwaysDrawHorizontalTrack="false"
+        android:scrollbarSize="0dp"
+        android:scrollbarStyle="insideOverlay"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/settinng_name_bar">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:importantForAccessibility="yes"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="4dp"
+                    android:text="Adres serwera"
+                    android:textColor="@color/teal_700"
+                    android:textSize="24sp" />
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <EditText
+                    android:id="@+id/server_address"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:hint="Wprowadź adres serwera"
+                    android:inputType="text"
+                    android:textColor="@color/material_dynamic_neutral20" />
+            </androidx.cardview.widget.CardView>
+
+            <View
+                android:id="@+id/divider"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider" />
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <Switch
+                    android:id="@+id/switch_notifications"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:text="Powiadomienia"
+                    android:textColor="@color/teal_700"
+                    android:textSize="24sp" />
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/notifications_options"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Nadaj powiadomienie gdy:"
+                        android:textColor="@color/material_dynamic_neutral30"
+                        android:textSize="20sp" />
+
+                    <CheckBox
+                        android:id="@+id/notification_indicator_happy_checkBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:text="Zmiana nastroju na &quot;Szczęśliwy&quot;"
+                        android:textColor="@color/material_dynamic_neutral20"
+                        android:textSize="16sp" />
+
+                    <CheckBox
+                        android:id="@+id/notification_indicator_sad_checkBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:text="Zmiana nastroju na &quot;Smutny&quot;"
+                        android:textColor="@color/material_dynamic_neutral20"
+                        android:textSize="16sp" />
+
+                    <CheckBox
+                        android:id="@+id/notification_indicator_angry_checkBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:text="Zmiana nastroju na &quot;Zdenerwowany&quot;"
+                        android:textColor="@color/material_dynamic_neutral20"
+                        android:textSize="16sp" />
+
+                    <CheckBox
+                        android:id="@+id/notification_indicator_hungry_checkBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:text="Zmiana nastroju na &quot;Głodny&quot;"
+                        android:textColor="@color/material_dynamic_neutral20"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <View
+                android:id="@+id/divider2"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider" />
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:importantForAccessibility="yes"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="4dp"
+                    android:text="Zapis klipów"
+                    android:textColor="@color/teal_700"
+                    android:textSize="24sp" />
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_weight="4"
+                        android:importantForAccessibility="yes"
+                        android:paddingTop="8dp"
+                        android:paddingBottom="4dp"
+                        android:text="Długość zpisywanych klipów"
+                        android:textColor="@color/material_dynamic_neutral30"
+                        android:textSize="20sp" />
+
+                    <EditText
+                        android:id="@+id/video_clip_lenght"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_weight="9"
+                        android:gravity="center_vertical"
+                        android:hint="0"
+                        android:inputType="number|numberDecimal"
+                        android:textAlignment="center"
+                        android:textColor="@color/material_dynamic_neutral20" />
+
+                    <TextView
+                        android:id="@+id/textView2"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_weight="11"
+                        android:importantForAccessibility="yes"
+                        android:paddingTop="8dp"
+                        android:paddingBottom="4dp"
+                        android:text="s"
+                        android:textColor="@color/material_dynamic_neutral30"
+                        android:textSize="20sp" />
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/video_clip_options"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Zapisz klip gdy:"
+                        android:textColor="@color/material_dynamic_neutral30"
+                        android:textSize="20sp" />
+
+                    <CheckBox
+                        android:id="@+id/video_clip_indicator_happy_checkBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:text="Zmiana nastroju na &quot;Szczęśliwy&quot;"
+                        android:textColor="@color/material_dynamic_neutral20"
+                        android:textSize="16sp" />
+
+                    <CheckBox
+                        android:id="@+id/video_clip_indicator_sad_checkBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:text="Zmiana nastroju na &quot;Smutny&quot;"
+                        android:textColor="@color/material_dynamic_neutral20"
+                        android:textSize="16sp" />
+
+                    <CheckBox
+                        android:id="@+id/video_clip_indicator_angry_checkBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:text="Zmiana nastroju na &quot;Zdenerwowany&quot;"
+                        android:textColor="@color/material_dynamic_neutral20"
+                        android:textSize="16sp" />
+
+                    <CheckBox
+                        android:id="@+id/video_clip_indicator_hungry_checkBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:text="Zmiana nastroju na &quot;Głodny&quot;"
+                        android:textColor="@color/material_dynamic_neutral20"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+            <!-- Setting item with EditText -->
+
+            <!-- Setting item with Checkbox -->
+
+            <!-- Add more setting options as needed -->
+
+        </LinearLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
