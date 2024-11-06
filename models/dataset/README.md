@@ -10,9 +10,9 @@ W celu równomiernego rozłożenia liczby filmów dla danej rasy w grupie, a jed
 Do anotacji wykorzystano narzędzie CVAT. Anotowane punkty zapisano w pliku nasz_szkieleton.txt. 
 Filmy oznaczano na co dziesiątej klatce, a dataset eksportowano w formacie yolov8-pose zachowując opisane klatki.
 
-W zbieraniu filmów udział brali: Zofia Drozdowska, Joanna Ryś
+W zbieraniu filmów udział brali: Zofia Drozdowska, Joanna Ryś, Tomasz Sekrecki
 
-W anotacji udział brali: Zofia Drozdowska, Joanna Ryś, Łukasz Marcinkowski
+W anotacji udział brali: Zofia Drozdowska, Joanna Ryś, Tomasz Sekrecki, Michał Kruszewski, Łukasz Marcinkowski
 
 Uporządkowane i połączone datasety dla każdej grupy: (todo)
 - 1
