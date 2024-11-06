@@ -1,11 +1,11 @@
-## Aktualny stan aplikacji
-# Zrobione:
+# Aktualny stan aplikacji
+## Zrobione:
 - Responsywne menu i layout aplikacji
 - Wyświetlanie pliku video z serwera w głównym ekranie aplikacji
 - Wprowadzanie i zapis ustawień i preferencji użytkownika
 - Layout ekrenu historii
 
-# Do zrobienia:
+## Do zrobienia:
 - Działanie historii (na razie to jest tylko wydmuszka i wszustkie dane są hardkodowane)
 - Dodanie informacji o aktualnym nastroju psa na głównym ekranie
 - Aktywność wyświetlania klipów z historii
