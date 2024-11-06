@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_monitoring">
+
+    <fragment
+        android:id="@+id/navigation_setting"
+        android:name="com.example.dogmonitor.ui.setting.SettingFragment"
+        android:label="Ustawienia33"
+        tools:layout="@layout/fragment_setting" />
+
+    <fragment
+        android:id="@+id/navigation_monitoring"
+        android:name="com.example.dogmonitor.ui.monitoring.MonitoringFragment"
+        android:label="Monitoring psa"
+        tools:layout="@layout/fragment_monitoring" />
+
+    <fragment
+        android:id="@+id/navigation_statistics"
+        android:name="com.example.dogmonitor.ui.statistics.StatisticsFragment"
+        android:label="Statystyki"
+        tools:layout="@layout/fragment_statistics" />
+</navigation>
