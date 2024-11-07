@@ -85,6 +85,7 @@ class BoundingBoxRenderer:
         pred_x: int,
         pred_y: int,
         prev_prediction: Tuple[int, int] = None,
+        detected=True,
     ):
         raise NotImplementedError("This method should be overridden by subclasses")
 
@@ -104,28 +105,30 @@ class ScreenBoundingBoxRenderer(BoundingBoxRenderer):
         pred_x: int,
         pred_y: int,
         prev_prediction: Tuple[int, int] = None,
+        detected=True,
     ):
-        cv2.rectangle(
-            frame, (x1, y1), (x2, y2), (255, 255, 0), 2
-        )  # Bounding box - cyan
+        if detected:
+            cv2.rectangle(
+                frame, (x1, y1), (x2, y2), (255, 255, 0), 2
+            )  # Bounding box - cyan
 
-        # Draw actual and predicted center points
-        bbox_center_x = (x1 + x2) // 2
-        bbox_center_y = (y1 + y2) // 2
-        # Rysowanie rzeczywistego i przewidywanego środka psa
-        cv2.circle(
-            frame, (bbox_center_x, bbox_center_y), 5, (0, 255, 0), -1
-        )  # Rzeczywisty środek - zielony
-        cv2.circle(
-            frame, (pred_x, pred_y), 5, (0, 0, 255), -1
-        )  # Przewidywany środek - czerwony
-
-        # Jeśli jest dostępna poprzednia przewidywana pozycja, zaznacz ją niebieskim kolorem
-        if prev_prediction is not None:
-            prev_x, prev_y = prev_prediction
+            # Draw actual and predicted center points
+            bbox_center_x = (x1 + x2) // 2
+            bbox_center_y = (y1 + y2) // 2
+            # Rysowanie rzeczywistego i przewidywanego środka psa
             cv2.circle(
-                frame, (prev_x, prev_y), 5, (255, 0, 0), -1
-            )  # Poprzednia przewidywana pozycja - niebieski
+                frame, (bbox_center_x, bbox_center_y), 5, (0, 255, 0), -1
+            )  # Rzeczywisty środek - zielony
+            cv2.circle(
+                frame, (pred_x, pred_y), 5, (0, 0, 255), -1
+            )  # Przewidywany środek - czerwony
+
+            # Jeśli jest dostępna poprzednia przewidywana pozycja, zaznacz ją niebieskim kolorem
+            if prev_prediction is not None:
+                prev_x, prev_y = prev_prediction
+                cv2.circle(
+                    frame, (prev_x, prev_y), 5, (255, 0, 0), -1
+                )  # Poprzednia przewidywana pozycja - niebieski
 
         cv2.imshow("Detected and Predicted Dog Center", frame)
 
@@ -164,28 +167,30 @@ class VideoBoundingBoxRenderer(BoundingBoxRenderer):
         pred_x: int,
         pred_y: int,
         prev_prediction: Tuple[int, int] = None,
+        detected=True,
     ):
-        # Draw the bounding box
-        cv2.rectangle(
-            frame, (x1, y1), (x2, y2), (255, 255, 0), 2
-        )  # Bounding box - cyan
+        if detected:
+            # Draw the bounding box
+            cv2.rectangle(
+                frame, (x1, y1), (x2, y2), (255, 255, 0), 2
+            )  # Bounding box - cyan
 
-        # Draw actual and predicted center points
-        bbox_center_x = (x1 + x2) // 2
-        bbox_center_y = (y1 + y2) // 2
-        cv2.circle(
-            frame, (bbox_center_x, bbox_center_y), 5, (0, 255, 0), -1
-        )  # Real center - green
-        cv2.circle(
-            frame, (pred_x, pred_y), 5, (0, 0, 255), -1
-        )  # Predicted center - red
-
-        # Draw previous prediction if available
-        if prev_prediction is not None:
-            prev_x, prev_y = prev_prediction
+            # Draw actual and predicted center points
+            bbox_center_x = (x1 + x2) // 2
+            bbox_center_y = (y1 + y2) // 2
             cv2.circle(
-                frame, (prev_x, prev_y), 5, (255, 0, 0), -1
-            )  # Previous prediction - blue
+                frame, (bbox_center_x, bbox_center_y), 5, (0, 255, 0), -1
+            )  # Real center - green
+            cv2.circle(
+                frame, (pred_x, pred_y), 5, (0, 0, 255), -1
+            )  # Predicted center - red
+
+            # Draw previous prediction if available
+            if prev_prediction is not None:
+                prev_x, prev_y = prev_prediction
+                cv2.circle(
+                    frame, (prev_x, prev_y), 5, (255, 0, 0), -1
+                )  # Previous prediction - blue
 
         # Write the frame to the video buffer
         self.video_writer.write(frame)
@@ -199,11 +204,14 @@ class NoScreenRenderer(BoundingBoxRenderer):
     def render_bbox(
         self,
         frame,
-        bbox_center_x: int,
-        bbox_center_y: int,
+        x1,
+        y1,
+        x2,
+        y2,
         pred_x: int,
         pred_y: int,
         prev_prediction: Tuple[int, int] = None,
+        detected=True,
     ):
         return True
 
@@ -353,6 +361,10 @@ class DogTracker:
                 self.kalman.measurementNoiseCov = np.eye(2, dtype=np.float32) * 0.1
                 self.previous_prediction = None
 
+                self.bbox_renderer.render_bbox(
+                    frame, None, None, None, None, None, None, None, False
+                )
+
     def close(self):
         # Zamknięcie źródła obrazu, renderera bounding boxa i socketu na współrzędne bounding boxa
         self.image_source.close()
@@ -367,13 +379,14 @@ class DogTrackerTest:
         self.differences = []
 
     def test_tracking(self):
-        for video_path in os.listdir("/Users/olaf/Desktop/pieski"):
+        for video_path in os.listdir("/Users/olaf/Desktop/kotki"):
             print(f"analysing {video_path}")
             # Konfiguracja źródła obrazu z pliku wideo i śledzenia psa
             image_source = MovieImageSource(
-                os.path.join("/Users/olaf/Desktop/pieski", video_path)
+                os.path.join("/Users/olaf/Desktop/kotki", video_path)
             )
-            bbox_renderer = VideoBoundingBoxRenderer("output.mp4", 640, 352, 30)
+            # bbox_renderer = VideoBoundingBoxRenderer("output_kot.mp4", 1280, 720, 30)
+            bbox_renderer = ScreenBoundingBoxRenderer()
             # bbox_renderer = NoScreenRenderer()  # ScreenBoundingBoxRenderer()
             dog_tracker = DogTracker(
                 image_source, bbox_renderer, "192.168.1.248", 8486, False
@@ -387,7 +400,6 @@ class DogTrackerTest:
                 dog_tracker.process_frames(gather_points)
             finally:
                 dog_tracker.close()
-            break
 
         self.save_differences()
         self.reduce_differences()
@@ -460,13 +472,12 @@ class DogTrackerTest:
 
 if __name__ == "__main__":
     # Przykład użycia
-    test = DogTrackerTest()
-    test.test_tracking()
-    # image_source = StreamImageSource("192.168.1.248", 8485)
+    image_source = StreamImageSource("192.168.1.248", 8485)
     # bbox_renderer = ScreenBoundingBoxRenderer()
-    # dog_tracker = DogTracker(image_source, bbox_renderer, "192.168.1.248", 8486)
-    #
-    # try:
-    #     dog_tracker.process_frames()
-    # finally:
-    #     dog_tracker.close()
+    bbox_renderer = VideoBoundingBoxRenderer("omg.mp4", 640, 480, 10)
+    dog_tracker = DogTracker(image_source, bbox_renderer, "192.168.1.248", 8486)
+
+    try:
+        dog_tracker.process_frames()
+    finally:
+        dog_tracker.close()
