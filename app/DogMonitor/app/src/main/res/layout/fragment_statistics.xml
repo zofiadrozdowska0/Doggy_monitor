@@ -6,17 +6,740 @@
     android:layout_height="match_parent"
     tools:context=".ui.statistics.StatisticsFragment">
 
-    <TextView
-        android:id="@+id/text_notifications"
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/settinng_name_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="center"
-        android:textSize="20sp"
+        android:foregroundGravity="center"
+
+        app:cardBackgroundColor="@color/purple_200"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="2dp"
+            android:gravity="center"
+            android:includeFontPadding="true"
+            android:text="Historia"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display2"
+            android:textColor="@color/cardview_light_background"
+            android:textSize="34sp"
+            android:textStyle="bold" />
+    </androidx.cardview.widget.CardView>
+
+    <ScrollView
+        android:id="@+id/scrollView2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:contentDescription="Settings List"
+        android:padding="2dp"
+        android:scrollbarAlwaysDrawHorizontalTrack="false"
+        android:scrollbarSize="0dp"
+        android:scrollbarStyle="insideOverlay"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/settinng_name_bar">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/time_line"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="4"
+                android:orientation="vertical">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:layoutMode="opticalBounds"
+                    android:outlineProvider="none"
+                    android:textAlignment="center"
+                    app:cardBackgroundColor="@color/teal_700"
+                    app:cardCornerRadius="10dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+
+                        android:text="23:00"
+                        android:textAlignment="center"
+                        android:textColorLink="@color/purple_200"
+                        android:textSize="20sp"
+                        android:typeface="normal"
+                        app:autoSizeTextType="none" />
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:layoutMode="opticalBounds"
+                    android:outlineProvider="none"
+                    android:textAlignment="center"
+                    app:cardBackgroundColor="@color/teal_700"
+                    app:cardCornerRadius="10dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+
+                        android:layout_height="180dp"
+                        android:text="00:00"
+                        android:textAlignment="center"
+                        android:textColorLink="@color/purple_200"
+                        android:textSize="20sp"
+                        android:typeface="normal"
+                        app:autoSizeTextType="none" />
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:layoutMode="opticalBounds"
+                    android:outlineProvider="none"
+                    android:textAlignment="center"
+                    app:cardBackgroundColor="@color/teal_700"
+                    app:cardCornerRadius="10dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+
+                        android:text="01:00"
+                        android:textAlignment="center"
+                        android:textColorLink="@color/purple_200"
+                        android:textSize="20sp"
+                        android:typeface="normal"
+                        app:autoSizeTextType="none" />
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:layoutMode="opticalBounds"
+                    android:outlineProvider="none"
+                    android:textAlignment="center"
+                    app:cardBackgroundColor="@color/teal_700"
+                    app:cardCornerRadius="10dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+
+                        android:text="02:00"
+                        android:textAlignment="center"
+                        android:textColorLink="@color/purple_200"
+                        android:textSize="20sp"
+                        android:typeface="normal"
+                        app:autoSizeTextType="none" />
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:layoutMode="opticalBounds"
+                    android:outlineProvider="none"
+                    android:textAlignment="center"
+                    app:cardBackgroundColor="@color/teal_700"
+                    app:cardCornerRadius="10dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="180dp"
+
+                        android:text="03:00"
+                        android:textAlignment="center"
+                        android:textColorLink="@color/purple_200"
+                        android:textSize="20sp"
+                        android:typeface="normal"
+                        app:autoSizeTextType="none" />
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:layoutMode="opticalBounds"
+                    android:outlineProvider="none"
+                    android:textAlignment="center"
+                    app:cardBackgroundColor="@color/teal_700"
+                    app:cardCornerRadius="10dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+
+                        android:text="04:00"
+                        android:textAlignment="center"
+                        android:textColorLink="@color/purple_200"
+                        android:textSize="20sp"
+                        android:typeface="normal"
+                        app:autoSizeTextType="none" />
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:layoutMode="opticalBounds"
+                    android:outlineProvider="none"
+                    android:textAlignment="center"
+                    app:cardBackgroundColor="@color/teal_700"
+                    app:cardCornerRadius="10dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+
+                        android:text="05:00"
+                        android:textAlignment="center"
+                        android:textColorLink="@color/purple_200"
+                        android:textSize="20sp"
+                        android:typeface="normal"
+                        app:autoSizeTextType="none" />
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:layoutMode="opticalBounds"
+                    android:outlineProvider="none"
+                    android:textAlignment="center"
+                    app:cardBackgroundColor="@color/teal_700"
+                    app:cardCornerRadius="10dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="180dp"
+
+                        android:text="06:00"
+                        android:textAlignment="center"
+                        android:textColorLink="@color/purple_200"
+                        android:textSize="20sp"
+                        android:typeface="normal"
+                        app:autoSizeTextType="none" />
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:layoutMode="opticalBounds"
+                    android:outlineProvider="none"
+                    android:textAlignment="center"
+                    app:cardBackgroundColor="@color/teal_700"
+                    app:cardCornerRadius="10dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+
+                        android:text="07:00"
+                        android:textAlignment="center"
+                        android:textColorLink="@color/purple_200"
+                        android:textSize="20sp"
+                        android:typeface="normal"
+                        app:autoSizeTextType="none" />
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:layoutMode="opticalBounds"
+                    android:outlineProvider="none"
+                    android:textAlignment="center"
+                    app:cardBackgroundColor="@color/teal_700"
+                    app:cardCornerRadius="10dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+
+                        android:text="08:00"
+                        android:textAlignment="center"
+                        android:textColorLink="@color/purple_200"
+                        android:textSize="20sp"
+                        android:typeface="normal"
+                        app:autoSizeTextType="none" />
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:layoutMode="opticalBounds"
+                    android:outlineProvider="none"
+                    android:textAlignment="center"
+                    app:cardBackgroundColor="@color/teal_700"
+                    app:cardCornerRadius="10dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="180dp"
+
+                        android:text="09:00"
+                        android:textAlignment="center"
+                        android:textColorLink="@color/purple_200"
+                        android:textSize="20sp"
+                        android:typeface="normal"
+                        app:autoSizeTextType="none" />
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:layoutMode="opticalBounds"
+                    android:outlineProvider="none"
+                    android:textAlignment="center"
+                    app:cardBackgroundColor="@color/teal_700"
+                    app:cardCornerRadius="10dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+
+                        android:text="10:00"
+                        android:textAlignment="center"
+                        android:textColorLink="@color/purple_200"
+                        android:textSize="20sp"
+                        android:typeface="normal"
+                        app:autoSizeTextType="none" />
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:layoutMode="opticalBounds"
+                    android:outlineProvider="none"
+                    android:textAlignment="center"
+                    app:cardBackgroundColor="@color/teal_700"
+                    app:cardCornerRadius="10dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+
+                        android:text="11:00"
+                        android:textAlignment="center"
+                        android:textColorLink="@color/purple_200"
+                        android:textSize="20sp"
+                        android:typeface="normal"
+                        app:autoSizeTextType="none" />
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:layoutMode="opticalBounds"
+                    android:outlineProvider="none"
+                    android:textAlignment="center"
+                    app:cardBackgroundColor="@color/teal_700"
+                    app:cardCornerRadius="10dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="180dp"
+
+                        android:text="12:00"
+                        android:textAlignment="center"
+                        android:textColorLink="@color/purple_200"
+                        android:textSize="20sp"
+                        android:typeface="normal"
+                        app:autoSizeTextType="none" />
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:layoutMode="opticalBounds"
+                    android:outlineProvider="none"
+                    android:textAlignment="center"
+                    app:cardBackgroundColor="@color/teal_700"
+                    app:cardCornerRadius="10dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+
+                        android:text="13:00"
+                        android:textAlignment="center"
+                        android:textColorLink="@color/purple_200"
+                        android:textSize="20sp"
+                        android:typeface="normal"
+                        app:autoSizeTextType="none" />
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:layoutMode="opticalBounds"
+                    android:outlineProvider="none"
+                    android:textAlignment="center"
+                    app:cardBackgroundColor="@color/teal_700"
+                    app:cardCornerRadius="10dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+
+                        android:text="14:00"
+                        android:textAlignment="center"
+                        android:textColorLink="@color/purple_200"
+                        android:textSize="20sp"
+                        android:typeface="normal"
+                        app:autoSizeTextType="none" />
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:layoutMode="opticalBounds"
+                    android:outlineProvider="none"
+                    android:textAlignment="center"
+                    app:cardBackgroundColor="@color/teal_700"
+                    app:cardCornerRadius="10dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="180dp"
+
+                        android:text="12:00"
+                        android:textAlignment="center"
+                        android:textColorLink="@color/purple_200"
+                        android:textSize="20sp"
+                        android:typeface="normal"
+                        app:autoSizeTextType="none" />
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:layoutMode="opticalBounds"
+                    android:outlineProvider="none"
+                    android:textAlignment="center"
+                    app:cardBackgroundColor="@color/teal_700"
+                    app:cardCornerRadius="10dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+
+                        android:text="12:00"
+                        android:textAlignment="center"
+                        android:textColorLink="@color/purple_200"
+                        android:textSize="20sp"
+                        android:typeface="normal"
+                        app:autoSizeTextType="none" />
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:layoutMode="opticalBounds"
+                    android:outlineProvider="none"
+                    android:textAlignment="center"
+                    app:cardBackgroundColor="@color/teal_700"
+                    app:cardCornerRadius="10dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+
+                        android:text="12:00"
+                        android:textAlignment="center"
+                        android:textColorLink="@color/purple_200"
+                        android:textSize="20sp"
+                        android:typeface="normal"
+                        app:autoSizeTextType="none" />
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:layoutMode="opticalBounds"
+                    android:outlineProvider="none"
+                    android:textAlignment="center"
+                    app:cardBackgroundColor="@color/teal_700"
+                    app:cardCornerRadius="10dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="180dp"
+
+                        android:text="12:00"
+                        android:textAlignment="center"
+                        android:textColorLink="@color/purple_200"
+                        android:textSize="20sp"
+                        android:typeface="normal"
+                        app:autoSizeTextType="none" />
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:layoutMode="opticalBounds"
+                    android:outlineProvider="none"
+                    android:textAlignment="center"
+                    app:cardBackgroundColor="@color/teal_700"
+                    app:cardCornerRadius="10dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+
+                        android:text="12:00"
+                        android:textAlignment="center"
+                        android:textColorLink="@color/purple_200"
+                        android:textSize="20sp"
+                        android:typeface="normal"
+                        app:autoSizeTextType="none" />
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:layoutMode="opticalBounds"
+                    android:outlineProvider="none"
+                    android:textAlignment="center"
+                    app:cardBackgroundColor="@color/teal_700"
+                    app:cardCornerRadius="10dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+
+                        android:text="12:00"
+                        android:textAlignment="center"
+                        android:textColorLink="@color/purple_200"
+                        android:textSize="20sp"
+                        android:typeface="normal"
+                        app:autoSizeTextType="none" />
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:layoutMode="opticalBounds"
+                    android:outlineProvider="none"
+                    android:textAlignment="center"
+                    app:cardBackgroundColor="@color/teal_700"
+                    app:cardCornerRadius="10dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="180dp"
+
+                        android:text="12:00"
+                        android:textAlignment="center"
+                        android:textColorLink="@color/purple_200"
+                        android:textSize="20sp"
+                        android:typeface="normal"
+                        app:autoSizeTextType="none" />
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:layoutMode="opticalBounds"
+                    android:outlineProvider="none"
+                    android:textAlignment="center"
+                    app:cardBackgroundColor="@color/teal_700"
+                    app:cardCornerRadius="10dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+
+                        android:text="12:00"
+                        android:textAlignment="center"
+                        android:textColorLink="@color/purple_200"
+                        android:textSize="20sp"
+                        android:typeface="normal"
+                        app:autoSizeTextType="none" />
+                </androidx.cardview.widget.CardView>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:layoutMode="opticalBounds"
+                    android:outlineProvider="none"
+
+                    app:cardBackgroundColor="#ff00ff"
+                    app:cardCornerRadius="10dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="1250dp"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:text="Szczęśliwy"
+                        android:textAlignment="center"
+                        android:textColorLink="@color/purple_200"
+                        android:textSize="34sp"
+                        android:typeface="normal"
+                        app:autoSizeTextType="none" />
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:layoutMode="opticalBounds"
+                    android:outlineProvider="none"
+
+                    app:cardBackgroundColor="#82EB3B"
+                    app:cardCornerRadius="10dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="450dp"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:text="Głodny"
+                        android:textAlignment="center"
+                        android:textColorLink="@color/purple_200"
+                        android:textSize="34sp"
+                        android:typeface="normal"
+                        app:autoSizeTextType="none" />
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="135dp"
+                    android:layout_gravity="center_vertical"
+                    android:layoutMode="opticalBounds"
+                    android:outlineProvider="none"
+
+                    app:cardBackgroundColor="#EB241F"
+                    app:cardCornerRadius="10dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:text="Zły"
+                        android:textAlignment="center"
+                        android:textColorLink="@color/purple_200"
+                        android:textSize="34sp"
+                        android:typeface="normal"
+                        app:autoSizeTextType="none" />
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="400dp"
+                    android:layout_gravity="center_vertical"
+                    android:layoutMode="opticalBounds"
+                    android:outlineProvider="none"
+
+                    app:cardBackgroundColor="#4218EB"
+                    app:cardCornerRadius="10dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:text="Smutny"
+                        android:textAlignment="center"
+                        android:textColorLink="@color/purple_200"
+                        android:textSize="34sp"
+                        android:typeface="normal"
+                        app:autoSizeTextType="none" />
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="185dp"
+                    android:layout_gravity="center_vertical"
+                    android:layoutMode="opticalBounds"
+                    android:outlineProvider="none"
+
+                    app:cardBackgroundColor="#EB241F"
+                    app:cardCornerRadius="10dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:text="Zły"
+                        android:textAlignment="center"
+                        android:textColorLink="@color/purple_200"
+                        android:textSize="34sp"
+                        android:typeface="normal"
+                        app:autoSizeTextType="none" />
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="85dp"
+                    android:layout_gravity="center_vertical"
+                    android:layoutMode="opticalBounds"
+                    android:outlineProvider="none"
+
+                    app:cardBackgroundColor="#82EB3B"
+                    app:cardCornerRadius="10dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="450dp"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:text="Głodny"
+                        android:textAlignment="center"
+                        android:textColorLink="@color/purple_200"
+                        android:textSize="34sp"
+                        android:typeface="normal"
+                        app:autoSizeTextType="none" />
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="375dp"
+                    android:layout_gravity="center_vertical"
+                    android:layoutMode="opticalBounds"
+                    android:outlineProvider="none"
+
+                    app:cardBackgroundColor="#ff00ff"
+                    app:cardCornerRadius="10dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="1250dp"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:text="Szczęśliwy"
+                        android:textAlignment="center"
+                        android:textColorLink="@color/purple_200"
+                        android:textSize="34sp"
+                        android:typeface="normal"
+                        app:autoSizeTextType="none" />
+
+                </androidx.cardview.widget.CardView>
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
