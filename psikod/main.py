@@ -6,9 +6,7 @@ import math
 
 # Load models
 model_duzy_path = 'best.pt'
-model_maly_path = 'best.pt'  # Ensure this path is correct for your small model
 model_duzy = YOLO(model_duzy_path)  # Use GPU if available
-model_maly = YOLO(model_maly_path)  # Use GPU if available
 input_path = 'piesel.mp4'
 output_path = 'piesel_framed.mp4'
 
@@ -128,7 +126,7 @@ i = 0
 
 with open("results.txt", "w") as file:
     file.write("")
-def calcuate_emotion(angle_lpl, angle_ogon, angle_lpp, angle_ltp, angle_ltl, angle_glowa, angle_ml, angle_mp, angry_point):
+def calcuate_emotion(angle_lpl, angle_ogon, angle_lpp, angle_ltp, angle_ltl, angle_glowa,angle_pu,angle_lu,angle_pysk,visible_tongue,visible_teeth):
     global happy, normal, sad, angry
     global h_sr, n_sr, s_sr, a_sr
     global i
@@ -138,7 +136,7 @@ def calcuate_emotion(angle_lpl, angle_ogon, angle_lpp, angle_ltp, angle_ltl, ang
         if 0 < angle_ogon < 90:
             happy += np.sqrt(2 / np.pi * np.arctan(6 * (np.deg2rad(angle_ogon) + np.pi / 18)))*1.7
             h_sr += np.sqrt(2 / np.pi * np.arctan(6 * (np.deg2rad(angle_ogon) + np.pi / 18))) * 1.7
-            if angry_point:
+            if visible_teeth:
                 angry += np.sqrt(2 / np.pi * np.arctan(6 * (np.deg2rad(angle_ogon) + np.pi / 18)))*0.8
                 a_sr += np.sqrt(2 / np.pi * np.arctan(6 * (np.deg2rad(angle_ogon) + np.pi / 18))) * 0.8
         if 180 < angle_ogon < 230:
@@ -181,13 +179,13 @@ def calcuate_emotion(angle_lpl, angle_ogon, angle_lpp, angle_ltp, angle_ltl, ang
         if 20 < angle_mp < 30:
             angry += np.sqrt(2 / np.pi * np.arctan(15 * (np.deg2rad(angle_mp) - 2 * np.pi / 18)))*0.5
             a_sr += np.sqrt(2 / np.pi * np.arctan(15 * (np.deg2rad(angle_mp) - 2 * np.pi / 18)))*0.5
-            if angry_point:
+            if visible_teeth:
                 angry += np.sqrt(2 / np.pi * np.arctan(15 * (np.deg2rad(angle_mp) - 2 * np.pi / 18)))*2
                 a_sr += np.sqrt(2 / np.pi * np.arctan(15 * (np.deg2rad(angle_mp) - 2 * np.pi / 18))) * 2
         if 20 < angle_ml < 30:
             angry += np.sqrt(2 / np.pi * np.arctan(15 * (np.deg2rad(angle_ml) - 2 * np.pi / 18)))*0.5
             a_sr += np.sqrt(2 / np.pi * np.arctan(15 * (np.deg2rad(angle_ml) - 2 * np.pi / 18))) * 0.5
-            if angry_point:
+            if visible_teeth:
                 angry += np.sqrt(2 / np.pi * np.arctan(15 * (np.deg2rad(angle_mp) - 2 * np.pi / 18)))*2
                 a_sr += np.sqrt(2 / np.pi * np.arctan(15 * (np.deg2rad(angle_mp) - 2 * np.pi / 18))) * 2
         if 10 < angle_mp < 20:
@@ -201,13 +199,13 @@ def calcuate_emotion(angle_lpl, angle_ogon, angle_lpp, angle_ltp, angle_ltl, ang
         if 140 < angle_lpl < 180:
             angry += np.sqrt(2 / np.pi * np.arctan(6 * (np.deg2rad(angle_lpl) - 14 * np.pi / 18)))
             a_sr += np.sqrt(2 / np.pi * np.arctan(6 * (np.deg2rad(angle_lpl) - 14 * np.pi / 18)))
-            if not angry_point:
+            if not visible_teeth:
                 normal += -8 * (np.deg2rad(angle_lpl) - 14 * np.pi / 18) * (np.deg2rad(angle_lpl) - 18 * np.pi / 18)
                 n_sr += -8 * (np.deg2rad(angle_lpl) - 14 * np.pi / 18) * (np.deg2rad(angle_lpl) - 18 * np.pi / 18)
         elif 140 < angle_lpp < 180:
             angry += np.sqrt(2 / np.pi * np.arctan(6 * (np.deg2rad(angle_lpp) - 14 * np.pi / 18)))
             a_sr += np.sqrt(2 / np.pi * np.arctan(6 * (np.deg2rad(angle_lpp) - 14 * np.pi / 18)))
-            if not angry_point:
+            if not visible_teeth:
                 normal += -8 * (np.deg2rad(angle_lpp) - 14 * np.pi / 18) * (np.deg2rad(angle_lpp) - 18 * np.pi / 18)
                 n_sr += -8 * (np.deg2rad(angle_lpp) - 14 * np.pi / 18) * (np.deg2rad(angle_lpp) - 18 * np.pi / 18)
         if 110 < angle_lpl < 150:
@@ -222,14 +220,14 @@ def calcuate_emotion(angle_lpl, angle_ogon, angle_lpp, angle_ltp, angle_ltl, ang
 
     if angle_ltl is not None and angle_ltp is not None:
         if 140 < angle_ltl < 180:
-            if angry_point:
+            if visible_teeth:
                 angry += np.sqrt(2 / np.pi * np.arctan(6 * (np.deg2rad(angle_ltl) - 14 * np.pi / 18)))*0.4
                 a_sr += np.sqrt(2 / np.pi * np.arctan(6 * (np.deg2rad(angle_ltl) - 14 * np.pi / 18))) * 0.4
             else:
                 normal += -8 * (np.deg2rad(angle_ltl) - 14 * np.pi / 18) * (np.deg2rad(angle_ltl) - 18 * np.pi / 18)*0.4
                 n_sr += -8 * (np.deg2rad(angle_ltl) - 14 * np.pi / 18) * (np.deg2rad(angle_ltl) - 18 * np.pi / 18) * 0.4
         elif 140 < angle_ltp < 180:
-            if angry_point:
+            if visible_teeth:
                 angry += np.sqrt(2 / np.pi * np.arctan(6 * (np.deg2rad(angle_ltp) - 14 * np.pi / 18)))*0.4
                 a_sr += np.sqrt(2 / np.pi * np.arctan(6 * (np.deg2rad(angle_ltp) - 14 * np.pi / 18))) * 0.4
             else:
@@ -376,8 +374,9 @@ def resize_image(image):
 
 # Function to process a single frame
 def process_frame(frame, frame_index, BOX_IOU_THRESH=0.55, BOX_CONF_THRESH=0.30, KPT_CONF_THRESH=0.68):
-    angle_lpl = angle_lpp = angle_ltp = angle_ltl = angle_glowa = angle_ml = angle_mp = angle_ogon = None
-    angry_point = False  # Dodaj tę linię
+    angle_lpl = angle_lpp = angle_ltp = angle_ltl = angle_glowa =angle_pu=angle_lu= angle_pysk = angle_ogon = None
+    visible_tongue = False
+    visible_teeth = False
     resized_frame = resize_image(frame)
     frame_rgb = cv2.cvtColor(resized_frame, cv2.COLOR_BGR2RGB)
     frames_batch_resized = np.transpose(np.expand_dims(frame_rgb, axis=0), (0, 3, 1, 2))
@@ -386,26 +385,9 @@ def process_frame(frame, frame_index, BOX_IOU_THRESH=0.55, BOX_CONF_THRESH=0.30,
     # Get results from the large model
     results_duzy = model_duzy(frames_batch_resized, conf=BOX_CONF_THRESH, iou=BOX_IOU_THRESH)
 
-    # Get results from the small model
-    results_maly = model_maly(frames_batch_resized, conf=BOX_CONF_THRESH, iou=BOX_IOU_THRESH)
-
     result_duzy = results_duzy[0].cpu()
-    result_maly = results_maly[0].cpu()
 
-    bboxes_maly = [False, False, False]  # Initialize with False
 
-    if len(result_maly.boxes.xyxy):
-        # Get the predicted boxes and conf scores
-        pred_boxes = result_maly.boxes.xyxy.numpy()
-        pred_box_conf = result_maly.boxes.conf.numpy()
-
-        # Update bbox information for small model
-        for i in range(min(3, len(pred_boxes))):  # Ensure we only handle up to 3 boxes
-            bboxes_maly[i] = True
-
-        # Draw predicted bounding boxes on image.
-        for boxes, score in zip(pred_boxes, pred_box_conf):
-            frame = draw_boxes(frame, boxes, score=score, color=(255, 0, 0))
 
     if len(result_duzy.boxes.xyxy):
 
@@ -440,7 +422,8 @@ def process_frame(frame, frame_index, BOX_IOU_THRESH=0.55, BOX_CONF_THRESH=0.30,
             p11 = filter_kpts[11][:2]
             p13 = filter_kpts[13][:2]
             p16 = filter_kpts[16][:2]
-            angry_point = bboxes_maly[1]
+            p17 = filter_kpts[17][:2]
+
 
             if not np.any(p0 == 0.0) and not np.any(p1 == 0.0) and not np.any(p2 == 0.0):
                 angle_lpl = np.abs(calculate_angle(p0, p1, p2))
@@ -450,7 +433,7 @@ def process_frame(frame, frame_index, BOX_IOU_THRESH=0.55, BOX_CONF_THRESH=0.30,
                 angle_lpp = np.abs(calculate_angle(p6, p7, p8))
                 print(f"Frame {frame_index}: Prawa przednia łapa: {angle_lpp:.2f} degrees")
 
-            if not np.any(p9 == 0.0) and not np.any(p10 == 0.0) and not np.any(p10 == 0.0):
+            if not np.any(p9 == 0.0) and not np.any(p10 == 0.0) and not np.any(p11 == 0.0):
                 angle_ltp = np.abs(calculate_angle(p9, p10, p11))
                 print(f"Frame {frame_index}: Prawa tylna łapa: {angle_ltp:.2f} degrees")
 
@@ -458,48 +441,87 @@ def process_frame(frame, frame_index, BOX_IOU_THRESH=0.55, BOX_CONF_THRESH=0.30,
                 angle_ltl = np.abs(calculate_angle(p3, p4, p5))
                 print(f"Frame {frame_index}: Lewa tylna łapa: {angle_ltl:.2f} degrees")
 
-            # Create line from available points
-            line1_points = []
-            if np.all(p2 != 0.0) and np.all(p5 != 0.0):
-                line1_points = [p2, p5]
-            elif np.all(p8 != 0.0) and np.all(p11 != 0.0):
-                line1_points = [p8, p11]
-            elif np.all(p8 != 0.0) and np.all(p5 != 0.0):
-                line1_points = [p8, p5]
-            elif np.all(p2 != 0.0) and np.all(p11 != 0.0):
-                line1_points = [p2, p11]
-
-            if line1_points and np.all(p12 != 0.0) and np.all(p13 != 0.0):
-                angle_ogon = calculate_intersection_angle(line1_points[0], line1_points[1], p12, p13)
-                print(f"Frame {frame_index}: Ogon: {angle_ogon:.2f} degrees")
-
-            if line1_points and np.all(p16 != 0.0):
-                angle_glowa = calculate_angle(line1_points[0], line1_points[1], p16)
-                print(f"Frame {frame_index}: Glowa: {angle_glowa:.2f} degrees")
-
-            # Determine which keypoints to use for angle calculation
+            # kark i gardło
             p14 = filter_kpts[14][:2]
             p15 = filter_kpts[15][:2]
+
+            # prawy kącik i lewy kącik
+            p22 = filter_kpts[22][:2]
+            p23 = filter_kpts[23][:2]
+            # nos i dolna warga
+            p20 = filter_kpts[20][:2]
+            p21 = filter_kpts[21][:2]
+
+            # prawe ucho
+            p16 = filter_kpts[16][:2]
             p17 = filter_kpts[17][:2]
-            if not np.any(p16 == 0.0) and not np.any(p17 == 0.0):
-                if not np.any(p14 == 0.0):
-                    angle_ml = calculate_angle(p16, p14, p17)
-                    print(f"Frame {frame_index}: Pysk: {angle_ml:.2f} degrees")
-                elif not np.any(p15 == 0.0):
-                    angle_mp = calculate_angle(p16, p15, p17)
-                    print(f"Frame {frame_index}: Pysk: {angle_mp:.2f} degrees")
 
-            line2_points = []
-            if np.all(p0 != 0.0) and np.all(p3 != 0.0):
-                line2_points = [p0, p3]
-            elif np.all(p6 != 0.0) and np.all(p9 != 0.0):
-                line2_points = [p6, p9]
+            # Create line from available points
+            line1_points = []
+            if np.all(p0 != 0.0) and np.all(p6 != 0.0):
+                line1_points = [p0, p6]
+            elif np.all(p3 != 0.0) and np.all(p9 != 0.0):
+                line1_points = [p3, p9]
 
-            line3_points = []
-            if np.all(p14 != 0.0) and np.all(p12 != 0.0):
-                line3_points = [p14, p12]
-            elif np.all(p15 != 0.0) and np.all(p12 != 0.0):
-                line3_points = [p15, p12]
+            if line1_points and np.all(p14 != 0.0) and np.all(p20 != 0.0):
+                angle_glowa = calculate_intersection_angle(line1_points[0], line1_points[1], p20,p14)
+                print(f"Frame {frame_index}: Glowa: {angle_glowa:.2f} degrees")
+            elif line1_points and np.all(p15 != 0.0) and np.all(p20 != 0.0):
+                angle_throat = calculate_intersection_angle(line1_points[0], line1_points[1], p20,p15)
+                angle_glowa=-2.78+0.06*angle_throat
+                print(f"Frame {frame_index}: Glowa: {angle_glowa:.2f} degrees")
+
+            if np.all(p14 != 0.0) and np.all(p12 != 0.0) and np.all(p13 != 0.0):
+                angle_ogon = 180-calculate_intersection_angle(p14, p12, p12, p13)
+                print(f"Frame {frame_index}: Ogon: {angle_ogon:.2f} degrees")
+            elif np.all(p15 != 0.0) and np.all(p12 != 0.0) and np.all(p13 != 0.0):
+                angle_throat = 180-calculate_intersection_angle(p15, p12, p12, p13)
+                angle_ogon=18.7+0.98*angle_throat
+                print(f"Frame {frame_index}: Ogon: {angle_ogon:.2f} degrees")
+
+
+
+
+            if not np.any(p16 == 0.0) and not np.any(p17 == 0.0) and not np.any(p20 == 0.0):
+                angle_pu = calculate_angle(p16,p17,p20)
+                print(f"Frame {frame_index}: Prawe ucho: {angle_pu:.2f} degrees")
+            elif not np.any(p16 == 0.0) and not np.any(p17 == 0.0) and not np.any(p22 == 0.0):
+                angle_pu = calculate_angle(p16, p17, p22)
+                print(f"Frame {frame_index}: Prawe ucho: {angle_pu:.2f} degrees")
+            #lewe ucho
+            p18 = filter_kpts[18][:2]
+            p19 = filter_kpts[19][:2]
+            if not np.any(p18 == 0.0) and not np.any(p19 == 0.0) and not np.any(p20 == 0.0):
+                angle_lu = calculate_angle(p16,p17,p20)
+                print(f"Frame {frame_index}: Lewe ucho:     {angle_lu:.2f} degrees")
+            elif not np.any(p18 == 0.0) and not np.any(p19 == 0.0) and not np.any(p23 == 0.0):
+                angle_lu = calculate_angle(p16, p17, p22)
+                print(f"Frame {frame_index}: Lewe ucho: {angle_lu:.2f} degrees")
+
+            #Otwarcie pyska
+            if not np.any(p22 == 0.0) and not np.any(p20 == 0.0) and not np.any(p21 == 0.0):
+                angle_pysk = calculate_angle(p20,p22,p21)
+                print(f"Frame {frame_index}: Pysk: {angle_pysk:.2f} degrees")
+            elif not np.any(p23 == 0.0) and not np.any(p20 == 0.0) and not np.any(p21 == 0.0):
+                angle_pysk = calculate_angle(p20, p23, p21)
+                print(f"Frame {frame_index}: Pysk: {angle_pysk:.2f} degrees")
+
+            #jezyk i zeby
+
+            p24=filter_kpts[24][:2]
+            if not np.any(p24 == 0.0):
+                visible_tongue=True
+
+
+            p25 = filter_kpts[25][:2]
+            if not np.any(p25 == 0.0):
+                visible_teeth = True
+
+            p26 = filter_kpts[26][:2]
+            if not np.any(p26 == 0.0):
+                visible_teeth= True
+
+
 
         # Draw predicted bounding boxes, conf scores and keypoints on image.
         for boxes, score, kpts, confs in zip(pred_boxes, pred_box_conf, pred_kpts_xy, pred_kpts_conf):
@@ -509,7 +531,7 @@ def process_frame(frame, frame_index, BOX_IOU_THRESH=0.55, BOX_CONF_THRESH=0.30,
             frame = draw_boxes(frame, boxes, score=score, color=(0, 255, 0))
             frame = draw_landmarks(frame, filter_kpts)
 
-    calcuate_emotion(angle_lpl, angle_ogon, angle_lpp, angle_ltp, angle_ltl, angle_glowa, angle_ml, angle_mp, angry_point)
+    calcuate_emotion(angle_lpl, angle_ogon, angle_lpp, angle_ltp, angle_ltl, angle_glowa, angle_pu,angle_lu,angle_pysk,visible_tongue,visible_teeth)
 
     return frame
 
