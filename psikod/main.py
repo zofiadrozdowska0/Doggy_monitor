@@ -535,12 +535,12 @@ def process_frame(frame, frame_index, BOX_IOU_THRESH=0.55, BOX_CONF_THRESH=0.30,
             if rasa_psa == "1" or rasa_psa == "3":
                 #prawe ucho
                 if not np.any(p16 == 0.0) and not np.any(p17 == 0.0) and not np.any(p20 == 0.0):
-                    angle_pu = calculate_intersection_angle(p20,p16,p16,p17)
+                    angle_pu = 180- calculate_intersection_angle(p20,p16,p16,p17)
                     print(f"Frame {frame_index}: Prawe ucho: {angle_pu:.2f} degrees")
 
                 #lewe ucho
                 if not np.any(p18 == 0.0) and not np.any(p19 == 0.0) and not np.any(p20 == 0.0):
-                    angle_lu = calculate_intersection_angle(p20,p18,p18,p19)
+                    angle_lu = 180-calculate_intersection_angle(p20,p18,p18,p19)
                     print(f"Frame {frame_index}: Lewe ucho: {angle_lu:.2f} degrees")
 
             elif rasa_psa == "2":
