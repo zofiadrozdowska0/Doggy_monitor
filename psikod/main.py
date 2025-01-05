@@ -7,10 +7,17 @@ import math
 # Load models
 model_duzy_path = './models/model_3.pt'
 model_duzy = YOLO(model_duzy_path)  # Use GPU if available
-input_path = 'piesel.mp4'
+input_path = './psikod/piesel.mp4'
 output_path = 'piesel_framed.mp4'
 
 rasa_psa = "3"
+
+happy = False
+relaxed = False
+sad = False
+angry = False
+
+
 
 def read_text_file(file_path):
     """Reads the text file and returns a list of rows."""
@@ -21,34 +28,40 @@ def read_text_file(file_path):
 
 def process_text_file(text_lines):
     """Processes the text file by taking every 4 rows and choosing the highest percentage plus the relaxed percentage."""
-    percentages = []
-    for i in range(0, len(text_lines), 4):
-        # Take every group of 4 rows
-        group = text_lines[i:i + 4]
-        # Extract percentages from each line, handling 'nan' values
-        values = []
-        for line in group:
-            try:
-                # Extract the percentage as a float, stripping the '%' and handling 'nan'
-                percentage_str = line.split()[-2].strip('%')
-                if percentage_str.lower() == 'nan':
-                    values.append(0)  # If it's 'nan', consider it as 0
-                else:
-                    percentage = float(percentage_str)
-                    values.append(percentage)
-            except ValueError:
-                values.append(0)  # In case there's a line with non-numeric value
-
-        if values:
-            # Get the highest percentage from the first three rows (Happy, Angry, Sad)
-            max_value = max(values[:4])  # Take the max from first 3 rows (Happy, Angry, Sad)
-            relaxed_value = values[3]  # Take the relaxed value from the 4th row (Relaxed)
-            total_percentage = max_value  # Add Relaxed percentage
-            row_number = values.index(max_value) + 1  # Row number of the highest percentage from Happy, Angry, Sad
-            percentages.append((total_percentage, row_number))
-        else:
-            percentages.append((None, None))  # In case of no valid percentages
-    return percentages
+    # percentages = []
+    # for i in range(0, len(text_lines), 4):
+    #     # Take every group of 4 rows
+    #     group = text_lines[i:i + 4]
+    #     # Extract percentages from each line, handling 'nan' values
+    #     values = []
+    #     for line in group:
+    #         try:
+    #             # Extract the percentage as a float, stripping the '%' and handling 'nan'
+    #             percentage_str = line.split()[-2].strip('%')
+    #             if percentage_str.lower() == 'nan':
+    #                 values.append(0)  # If it's 'nan', consider it as 0
+    #             else:
+    #                 percentage = float(percentage_str)
+    #                 values.append(percentage)
+    #         except ValueError:
+    #             values.append(0)  # In case there's a line with non-numeric value
+    #
+    #     if values:
+    #         # Get the highest percentage from the first three rows (Happy, Angry, Sad)
+    #         max_value = max(values[:4])  # Take the max from first 3 rows (Happy, Angry, Sad)
+    #         relaxed_value = values[3]  # Take the relaxed value from the 4th row (Relaxed)
+    #         total_percentage = max_value  # Add Relaxed percentage
+    #         row_number = values.index(max_value) + 1  # Row number of the highest percentage from Happy, Angry, Sad
+    #         percentages.append((total_percentage, row_number))
+    #     else:
+    #         percentages.append((None, None))  # In case of no valid percentages
+    # return percentages
+    results = []
+    for line in text_lines:
+        word = line.strip()  # Usuń białe znaki z początku i końca linii
+        if word:  # Jeśli linia nie jest pusta
+            results.append(word)
+    return results
 
 
 def get_emotion_from_row(row_number):
@@ -62,12 +75,60 @@ def get_emotion_from_row(row_number):
     return emotion_map.get(row_number, "Unknown")  # Default to "Unknown" if no match
 
 
-def display_video_with_percentage(video_path, percentages):
-    """Displays the video and shows every 10th frame with its corresponding percentage."""
+# def display_video_with_percentage(video_path, percentages):
+#     """Displays the video and shows every 10th frame with its corresponding percentage."""
+#     # Open the video file
+#     cap = cv2.VideoCapture(video_path)
+#     frame_count = 0
+#     percentage_index = 0
+#
+#     while True:
+#         ret, frame = cap.read()
+#         if not ret:
+#             break
+#
+#         # Only process every 10th frame
+#         if frame_count % 10 == 0:
+#             if percentage_index < len(percentages):
+#                 total_percentage, row_number = percentages[percentage_index]
+#
+#                 # Get the emotion corresponding to the row number
+#                 emotion = get_emotion_from_row(row_number)
+#
+#                 # Check if the total_percentage is 0, and if so, display "Emotion unknown"
+#                 if total_percentage == 0:
+#                     total_percentage_text = "Emotion unknown"
+#                     print(f"Frame {frame_count}, Emotion: Unknown")
+#                 else:
+#                     total_percentage = round(total_percentage, 2)
+#                     total_percentage_text = f"{emotion} with {total_percentage}% certainty on last 10 frames "
+#                     print(f"Frame {frame_count}, Total Percentage: {total_percentage}% ({emotion})")
+#
+#                 # Add text on the frame
+#                 cv2.putText(frame, total_percentage_text, (50, 50),
+#                             cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA)
+#
+#             # Display the frame with percentage
+#             cv2.imshow('Video with Percentage', frame)
+#
+#             # Wait for the user to press 'n' for next frame or 'q' to quit
+#             key = cv2.waitKey(0) & 0xFF
+#             if key == ord('q'):  # Press 'q' to quit
+#                 break
+#             elif key == ord('n'):  # Press 'n' to show next frame
+#                 percentage_index += 1  # Move to the next frame
+#
+#         frame_count += 1
+#
+#     cap.release()
+#     cv2.destroyAllWindows()
+
+def display_video_with_emotion(video_path, emotions):
+    """Displays the video and shows every 10th frame with its corresponding emotion."""
     # Open the video file
     cap = cv2.VideoCapture(video_path)
     frame_count = 0
-    percentage_index = 0
+    emotion_index = 0
 
     while True:
         ret, frame = cap.read()
@@ -76,34 +137,31 @@ def display_video_with_percentage(video_path, percentages):
 
         # Only process every 10th frame
         if frame_count % 10 == 0:
-            if percentage_index < len(percentages):
-                total_percentage, row_number = percentages[percentage_index]
+            if emotion_index < len(emotions):
+                # Get the emotion for the current frame
+                emotion = emotions[emotion_index]
 
-                # Get the emotion corresponding to the row number
-                emotion = get_emotion_from_row(row_number)
-
-                # Check if the total_percentage is 0, and if so, display "Emotion unknown"
-                if total_percentage == 0:
-                    total_percentage_text = "Emotion unknown"
+                # Check if the emotion is valid, otherwise set as "Unknown"
+                if not emotion:
+                    emotion_text = "Emotion: Unknown"
                     print(f"Frame {frame_count}, Emotion: Unknown")
                 else:
-                    total_percentage = round(total_percentage, 2)
-                    total_percentage_text = f"{emotion} with {total_percentage}% certainty on last 10 frames "
-                    print(f"Frame {frame_count}, Total Percentage: {total_percentage}% ({emotion})")
+                    emotion_text = f"Emotion: {emotion}"
+                    print(f"Frame {frame_count}, Emotion: {emotion}")
 
-                # Add text on the frame
-                cv2.putText(frame, total_percentage_text, (50, 50),
+                # Add the emotion text on the frame
+                cv2.putText(frame, emotion_text, (50, 50),
                             cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA)
 
-            # Display the frame with percentage
-            cv2.imshow('Video with Percentage', frame)
+            # Display the frame with emotion
+            cv2.imshow('Video with Emotion', frame)
 
             # Wait for the user to press 'n' for next frame or 'q' to quit
             key = cv2.waitKey(0) & 0xFF
             if key == ord('q'):  # Press 'q' to quit
                 break
-            elif key == ord('n'):  # Press 'n' to show next frame
-                percentage_index += 1  # Move to the next frame
+            elif key == ord('n'):  # Press 'n' to show the next frame
+                emotion_index += 1  # Move to the next emotion
 
         frame_count += 1
 
@@ -115,211 +173,117 @@ def video_processing_complete():
     print("Video processing is complete.")
 
 
-happy = 0
-normal = 0
-sad = 0
-angry = 0
-h_sr = 0
-n_sr = 0
-a_sr = 0
-s_sr = 0
-i = 0
-
 with open("results.txt", "w") as file:
     file.write("")
 
-def calcuate_emotion(angle_lpl, angle_ogon, angle_lpp, angle_ltp, angle_ltl, angle_glowa,angle_pu,angle_lu,angle_pysk,visible_tongue,visible_teeth):
-    global happy, normal, sad, angry
-    global h_sr, n_sr, s_sr, a_sr
-    global i
+def decyzja(ogon_pozycja, glowa_pozycja, uszy_pozycja, lapy_pozycja, visible_teeth, visible_tongue):
+    if ogon_pozycja == 2:
+        if lapy_pozycja == 1:  # Zgięte
+            return "Happy"
+        else:  # Proste
+            if visible_tongue:  # Głowa do góry
+                return "Happy"
+            else:  # Głowa na dół
+                if visible_teeth:  # Zęby widoczne
+                    return "Angry"
+                else:  # Zęby niewidoczne
+                    return "Relaxed"
+    elif ogon_pozycja == 1:
+        if rasa_psa == "2" and uszy_pozycja == 1:
+            return "Sad"
+        else:
+            if lapy_pozycja == 1:  # Zgięte
+                if glowa_pozycja == 2:  # Głowa do góry
+                    if visible_teeth:
+                        return "Angry"
+                    else:
+                        return "Relaxed"
+                else:  # Głowa na dół
+                    if visible_teeth:
+                        return "Angry"
+                    else:
+                        return "Sad"
+            else:  # Proste
+                if glowa_pozycja == 2:
+                    if visible_teeth:
+                        return "Angry"
+                    else:
+                        return "Relaxed"
+                else:  # Zęby niewidoczne
+                    return "Sad"
+    elif ogon_pozycja == 3:
+        if rasa_psa == "2" and uszy_pozycja == 1:
+            return "Sad"
+        else:
+            if lapy_pozycja == 1:  # Zgięte
+                if glowa_pozycja == 2:
+                    if visible_teeth:
+                        return "Angry"
+                    else:
+                        return "Happy"
+                else:
+                    return "Sad"
+            else:  # Proste
+                if visible_teeth:
+                    return "Angry"
+                else:
+                    return "Relaxed"
+    else:
+        return "Neutralny"
 
+
+def calcuate_emotion(angle_lpl, angle_ogon, angle_lpp, angle_glowa,angle_pu,angle_lu, visible_tongue, visible_teeth):
+    ogon_pozycja = 0  # 1 - opuszczony, 2 - uniesiony, 3 - wyprostowany
+    glowa_pozycja = 0  # 1 - opuszczona, 2 - uniesiona
+    uszy_pozycja = 0  # 1 - opuszczone, 2 - uniesione
+    lapy_pozycja = 0  # 1 - zgiete, 2 - wyprostowane
     # ogon
     if angle_ogon is not None:
         if 0 < angle_ogon < 90:
-            happy += np.sqrt(2 / np.pi * np.arctan(6 * (np.deg2rad(angle_ogon) + np.pi / 18)))*1.7
-            h_sr += np.sqrt(2 / np.pi * np.arctan(6 * (np.deg2rad(angle_ogon) + np.pi / 18))) * 1.7
-            if visible_teeth:
-                angry += np.sqrt(2 / np.pi * np.arctan(6 * (np.deg2rad(angle_ogon) + np.pi / 18)))*0.8
-                a_sr += np.sqrt(2 / np.pi * np.arctan(6 * (np.deg2rad(angle_ogon) + np.pi / 18))) * 0.8
+            ogon_pozycja = 2
         if 180 < angle_ogon < 230:
-            normal += -2.7 * (np.deg2rad(angle_ogon) - np.pi * 17 / 18) * (np.deg2rad(angle_ogon) - 24 * np.pi / 18)
-            n_sr += -2.7 * (np.deg2rad(angle_ogon) - np.pi * 17 / 18) * (np.deg2rad(angle_ogon) - 24 * np.pi / 18)
+            ogon_pozycja = 3
         if 0 < angle_ogon < 20:
-            normal += -33 * (np.deg2rad(angle_ogon) - np.pi * 2 / 18) * (np.deg2rad(angle_ogon))
-            n_sr += -33 * (np.deg2rad(angle_ogon) - np.pi * 2 / 18) * (np.deg2rad(angle_ogon))
+            ogon_pozycja = 3
         if angle_ogon > 210:
-            sad += np.sqrt(2 / np.pi * np.arctan(3 * np.deg2rad(angle_ogon) - 21 * np.pi / 18))
-            s_sr += np.sqrt(2 / np.pi * np.arctan(3 * np.deg2rad(angle_ogon) - 21 * np.pi / 18))
+            ogon_pozycja = 1
 
     # głowa
     if angle_glowa is not None:
         if angle_glowa < -10:
-            happy += np.sqrt(2 / np.pi * np.arctan(-8 * (np.deg2rad(angle_glowa) + np.pi / 36)))*1.7
-            h_sr += np.sqrt(2 / np.pi * np.arctan(-8 * (np.deg2rad(angle_glowa) + np.pi / 36))) * 1.7
-            angry += np.sqrt(2 / np.pi * np.arctan(-4 * (np.deg2rad(angle_glowa) + np.pi / 36)))*0.6
-            a_sr += np.sqrt(2 / np.pi * np.arctan(-4 * (np.deg2rad(angle_glowa) + np.pi / 36))) * 0.6
+            glowa_pozycja = 2
         if -10 < angle_glowa < 10:
-            normal += -30 * (np.deg2rad(angle_glowa) - np.pi / 18) * (np.deg2rad(angle_glowa) + np.pi / 18)
-            n_sr += -30 * (np.deg2rad(angle_glowa) - np.pi / 18) * (np.deg2rad(angle_glowa) + np.pi / 18)
+            glowa_pozycja = 2
         if angle_glowa > 10:
-            sad += np.sqrt(2 / np.pi * np.arctan(4 * (np.deg2rad(angle_glowa) - np.pi / 36)))
-            s_sr += np.sqrt(2 / np.pi * np.arctan(4 * (np.deg2rad(angle_glowa) - np.pi / 36)))
+            glowa_pozycja = 1
 
-    if angle_pysk is not None:
-        if 40 < angle_pysk < 60 :
-            happy += np.sqrt(2 / np.pi * np.arctan(15 * (np.deg2rad(angle_pysk) - 4 * np.pi / 18)))
-            h_sr += np.sqrt(2 / np.pi * np.arctan(15 * (np.deg2rad(angle_pysk) - 4 * np.pi / 18)))
-        if 30 < angle_pysk < 40:
-            normal += -130 * (np.deg2rad(angle_pysk) - np.pi * 3 / 18) * (np.deg2rad(angle_pysk) - 4 * np.pi / 18)
-            n_sr += -130 * (np.deg2rad(angle_pysk) - np.pi * 3 / 18) * (np.deg2rad(angle_pysk) - 4 * np.pi / 18)
-        if 20 < angle_pysk < 30:
-            angry += np.sqrt(2 / np.pi * np.arctan(15 * (np.deg2rad(angle_pysk) - 2 * np.pi / 18)))*0.5
-            a_sr += np.sqrt(2 / np.pi * np.arctan(15 * (np.deg2rad(angle_pysk) - 2 * np.pi / 18))) * 0.5
-            if visible_teeth:
-                angry += np.sqrt(2 / np.pi * np.arctan(15 * (np.deg2rad(angle_pysk) - 2 * np.pi / 18)))*2
-                a_sr += np.sqrt(2 / np.pi * np.arctan(15 * (np.deg2rad(angle_pysk) - 2 * np.pi / 18))) * 2
-        if 10 < angle_pysk < 20:
-            sad += np.sqrt(2 / np.pi * np.arctan(-15 * (np.deg2rad(angle_pysk) - 2 * np.pi / 18)))
-            s_sr += np.sqrt(2 / np.pi * np.arctan(-15 * (np.deg2rad(angle_pysk) - 2 * np.pi / 18)))
 
     # łapa przednia lewa i łapa przednia prawa
     if angle_lpl is not None and angle_lpp is not None:
-        if 140 < angle_lpl < 180:
-            angry += np.sqrt(2 / np.pi * np.arctan(6 * (np.deg2rad(angle_lpl) - 14 * np.pi / 18)))
-            a_sr += np.sqrt(2 / np.pi * np.arctan(6 * (np.deg2rad(angle_lpl) - 14 * np.pi / 18)))
-            if not visible_teeth:
-                normal += -8 * (np.deg2rad(angle_lpl) - 14 * np.pi / 18) * (np.deg2rad(angle_lpl) - 18 * np.pi / 18)
-                n_sr += -8 * (np.deg2rad(angle_lpl) - 14 * np.pi / 18) * (np.deg2rad(angle_lpl) - 18 * np.pi / 18)
-        elif 140 < angle_lpp < 180:
-            angry += np.sqrt(2 / np.pi * np.arctan(6 * (np.deg2rad(angle_lpp) - 14 * np.pi / 18)))
-            a_sr += np.sqrt(2 / np.pi * np.arctan(6 * (np.deg2rad(angle_lpp) - 14 * np.pi / 18)))
-            if not visible_teeth:
-                normal += -8 * (np.deg2rad(angle_lpp) - 14 * np.pi / 18) * (np.deg2rad(angle_lpp) - 18 * np.pi / 18)
-                n_sr += -8 * (np.deg2rad(angle_lpp) - 14 * np.pi / 18) * (np.deg2rad(angle_lpp) - 18 * np.pi / 18)
-        if 110 < angle_lpl < 150:
-            sad += np.sqrt(2 / np.pi * np.arctan(-8 * (np.deg2rad(angle_lpl) - 15 * np.pi / 18)))
-            s_sr += np.sqrt(2 / np.pi * np.arctan(-8 * (np.deg2rad(angle_lpl) - 15 * np.pi / 18)))
-        elif 110 < angle_lpp < 150:
-            sad += np.sqrt(2 / np.pi * np.arctan(-8 * (np.deg2rad(angle_lpp) - 15 * np.pi / 18)))
-            s_sr += np.sqrt(2 / np.pi * np.arctan(-8 * (np.deg2rad(angle_lpp) - 15 * np.pi / 18)))
+        if 140 < angle_lpl < 180 or 140 < angle_lpp < 180:
+            lapy_pozycja = 2        
+        if 110 < angle_lpl < 150 or 110 < angle_lpp < 150:
+            lapy_pozycja = 1
         if 80 < angle_lpl < 120 or 80 < angle_lpp < 120:
-            happy += np.sqrt(2 / np.pi * np.arctan(-6 * (np.deg2rad(angle_lpl) - 12 * np.pi / 18)))
-            h_sr += np.sqrt(2 / np.pi * np.arctan(-6 * (np.deg2rad(angle_lpl) - 12 * np.pi / 18)))
+            lapy_pozycja = 2
 
-    # łapa tylna lewa i łapa tylna prawa
-    if angle_ltl is not None and angle_ltp is not None:
-        if 140 < angle_ltl < 180:
-            if visible_teeth:
-                angry += np.sqrt(2 / np.pi * np.arctan(6 * (np.deg2rad(angle_ltl) - 14 * np.pi / 18)))*0.4
-                a_sr += np.sqrt(2 / np.pi * np.arctan(6 * (np.deg2rad(angle_ltl) - 14 * np.pi / 18))) * 0.4
-            else:
-                normal += -8 * (np.deg2rad(angle_ltl) - 14 * np.pi / 18) * (np.deg2rad(angle_ltl) - 18 * np.pi / 18)*0.4
-                n_sr += -8 * (np.deg2rad(angle_ltl) - 14 * np.pi / 18) * (np.deg2rad(angle_ltl) - 18 * np.pi / 18) * 0.4
-        elif 140 < angle_ltp < 180:
-            if visible_teeth:
-                angry += np.sqrt(2 / np.pi * np.arctan(6 * (np.deg2rad(angle_ltp) - 14 * np.pi / 18)))*0.4
-                a_sr += np.sqrt(2 / np.pi * np.arctan(6 * (np.deg2rad(angle_ltp) - 14 * np.pi / 18))) * 0.4
-            else:
-                normal += -8 * (np.deg2rad(angle_ltp) - 14 * np.pi / 18) * (np.deg2rad(angle_ltp) - 18 * np.pi / 18)*0.4
-                n_sr += -8 * (np.deg2rad(angle_ltp) - 14 * np.pi / 18) * (np.deg2rad(angle_ltp) - 18 * np.pi / 18) * 0.4
-        if 100 < angle_ltl < 150:
-            sad += np.sqrt(2 / np.pi * np.arctan(-8 * (np.deg2rad(angle_ltl) - 15 * np.pi / 18)))*0.4
-            s_sr += np.sqrt(2 / np.pi * np.arctan(-8 * (np.deg2rad(angle_ltl) - 15 * np.pi / 18))) * 0.4
-        elif 100 < angle_ltp < 150:
-            sad += np.sqrt(2 / np.pi * np.arctan(-8 * (np.deg2rad(angle_ltp) - 15 * np.pi / 18)))*0.4
-            s_sr += np.sqrt(2 / np.pi * np.arctan(-8 * (np.deg2rad(angle_ltp) - 15 * np.pi / 18))) * 0.4
 
     # uszy
-    if rasa_psa == "1" or rasa_psa == "3":
+    if rasa_psa == "2":
         if angle_pu is not None:
-            if 130 < angle_pu < 140:
-                happy += np.sqrt(2 / np.pi * np.arctan(6 * (np.deg2rad(angle_pu) + np.pi / 18))*0.4)
-                h_sr += np.sqrt(2 / np.pi * np.arctan(6 * (np.deg2rad(angle_pu) + np.pi / 18))) * 0.4
-            if 70 < angle_pu < 90:
-                angry += -2.7 * (np.deg2rad(angle_pu) - np.pi * 17 / 18) * (np.deg2rad(angle_pu) - 24 * np.pi / 18)*0.4
-                a_sr += -2.7 * (np.deg2rad(angle_pu) - np.pi * 17 / 18) * (np.deg2rad(angle_pu) - 24 * np.pi / 18) * 0.4
-            if 120 < angle_pu < 130:
-                normal += -33 * (np.deg2rad(angle_pu) - np.pi * 2 / 18) * (np.deg2rad(angle_pu))*0.4
-                n_sr += -33 * (np.deg2rad(angle_pu) - np.pi * 2 / 18) * (np.deg2rad(angle_pu)) * 0.4
-            if angle_pu > 140:
-                sad += np.sqrt(2 / np.pi * np.arctan(3 * np.deg2rad(angle_pu) - 21 * np.pi / 18))*0.4
-                s_sr += np.sqrt(2 / np.pi * np.arctan(3 * np.deg2rad(angle_pu) - 21 * np.pi / 18)) * 0.4
+            if -150 < angle_pu:
+                uszy_pozycja = 2
+            if angle_pu < -150:
+                uszy_pozycja = 1
 
         elif angle_lu is not None:
-            if 130 < angle_lu < 140:
-                happy += np.sqrt(2 / np.pi * np.arctan(6 * (np.deg2rad(angle_lu) + np.pi / 18))*0.4)
-                h_sr += np.sqrt(2 / np.pi * np.arctan(6 * (np.deg2rad(angle_lu) + np.pi / 18))) * 0.4
-            if 70 < angle_lu < 90:
-                angry += -2.7 * (np.deg2rad(angle_lu) - np.pi * 17 / 18) * (np.deg2rad(angle_lu) - 24 * np.pi / 18)*0.4
-                a_sr += -2.7 * (np.deg2rad(angle_lu) - np.pi * 17 / 18) * (np.deg2rad(angle_lu) - 24 * np.pi / 18) * 0.4
-            if 120 < angle_lu < 130:
-                normal += -33 * (np.deg2rad(angle_lu) - np.pi * 2 / 18) * (np.deg2rad(angle_lu))*0.4
-                n_sr += -33 * (np.deg2rad(angle_lu) - np.pi * 2 / 18) * (np.deg2rad(angle_lu)) * 0.4
-            if angle_lu > 140:
-                sad += np.sqrt(2 / np.pi * np.arctan(3 * np.deg2rad(angle_lu) - 21 * np.pi / 18))*0.4
-                s_sr += np.sqrt(2 / np.pi * np.arctan(3 * np.deg2rad(angle_lu) - 21 * np.pi / 18)) * 0.4
+            if -150 < angle_lu:
+                uszy_pozycja = 2
+            if angle_lu < -150:
+                uszy_pozycja = 1
 
-    elif rasa_psa == "2":
-        if angle_pu is not None:
-            if 130 < angle_pu < 140:
-                happy += np.sqrt(2 / np.pi * np.arctan(6 * (np.deg2rad(angle_pu) + np.pi / 18))*0.4)
-                h_sr += np.sqrt(2 / np.pi * np.arctan(6 * (np.deg2rad(angle_pu) + np.pi / 18))) * 0.4
-            if 70 < angle_pu < 90:
-                angry += -2.7 * (np.deg2rad(angle_pu) - np.pi * 17 / 18) * (np.deg2rad(angle_pu) - 24 * np.pi / 18)*0.4
-                a_sr += -2.7 * (np.deg2rad(angle_pu) - np.pi * 17 / 18) * (np.deg2rad(angle_pu) - 24 * np.pi / 18) * 0.4
-            if 120 < angle_pu < 130:
-                normal += -33 * (np.deg2rad(angle_pu) - np.pi * 2 / 18) * (np.deg2rad(angle_pu))*0.4
-                n_sr += -33 * (np.deg2rad(angle_pu) - np.pi * 2 / 18) * (np.deg2rad(angle_pu)) * 0.4
-            if angle_pu > 140:
-                sad += np.sqrt(2 / np.pi * np.arctan(3 * np.deg2rad(angle_pu) - 21 * np.pi / 18))*0.4
-                s_sr += np.sqrt(2 / np.pi * np.arctan(3 * np.deg2rad(angle_pu) - 21 * np.pi / 18)) * 0.4
-
-        elif angle_lu is not None:
-            if 130 < angle_lu < 140:
-                happy += np.sqrt(2 / np.pi * np.arctan(6 * (np.deg2rad(angle_lu) + np.pi / 18))*0.4)
-                h_sr += np.sqrt(2 / np.pi * np.arctan(6 * (np.deg2rad(angle_lu) + np.pi / 18))) * 0.4
-            if 70 < angle_lu < 90:
-                angry += -2.7 * (np.deg2rad(angle_lu) - np.pi * 17 / 18) * (np.deg2rad(angle_lu) - 24 * np.pi / 18)*0.4
-                a_sr += -2.7 * (np.deg2rad(angle_lu) - np.pi * 17 / 18) * (np.deg2rad(angle_lu) - 24 * np.pi / 18) * 0.4
-            if 120 < angle_lu < 130:
-                normal += -33 * (np.deg2rad(angle_lu) - np.pi * 2 / 18) * (np.deg2rad(angle_lu))*0.4
-                n_sr += -33 * (np.deg2rad(angle_lu) - np.pi * 2 / 18) * (np.deg2rad(angle_lu)) * 0.4
-            if angle_lu > 140:
-                sad += np.sqrt(2 / np.pi * np.arctan(3 * np.deg2rad(angle_lu) - 21 * np.pi / 18))*0.4
-                s_sr += np.sqrt(2 / np.pi * np.arctan(3 * np.deg2rad(angle_lu) - 21 * np.pi / 18)) * 0.4
-
-
-    suma = a_sr + h_sr + n_sr + s_sr
-    with open("results.txt", "a") as file:
-        file.write(f"happy sr: {h_sr / suma*100} %\n")
-        file.write(f"angry sr: {a_sr / suma*100} %\n")
-        file.write(f"sad sr: {s_sr / suma*100} %\n")
-        file.write(f"relaxed sr: {n_sr / suma*100} %\n")
-
-    i += 1
-    if i == 10:
-        suma = a_sr+h_sr+n_sr+s_sr
-        with open("results.txt", "a") as file:
-            file.write(f"happy sr: {h_sr / suma*100} %\n")
-            file.write(f"angry sr: {a_sr / suma*100} %\n")
-            file.write(f"sad sr: {s_sr / suma*100} %\n")
-            file.write(f"relaxed sr: {n_sr / suma*100} %\n")
-
-        print("happy sr: ", h_sr/suma*100, " %", "\n")
-        print("angry sr: ", a_sr/suma*100, " %", "\n")
-        print("sad sr: ", s_sr/suma*100, " %",  "\n")
-        print("relaxed sr: ", n_sr/suma*100, " %", "\n")
-        a_sr = 0
-        h_sr = 0
-        n_sr = 0
-        s_sr = 0
-        i = 0
-
-
-    # print("happy: ", happy, "\n")
-    # print("angry: ", angry, "\n")
-    # print("sad: ", sad, "\n")
-    # print("relaxed: ", normal, "\n")
+    return decyzja(ogon_pozycja, glowa_pozycja, uszy_pozycja, lapy_pozycja, visible_teeth, visible_tongue)
+    #return ogon_pozycja, glowa_pozycja, uszy_pozycja, lapy_pozycja, visible_teeth, visible_tongue
 
 
 def calculate_angle(p0, p1, p2):
@@ -348,7 +312,6 @@ def calculate_angle(p0, p1, p2):
 
     return angle_degrees
 
-# Function to calculate the intersection point of two lines
 
 
 def calculate_intersection_point(p1, p2, p3, p4):
@@ -401,8 +364,6 @@ def draw_boxes(image, boxes, score=None, color=(0, 255, 0)):
     if score is not None:
         cv2.putText(image, f"Conf: {score:.2f}", (int(x1), int(y1) - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.9, color, 2)
     return image
-
-# Function to draw keypoints
 
 
 def draw_landmarks(image, keypoints):
@@ -517,6 +478,8 @@ def process_frame(frame, frame_index, BOX_IOU_THRESH=0.55, BOX_CONF_THRESH=0.30,
                 line1_points = [p0, p6]
             elif np.all(p3 != 0.0) and np.all(p9 != 0.0):
                 line1_points = [p3, p9]
+            elif np.all(p12 != 0.0) and np.all(p14 != 0.0):
+                line1_points = [p12, p14]
 
             if line1_points and np.all(p14 != 0.0) and np.all(p20 != 0.0):
                 angle_glowa = calculate_intersection_angle(line1_points[0], line1_points[1], p20,p14)
@@ -526,6 +489,7 @@ def process_frame(frame, frame_index, BOX_IOU_THRESH=0.55, BOX_CONF_THRESH=0.30,
                 angle_glowa=-2.78+0.06*angle_throat
                 print(f"Frame {frame_index}: Glowa: {angle_glowa:.2f} degrees")
 
+
             if np.all(p14 != 0.0) and np.all(p12 != 0.0) and np.all(p13 != 0.0):
                 angle_ogon = 180-calculate_intersection_angle(p14, p12, p12, p13)
                 print(f"Frame {frame_index}: Ogon: {angle_ogon:.2f} degrees")
@@ -533,19 +497,9 @@ def process_frame(frame, frame_index, BOX_IOU_THRESH=0.55, BOX_CONF_THRESH=0.30,
                 angle_throat = 180-calculate_intersection_angle(p15, p12, p12, p13)
                 angle_ogon=18.7+0.98*angle_throat
                 print(f"Frame {frame_index}: Ogon: {angle_ogon:.2f} degrees")
+            
 
-            if rasa_psa == "1" or rasa_psa == "3":
-                #prawe ucho
-                if not np.any(p16 == 0.0) and not np.any(p17 == 0.0) and not np.any(p20 == 0.0):
-                    angle_pu = 180- calculate_intersection_angle(p20,p16,p16,p17)
-                    print(f"Frame {frame_index}: Prawe ucho: {angle_pu:.2f} degrees")
-
-                #lewe ucho
-                if not np.any(p18 == 0.0) and not np.any(p19 == 0.0) and not np.any(p20 == 0.0):
-                    angle_lu = 180-calculate_intersection_angle(p20,p18,p18,p19)
-                    print(f"Frame {frame_index}: Lewe ucho: {angle_lu:.2f} degrees")
-
-            elif rasa_psa == "2":
+            if rasa_psa == "2":
                 #prawe ucho
                 if not np.any(p16 == 0.0) and not np.any(p17 == 0.0) and not np.any(p20 == 0.0):
                     angle_pu = calculate_angle(p20,p16,p17)
@@ -569,15 +523,10 @@ def process_frame(frame, frame_index, BOX_IOU_THRESH=0.55, BOX_CONF_THRESH=0.30,
             if not np.any(p24 == 0.0):
                 visible_tongue=True
 
-
             p25 = filter_kpts[25][:2]
-            if not np.any(p25 == 0.0):
-                visible_teeth = True
-
             p26 = filter_kpts[26][:2]
-            if not np.any(p26 == 0.0):
-                visible_teeth= True
-
+            if not np.any(p25 == 0.0) or not np.any(p26 == 0.0):
+                visible_teeth = True
 
 
         # Draw predicted bounding boxes, conf scores and keypoints on image.
@@ -588,8 +537,9 @@ def process_frame(frame, frame_index, BOX_IOU_THRESH=0.55, BOX_CONF_THRESH=0.30,
             frame = draw_boxes(frame, boxes, score=score, color=(0, 255, 0))
             frame = draw_landmarks(frame, filter_kpts)
 
-    calcuate_emotion(angle_lpl, angle_ogon, angle_lpp, angle_ltp, angle_ltl, angle_glowa, angle_pu,angle_lu,angle_pysk,visible_tongue,visible_teeth)
-
+    wynik = calcuate_emotion(angle_lpl, angle_ogon, angle_lpp, angle_glowa,angle_pu,angle_lu, visible_tongue, visible_teeth)
+    with open("results.txt", "a") as file:
+        file.write(wynik + "\n")  # Zapisz wynik jako nową linię w pliku
     return frame
 
 
@@ -675,7 +625,7 @@ def main(img_path, text_file_path):
     percentages = process_text_file(text_lines)
 
     # Step 3: Display the video with every 10th frame and the corresponding percentage
-    display_video_with_percentage(img_path, percentages)
+    display_video_with_emotion(img_path, percentages)
 
 def rysiowanie(model, img):
     if img is None:
@@ -704,9 +654,7 @@ def rysiowanie(model, img):
 model = YOLO('./models/model_3.pt')
 img_path = 'aa.jfif'
 img = cv2.imread(img_path)
-if img is None:
-    raise ValueError(f"Nie można wczytać obrazu: {img_path}. Sprawdź ścieżkę i integralność pliku.")
-video_path = 'piesel_framed.mp4'  # Path to the MP4 video file
+video_path = 'piesel.mp4'  # Path to the MP4 video file
 text_file_path = 'results.txt'  # Path to the text file
 
 rysiowanie(model, img)
