@@ -11,7 +11,13 @@ model_duzy = YOLO(model_duzy_path)  # Use GPU if available
 <<<<<<< ours
 <<<<<<< ours
 <<<<<<< ours
+<<<<<<< ours
 input_path = './psikod/piesel.mp4'
+||||||| ancestor
+input_path = 'piesel.mp4'
+=======
+input_path = 'shepherd3.mp4'
+>>>>>>> theirs
 ||||||| ancestor
 input_path = 'piesel.mp4'
 =======
@@ -290,6 +296,7 @@ def calcuate_emotion(angle_lpl, angle_ogon, angle_lpp, angle_ltp, angle_ltl, ang
 <<<<<<< ours
 <<<<<<< ours
 <<<<<<< ours
+<<<<<<< ours
     #if suma == 0:
     #    suma = np.inf
 ||||||| ancestor
@@ -300,6 +307,11 @@ def calcuate_emotion(angle_lpl, angle_ogon, angle_lpp, angle_ltp, angle_ltl, ang
 ||||||| ancestor
     #if suma == 0:
     #    suma = np.inf
+=======
+    if suma == 0:
+        suma = np.inf
+>>>>>>> theirs
+||||||| ancestor
 =======
     if suma == 0:
         suma = np.inf
@@ -333,6 +345,7 @@ def calcuate_emotion(angle_lpl, angle_ogon, angle_lpp, angle_ltp, angle_ltl, ang
 <<<<<<< ours
 <<<<<<< ours
 <<<<<<< ours
+<<<<<<< ours
         #if suma==0:
         #    suma=np.inf
 ||||||| ancestor
@@ -343,6 +356,11 @@ def calcuate_emotion(angle_lpl, angle_ogon, angle_lpp, angle_ltp, angle_ltl, ang
 ||||||| ancestor
         #if suma==0:
         #    suma=np.inf
+=======
+        if suma==0:
+            suma=np.inf
+>>>>>>> theirs
+||||||| ancestor
 =======
         if suma==0:
             suma=np.inf
@@ -789,6 +807,7 @@ def rysiowanie(model, img):
 <<<<<<< ours
 <<<<<<< ours
 <<<<<<< ours
+<<<<<<< ours
 #model = YOLO('./models/model_2.pt')
 #img_path = 'aa.jfif'
 #img = cv2.imread(img_path)
@@ -810,6 +829,11 @@ if img is None:
     raise ValueError(f"Nie można wczytać obrazu: {img_path}. Sprawdź ścieżkę i integralność pliku.")
 =======
 model = YOLO('./model_2.pt')
+||||||| ancestor
+model = YOLO('./models/model_3.pt')
+=======
+model = YOLO('./model_2.pt')
+>>>>>>> theirs
 ||||||| ancestor
 model = YOLO('./models/model_3.pt')
 =======
@@ -840,6 +864,18 @@ main(img_path, text_file_path)
 =======
 rysiowanie(model, img)
 <<<<<<< ours
+<<<<<<< ours
+# process_frame(img, 0)
+# main(img_path, text_file_path)
+process_video(input_path, output_path, video_processing_complete)
+main(video_path,text_file_path)
+>>>>>>> theirs
+||||||| ancestor
+process_frame(img, 0)
+main(img_path, text_file_path)
+#process_video(input_path, output_path, video_processing_complete)
+#main(video_path,text_file_path)
+=======
 # process_frame(img, 0)
 # main(img_path, text_file_path)
 process_video(input_path, output_path, video_processing_complete)
