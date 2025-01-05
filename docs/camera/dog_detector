@@ -1,0 +1,47 @@
+import torch
+import cv2
+
+model = torch.hub.load('ultralytics/yolov5', 'yolov5s')
+video_path = 'dog.mp4'
+cap = cv2.VideoCapture(video_path)
+
+if not cap.isOpened():
+    print("Nie można otworzyć pliku wideo")
+    exit()
+
+while cap.isOpened():
+    ret, frame = cap.read()
+
+    if not ret:
+        print("Nie można odczytać klatki lub koniec wideo")
+        break
+
+    img_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+
+    results = model(img_rgb)
+
+    detections = results.xyxy[0]
+
+    dog_class_id = 16
+    dog_detections = [d for d in detections if int(d[5]) == dog_class_id]
+
+    dog_coordinates = []
+
+    for det in dog_detections:
+        x1, y1, x2, y2 = map(int, det[:4])
+        confidence = det[4]
+
+        dog_coordinates.append((x1, y1, x2, y2, confidence))
+
+        cv2.rectangle(frame, (x1, y1), (x2, y2), (255, 0, 0), 2)
+        cv2.putText(frame, f'Dog: {confidence:.2f}', (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.9, (255, 0, 0), 2)
+
+    if dog_coordinates:
+        print(f'Współrzędne psów w tej klatce: {dog_coordinates}')
+
+    cv2.imshow('Detected Dogs', frame)
+
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        break
+cap.release()
+cv2.destroyAllWindows()
