@@ -246,18 +246,18 @@ def calcuate_emotion(angle_lpl, angle_ogon, angle_lpp, angle_ltp, angle_ltl, ang
                 s_sr += np.sqrt(2 / np.pi * np.arctan(3 * np.deg2rad(angle_pu) - 21 * np.pi / 18)) * 0.4
 
         elif angle_lu is not None:
-            if 130 < angle_pu < 140:
-                happy += np.sqrt(2 / np.pi * np.arctan(6 * (np.deg2rad(angle_pu) + np.pi / 18))*0.4)
-                h_sr += np.sqrt(2 / np.pi * np.arctan(6 * (np.deg2rad(angle_pu) + np.pi / 18))) * 0.4
-            if 70 < angle_pu < 90:
-                angry += -2.7 * (np.deg2rad(angle_pu) - np.pi * 17 / 18) * (np.deg2rad(angle_pu) - 24 * np.pi / 18)*0.4
-                a_sr += -2.7 * (np.deg2rad(angle_pu) - np.pi * 17 / 18) * (np.deg2rad(angle_pu) - 24 * np.pi / 18) * 0.4
-            if 120 < angle_pu < 130:
-                normal += -33 * (np.deg2rad(angle_pu) - np.pi * 2 / 18) * (np.deg2rad(angle_pu))*0.4
-                n_sr += -33 * (np.deg2rad(angle_pu) - np.pi * 2 / 18) * (np.deg2rad(angle_pu)) * 0.4
-            if angle_pu > 140:
-                sad += np.sqrt(2 / np.pi * np.arctan(3 * np.deg2rad(angle_pu) - 21 * np.pi / 18))*0.4
-                s_sr += np.sqrt(2 / np.pi * np.arctan(3 * np.deg2rad(angle_pu) - 21 * np.pi / 18)) * 0.4
+            if 130 < angle_lu < 140:
+                happy += np.sqrt(2 / np.pi * np.arctan(6 * (np.deg2rad(angle_lu) + np.pi / 18))*0.4)
+                h_sr += np.sqrt(2 / np.pi * np.arctan(6 * (np.deg2rad(angle_lu) + np.pi / 18))) * 0.4
+            if 70 < angle_lu < 90:
+                angry += -2.7 * (np.deg2rad(angle_lu) - np.pi * 17 / 18) * (np.deg2rad(angle_lu) - 24 * np.pi / 18)*0.4
+                a_sr += -2.7 * (np.deg2rad(angle_lu) - np.pi * 17 / 18) * (np.deg2rad(angle_lu) - 24 * np.pi / 18) * 0.4
+            if 120 < angle_lu < 130:
+                normal += -33 * (np.deg2rad(angle_lu) - np.pi * 2 / 18) * (np.deg2rad(angle_lu))*0.4
+                n_sr += -33 * (np.deg2rad(angle_lu) - np.pi * 2 / 18) * (np.deg2rad(angle_lu)) * 0.4
+            if angle_lu > 140:
+                sad += np.sqrt(2 / np.pi * np.arctan(3 * np.deg2rad(angle_lu) - 21 * np.pi / 18))*0.4
+                s_sr += np.sqrt(2 / np.pi * np.arctan(3 * np.deg2rad(angle_lu) - 21 * np.pi / 18)) * 0.4
 
     elif rasa_psa == "2":
         if angle_pu is not None:
@@ -275,18 +275,18 @@ def calcuate_emotion(angle_lpl, angle_ogon, angle_lpp, angle_ltp, angle_ltl, ang
                 s_sr += np.sqrt(2 / np.pi * np.arctan(3 * np.deg2rad(angle_pu) - 21 * np.pi / 18)) * 0.4
 
         elif angle_lu is not None:
-            if 130 < angle_pu < 140:
-                happy += np.sqrt(2 / np.pi * np.arctan(6 * (np.deg2rad(angle_pu) + np.pi / 18))*0.4)
-                h_sr += np.sqrt(2 / np.pi * np.arctan(6 * (np.deg2rad(angle_pu) + np.pi / 18))) * 0.4
-            if 70 < angle_pu < 90:
-                angry += -2.7 * (np.deg2rad(angle_pu) - np.pi * 17 / 18) * (np.deg2rad(angle_pu) - 24 * np.pi / 18)*0.4
-                a_sr += -2.7 * (np.deg2rad(angle_pu) - np.pi * 17 / 18) * (np.deg2rad(angle_pu) - 24 * np.pi / 18) * 0.4
-            if 120 < angle_pu < 130:
-                normal += -33 * (np.deg2rad(angle_pu) - np.pi * 2 / 18) * (np.deg2rad(angle_pu))*0.4
-                n_sr += -33 * (np.deg2rad(angle_pu) - np.pi * 2 / 18) * (np.deg2rad(angle_pu)) * 0.4
-            if angle_pu > 140:
-                sad += np.sqrt(2 / np.pi * np.arctan(3 * np.deg2rad(angle_pu) - 21 * np.pi / 18))*0.4
-                s_sr += np.sqrt(2 / np.pi * np.arctan(3 * np.deg2rad(angle_pu) - 21 * np.pi / 18)) * 0.4
+            if 130 < angle_lu < 140:
+                happy += np.sqrt(2 / np.pi * np.arctan(6 * (np.deg2rad(angle_lu) + np.pi / 18))*0.4)
+                h_sr += np.sqrt(2 / np.pi * np.arctan(6 * (np.deg2rad(angle_lu) + np.pi / 18))) * 0.4
+            if 70 < angle_lu < 90:
+                angry += -2.7 * (np.deg2rad(angle_lu) - np.pi * 17 / 18) * (np.deg2rad(angle_lu) - 24 * np.pi / 18)*0.4
+                a_sr += -2.7 * (np.deg2rad(angle_lu) - np.pi * 17 / 18) * (np.deg2rad(angle_lu) - 24 * np.pi / 18) * 0.4
+            if 120 < angle_lu < 130:
+                normal += -33 * (np.deg2rad(angle_lu) - np.pi * 2 / 18) * (np.deg2rad(angle_lu))*0.4
+                n_sr += -33 * (np.deg2rad(angle_lu) - np.pi * 2 / 18) * (np.deg2rad(angle_lu)) * 0.4
+            if angle_lu > 140:
+                sad += np.sqrt(2 / np.pi * np.arctan(3 * np.deg2rad(angle_lu) - 21 * np.pi / 18))*0.4
+                s_sr += np.sqrt(2 / np.pi * np.arctan(3 * np.deg2rad(angle_lu) - 21 * np.pi / 18)) * 0.4
 
 
     suma = a_sr + h_sr + n_sr + s_sr
@@ -474,21 +474,23 @@ def process_frame(frame, frame_index, BOX_IOU_THRESH=0.55, BOX_CONF_THRESH=0.30,
             p17 = filter_kpts[17][:2]
 
 
+            #OBLICZANIE KATOW NOG
+            # prawa przednia lapa
             if not np.any(p0 == 0.0) and not np.any(p1 == 0.0) and not np.any(p2 == 0.0):
-                angle_lpl = np.abs(calculate_angle(p0, p1, p2))
-                print(f"Frame {frame_index}: Lewa przednia łapa: {angle_lpl:.2f} degrees")
-
-            if not np.any(p6 == 0.0) and not np.any(p7 == 0.0) and not np.any(p8 == 0.0):
-                angle_lpp = np.abs(calculate_angle(p6, p7, p8))
+                angle_lpp = np.abs(calculate_angle(p0, p1, p2))
                 print(f"Frame {frame_index}: Prawa przednia łapa: {angle_lpp:.2f} degrees")
-
-            if not np.any(p9 == 0.0) and not np.any(p10 == 0.0) and not np.any(p11 == 0.0):
-                angle_ltp = np.abs(calculate_angle(p9, p10, p11))
+            # prawa tylna lapa
+            if not np.any(p6 == 0.0) and not np.any(p7 == 0.0) and not np.any(p8 == 0.0):
+                angle_ltp = np.abs(calculate_angle(p6, p7, p8))
                 print(f"Frame {frame_index}: Prawa tylna łapa: {angle_ltp:.2f} degrees")
-
-            if not np.any(p3 == 0.0) and not np.any(p4 == 0.0) and not np.any(p5 == 0.0):
-                angle_ltl = np.abs(calculate_angle(p3, p4, p5))
+            # lewa tylna lapa
+            if not np.any(p9 == 0.0) and not np.any(p10 == 0.0) and not np.any(p11 == 0.0):
+                angle_ltl = np.abs(calculate_angle(p9, p10, p11))
                 print(f"Frame {frame_index}: Lewa tylna łapa: {angle_ltl:.2f} degrees")
+            # lewa przednia lapa
+            if not np.any(p3 == 0.0) and not np.any(p4 == 0.0) and not np.any(p5 == 0.0):
+                angle_lpl = np.abs(calculate_angle(p3, p4, p5))
+                print(f"Frame {frame_index}: Lewa przednia łapa: {angle_lpl:.2f} degrees")
 
             # kark i gardło
             p14 = filter_kpts[14][:2]
