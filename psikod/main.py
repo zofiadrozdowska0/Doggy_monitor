@@ -116,21 +116,16 @@ def video_processing_complete():
 
 
 happy = 0
-normal = 0
+relaxed = 0
 sad = 0
 angry = 0
-h_sr = 0
-n_sr = 0
-a_sr = 0
-s_sr = 0
 i = 0
 
 with open("results.txt", "w") as file:
     file.write("")
 
 def calcuate_emotion(angle_lpl, angle_ogon, angle_lpp, angle_ltp, angle_ltl, angle_glowa,angle_pu,angle_lu,angle_pysk,visible_tongue,visible_teeth):
-    global happy, normal, sad, angry
-    global h_sr, n_sr, s_sr, a_sr
+    global happy, relaxed, sad, angry
     global i
 
     # ogon
@@ -206,28 +201,6 @@ def calcuate_emotion(angle_lpl, angle_ogon, angle_lpp, angle_ltp, angle_ltl, ang
             happy += np.sqrt(2 / np.pi * np.arctan(-6 * (np.deg2rad(angle_lpl) - 12 * np.pi / 18)))
             h_sr += np.sqrt(2 / np.pi * np.arctan(-6 * (np.deg2rad(angle_lpl) - 12 * np.pi / 18)))
 
-    # łapa tylna lewa i łapa tylna prawa
-    if angle_ltl is not None and angle_ltp is not None:
-        if 140 < angle_ltl < 180:
-            if visible_teeth:
-                angry += np.sqrt(2 / np.pi * np.arctan(6 * (np.deg2rad(angle_ltl) - 14 * np.pi / 18)))*0.4
-                a_sr += np.sqrt(2 / np.pi * np.arctan(6 * (np.deg2rad(angle_ltl) - 14 * np.pi / 18))) * 0.4
-            else:
-                normal += -8 * (np.deg2rad(angle_ltl) - 14 * np.pi / 18) * (np.deg2rad(angle_ltl) - 18 * np.pi / 18)*0.4
-                n_sr += -8 * (np.deg2rad(angle_ltl) - 14 * np.pi / 18) * (np.deg2rad(angle_ltl) - 18 * np.pi / 18) * 0.4
-        elif 140 < angle_ltp < 180:
-            if visible_teeth:
-                angry += np.sqrt(2 / np.pi * np.arctan(6 * (np.deg2rad(angle_ltp) - 14 * np.pi / 18)))*0.4
-                a_sr += np.sqrt(2 / np.pi * np.arctan(6 * (np.deg2rad(angle_ltp) - 14 * np.pi / 18))) * 0.4
-            else:
-                normal += -8 * (np.deg2rad(angle_ltp) - 14 * np.pi / 18) * (np.deg2rad(angle_ltp) - 18 * np.pi / 18)*0.4
-                n_sr += -8 * (np.deg2rad(angle_ltp) - 14 * np.pi / 18) * (np.deg2rad(angle_ltp) - 18 * np.pi / 18) * 0.4
-        if 100 < angle_ltl < 150:
-            sad += np.sqrt(2 / np.pi * np.arctan(-8 * (np.deg2rad(angle_ltl) - 15 * np.pi / 18)))*0.4
-            s_sr += np.sqrt(2 / np.pi * np.arctan(-8 * (np.deg2rad(angle_ltl) - 15 * np.pi / 18))) * 0.4
-        elif 100 < angle_ltp < 150:
-            sad += np.sqrt(2 / np.pi * np.arctan(-8 * (np.deg2rad(angle_ltp) - 15 * np.pi / 18)))*0.4
-            s_sr += np.sqrt(2 / np.pi * np.arctan(-8 * (np.deg2rad(angle_ltp) - 15 * np.pi / 18))) * 0.4
 
     # uszy
     if rasa_psa == "2":
