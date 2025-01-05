@@ -8,7 +8,13 @@ import math
 model_duzy_path = './model_2.pt'
 model_duzy = YOLO(model_duzy_path)  # Use GPU if available
 <<<<<<< ours
+<<<<<<< ours
 input_path = './psikod/piesel.mp4'
+||||||| ancestor
+input_path = 'piesel.mp4'
+=======
+input_path = 'shepherd3.mp4'
+>>>>>>> theirs
 ||||||| ancestor
 input_path = 'piesel.mp4'
 =======
@@ -269,6 +275,7 @@ def calcuate_emotion(angle_lpl, angle_ogon, angle_lpp, angle_ltp, angle_ltl, ang
     suma = a_sr + h_sr + n_sr + s_sr
 <<<<<<< ours
 <<<<<<< ours
+<<<<<<< ours
     #if suma == 0:
     #    suma = np.inf
 ||||||| ancestor
@@ -279,6 +286,11 @@ def calcuate_emotion(angle_lpl, angle_ogon, angle_lpp, angle_ltp, angle_ltl, ang
 ||||||| ancestor
     #if suma == 0:
     #    suma = np.inf
+=======
+    if suma == 0:
+        suma = np.inf
+>>>>>>> theirs
+||||||| ancestor
 =======
     if suma == 0:
         suma = np.inf
@@ -294,6 +306,7 @@ def calcuate_emotion(angle_lpl, angle_ogon, angle_lpp, angle_ltp, angle_ltl, ang
         suma = a_sr+h_sr+n_sr+s_sr
 <<<<<<< ours
 <<<<<<< ours
+<<<<<<< ours
         #if suma==0:
         #    suma=np.inf
 ||||||| ancestor
@@ -304,6 +317,11 @@ def calcuate_emotion(angle_lpl, angle_ogon, angle_lpp, angle_ltp, angle_ltl, ang
 ||||||| ancestor
         #if suma==0:
         #    suma=np.inf
+=======
+        if suma==0:
+            suma=np.inf
+>>>>>>> theirs
+||||||| ancestor
 =======
         if suma==0:
             suma=np.inf
@@ -547,7 +565,35 @@ def process_frame(frame, frame_index, BOX_IOU_THRESH=0.55, BOX_CONF_THRESH=0.30,
                 print(f"Frame {frame_index}: Ogon: {angle_ogon:.2f} degrees")
             
 
+<<<<<<< ours
             if rasa_psa == "2":
+||||||| ancestor
+            if rasa_psa == "1" or rasa_psa == "3":
+                #prawe ucho
+                if not np.any(p16 == 0.0) and not np.any(p17 == 0.0) and not np.any(p20 == 0.0):
+                    angle_pu = 180- calculate_intersection_angle(p20,p16,p16,p17)
+                    print(f"Frame {frame_index}: Prawe ucho: {angle_pu:.2f} degrees")
+
+                #lewe ucho
+                if not np.any(p18 == 0.0) and not np.any(p19 == 0.0) and not np.any(p20 == 0.0):
+                    angle_lu = 180-calculate_intersection_angle(p20,p18,p18,p19)
+                    print(f"Frame {frame_index}: Lewe ucho: {angle_lu:.2f} degrees")
+
+            elif rasa_psa == "2":
+=======
+            if rasa_psa == "1" or rasa_psa == "3":
+                #prawe ucho
+                if not np.any(p16 == 0.0) and not np.any(p17 == 0.0) and not np.any(p20 == 0.0):
+                    angle_pu = calculate_intersection_angle(p20,p16,p16,p17)
+                    print(f"Frame {frame_index}: Prawe ucho: {angle_pu:.2f} degrees")
+
+                #lewe ucho
+                if not np.any(p18 == 0.0) and not np.any(p19 == 0.0) and not np.any(p20 == 0.0):
+                    angle_lu = calculate_intersection_angle(p20,p18,p18,p19)
+                    print(f"Frame {frame_index}: Lewe ucho: {angle_lu:.2f} degrees")
+
+            elif rasa_psa == "2":
+>>>>>>> theirs
                 #prawe ucho
                 if not np.any(p16 == 0.0) and not np.any(p17 == 0.0) and not np.any(p20 == 0.0):
                     angle_pu = calculate_angle(p20,p16,p17)
@@ -704,11 +750,17 @@ def rysiowanie(model, img):
 
 
 <<<<<<< ours
+<<<<<<< ours
 #model = YOLO('./models/model_2.pt')
 #img_path = 'aa.jfif'
 #img = cv2.imread(img_path)
 ||||||| ancestor
 model = YOLO('./models/model_3.pt')
+||||||| ancestor
+model = YOLO('./models/model_3.pt')
+=======
+model = YOLO('./model_2.pt')
+>>>>>>> theirs
 img_path = 'aa.jfif'
 img = cv2.imread(img_path)
 if img is None:
@@ -731,12 +783,24 @@ process_video(input_path, output_path, video_processing_complete)
 main(video_path,text_file_path)
 ||||||| ancestor
 rysiowanie(model, img)
+<<<<<<< ours
 process_frame(img, 0)
 main(img_path, text_file_path)
 #process_video(input_path, output_path, video_processing_complete)
 #main(video_path,text_file_path)
 =======
 rysiowanie(model, img)
+# process_frame(img, 0)
+# main(img_path, text_file_path)
+process_video(input_path, output_path, video_processing_complete)
+main(video_path,text_file_path)
+>>>>>>> theirs
+||||||| ancestor
+process_frame(img, 0)
+main(img_path, text_file_path)
+#process_video(input_path, output_path, video_processing_complete)
+#main(video_path,text_file_path)
+=======
 # process_frame(img, 0)
 # main(img_path, text_file_path)
 process_video(input_path, output_path, video_processing_complete)
