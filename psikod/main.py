@@ -5,12 +5,18 @@ import torch
 import math
 
 # Load models
-model_duzy_path = './models/model_3.pt'
+model_duzy_path = './model_2.pt'
 model_duzy = YOLO(model_duzy_path)  # Use GPU if available
+<<<<<<< ours
 input_path = './psikod/piesel.mp4'
+||||||| ancestor
+input_path = 'piesel.mp4'
+=======
+input_path = 'shepherd3.mp4'
+>>>>>>> theirs
 output_path = 'piesel_framed.mp4'
 
-rasa_psa = "3"
+rasa_psa = "2"
 
 def read_text_file(file_path):
     """Reads the text file and returns a list of rows."""
@@ -290,8 +296,14 @@ def calcuate_emotion(angle_lpl, angle_ogon, angle_lpp, angle_ltp, angle_ltl, ang
 
 
     suma = a_sr + h_sr + n_sr + s_sr
+<<<<<<< ours
     #if suma == 0:
     #    suma = np.inf
+||||||| ancestor
+=======
+    if suma == 0:
+        suma = np.inf
+>>>>>>> theirs
     with open("results.txt", "a") as file:
         file.write(f"happy sr: {h_sr / suma*100} %\n")
         file.write(f"angry sr: {a_sr / suma*100} %\n")
@@ -301,8 +313,14 @@ def calcuate_emotion(angle_lpl, angle_ogon, angle_lpp, angle_ltp, angle_ltl, ang
     i += 1
     if i == 10:
         suma = a_sr+h_sr+n_sr+s_sr
+<<<<<<< ours
         #if suma==0:
         #    suma=np.inf
+||||||| ancestor
+=======
+        if suma==0:
+            suma=np.inf
+>>>>>>> theirs
         with open("results.txt", "a") as file:
             file.write(f"happy sr: {h_sr / suma*100} %\n")
             file.write(f"angry sr: {a_sr / suma*100} %\n")
@@ -705,14 +723,42 @@ def rysiowanie(model, img):
         main('wyzel_framed.jpg', text_file_path)
 
 
+<<<<<<< ours
 #model = YOLO('./models/model_2.pt')
 #img_path = 'aa.jfif'
 #img = cv2.imread(img_path)
+||||||| ancestor
+model = YOLO('./models/model_3.pt')
+img_path = 'aa.jfif'
+img = cv2.imread(img_path)
+if img is None:
+    raise ValueError(f"Nie można wczytać obrazu: {img_path}. Sprawdź ścieżkę i integralność pliku.")
+=======
+model = YOLO('./model_2.pt')
+img_path = 'aa.jfif'
+img = cv2.imread(img_path)
+if img is None:
+    raise ValueError(f"Nie można wczytać obrazu: {img_path}. Sprawdź ścieżkę i integralność pliku.")
+>>>>>>> theirs
 video_path = 'piesel_framed.mp4'  # Path to the MP4 video file
 text_file_path = 'results.txt'  # Path to the text file
 
+<<<<<<< ours
 #rysiowanie(model, img)
 # process_frame(img, 0)
 # main(img_path, text_file_path)
 process_video(input_path, output_path, video_processing_complete)
 main(video_path,text_file_path)
+||||||| ancestor
+rysiowanie(model, img)
+process_frame(img, 0)
+main(img_path, text_file_path)
+#process_video(input_path, output_path, video_processing_complete)
+#main(video_path,text_file_path)
+=======
+rysiowanie(model, img)
+# process_frame(img, 0)
+# main(img_path, text_file_path)
+process_video(input_path, output_path, video_processing_complete)
+main(video_path,text_file_path)
+>>>>>>> theirs
