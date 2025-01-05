@@ -236,36 +236,7 @@ def calcuate_emotion(angle_lpl, angle_ogon, angle_lpp, angle_ltp, angle_ltl, ang
             s_sr += np.sqrt(2 / np.pi * np.arctan(-8 * (np.deg2rad(angle_ltp) - 15 * np.pi / 18))) * 0.4
 
     # uszy
-    if rasa_psa == "1" or rasa_psa == "3":
-        if angle_pu is not None:
-            if 130 < angle_pu < 140:
-                happy += np.sqrt(2 / np.pi * np.arctan(6 * (np.deg2rad(angle_pu) + np.pi / 18))*0.4)
-                h_sr += np.sqrt(2 / np.pi * np.arctan(6 * (np.deg2rad(angle_pu) + np.pi / 18))) * 0.4
-            if 70 < angle_pu < 90:
-                angry += -2.7 * (np.deg2rad(angle_pu) - np.pi * 17 / 18) * (np.deg2rad(angle_pu) - 24 * np.pi / 18)*0.4
-                a_sr += -2.7 * (np.deg2rad(angle_pu) - np.pi * 17 / 18) * (np.deg2rad(angle_pu) - 24 * np.pi / 18) * 0.4
-            if 120 < angle_pu < 130:
-                normal += -8 * (np.deg2rad(angle_ltl) - 14 * np.pi / 18) * (np.deg2rad(angle_ltl) - 18 * np.pi / 18)*0.4
-                n_sr += -8 * (np.deg2rad(angle_ltl) - 14 * np.pi / 18) * (np.deg2rad(angle_ltl) - 18 * np.pi / 18) * 0.4
-            if angle_pu > 140:
-                sad += np.sqrt(2 / np.pi * np.arctan(-8 * (np.deg2rad(angle_ltp) - 15 * np.pi / 18)))*0.4
-                s_sr += np.sqrt(2 / np.pi * np.arctan(-8 * (np.deg2rad(angle_ltp) - 15 * np.pi / 18))) * 0.4
-
-        elif angle_lu is not None:
-            if 130 < angle_lu < 140:
-                happy += np.sqrt(2 / np.pi * np.arctan(6 * (np.deg2rad(angle_lu) + np.pi / 18))*0.4)
-                h_sr += np.sqrt(2 / np.pi * np.arctan(6 * (np.deg2rad(angle_lu) + np.pi / 18))) * 0.4
-            if 70 < angle_lu < 90:
-                angry += -2.7 * (np.deg2rad(angle_lu) - np.pi * 17 / 18) * (np.deg2rad(angle_lu) - 24 * np.pi / 18)*0.4
-                a_sr += -2.7 * (np.deg2rad(angle_lu) - np.pi * 17 / 18) * (np.deg2rad(angle_lu) - 24 * np.pi / 18) * 0.4
-            if 120 < angle_lu < 130:
-                normal += -8 * (np.deg2rad(angle_ltl) - 14 * np.pi / 18) * (np.deg2rad(angle_ltl) - 18 * np.pi / 18)*0.4
-                n_sr += -8 * (np.deg2rad(angle_ltl) - 14 * np.pi / 18) * (np.deg2rad(angle_ltl) - 18 * np.pi / 18) * 0.4
-            if angle_lu > 140:
-                sad += np.sqrt(2 / np.pi * np.arctan(-8 * (np.deg2rad(angle_ltp) - 15 * np.pi / 18)))*0.4
-                s_sr += np.sqrt(2 / np.pi * np.arctan(-8 * (np.deg2rad(angle_ltp) - 15 * np.pi / 18))) * 0.4
-
-    elif rasa_psa == "2":
+    if rasa_psa == "2":
         if angle_pu is not None:
             if -140 < angle_pu < -100:
                 happy += np.sqrt(2 / np.pi * np.arctan(6 * (np.deg2rad(angle_pu) + np.pi / 18))*0.4)
@@ -297,9 +268,17 @@ def calcuate_emotion(angle_lpl, angle_ogon, angle_lpp, angle_ltp, angle_ltl, ang
 
     suma = a_sr + h_sr + n_sr + s_sr
 <<<<<<< ours
+<<<<<<< ours
     #if suma == 0:
     #    suma = np.inf
 ||||||| ancestor
+=======
+    if suma == 0:
+        suma = np.inf
+>>>>>>> theirs
+||||||| ancestor
+    #if suma == 0:
+    #    suma = np.inf
 =======
     if suma == 0:
         suma = np.inf
@@ -314,9 +293,17 @@ def calcuate_emotion(angle_lpl, angle_ogon, angle_lpp, angle_ltp, angle_ltl, ang
     if i == 10:
         suma = a_sr+h_sr+n_sr+s_sr
 <<<<<<< ours
+<<<<<<< ours
         #if suma==0:
         #    suma=np.inf
 ||||||| ancestor
+=======
+        if suma==0:
+            suma=np.inf
+>>>>>>> theirs
+||||||| ancestor
+        #if suma==0:
+        #    suma=np.inf
 =======
         if suma==0:
             suma=np.inf
@@ -539,6 +526,8 @@ def process_frame(frame, frame_index, BOX_IOU_THRESH=0.55, BOX_CONF_THRESH=0.30,
                 line1_points = [p0, p6]
             elif np.all(p3 != 0.0) and np.all(p9 != 0.0):
                 line1_points = [p3, p9]
+            elif np.all(p12 != 0.0) and np.all(p14 != 0.0):
+                line1_points = [p12, p14]
 
             if line1_points and np.all(p14 != 0.0) and np.all(p20 != 0.0):
                 angle_glowa = calculate_intersection_angle(line1_points[0], line1_points[1], p20,p14)
@@ -548,6 +537,7 @@ def process_frame(frame, frame_index, BOX_IOU_THRESH=0.55, BOX_CONF_THRESH=0.30,
                 angle_glowa=-2.78+0.06*angle_throat
                 print(f"Frame {frame_index}: Glowa: {angle_glowa:.2f} degrees")
 
+
             if np.all(p14 != 0.0) and np.all(p12 != 0.0) and np.all(p13 != 0.0):
                 angle_ogon = 180-calculate_intersection_angle(p14, p12, p12, p13)
                 print(f"Frame {frame_index}: Ogon: {angle_ogon:.2f} degrees")
@@ -555,17 +545,7 @@ def process_frame(frame, frame_index, BOX_IOU_THRESH=0.55, BOX_CONF_THRESH=0.30,
                 angle_throat = 180-calculate_intersection_angle(p15, p12, p12, p13)
                 angle_ogon=18.7+0.98*angle_throat
                 print(f"Frame {frame_index}: Ogon: {angle_ogon:.2f} degrees")
-
-            if rasa_psa == "1" or rasa_psa == "3":
-                #prawe ucho
-                if not np.any(p16 == 0.0) and not np.any(p17 == 0.0) and not np.any(p20 == 0.0):
-                    angle_pu = calculate_intersection_angle(p20,p16,p16,p17)
-                    print(f"Frame {frame_index}: Prawe ucho: {angle_pu:.2f} degrees")
-
-                #lewe uchon
-                if not np.any(p18 == 0.0) and not np.any(p19 == 0.0) and not np.any(p20 == 0.0):
-                    angle_lu = calculate_intersection_angle(p20,p18,p18,p19)
-                    print(f"Frame {frame_index}: Lewe ucho: {angle_lu:.2f} degrees")
+            
 
             if rasa_psa == "2":
                 #prawe ucho
