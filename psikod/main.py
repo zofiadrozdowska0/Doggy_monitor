@@ -17,10 +17,6 @@ relaxed = False
 sad = False
 angry = False
 
-ogon_pozycja = 0 # 1 - opuszczony, 2 - uniesiony, 3 - wyprostowany
-glowa_pozycja = 0 # 1 - opuszczona, 2 - uniesiona
-uszy_pozycja = 0 # 1 - opuszczone, 2 - uniesione
-lapy_pozycja = 0 # 1 - zgiete, 2 - wyprostowane
 
 
 def read_text_file(file_path):
@@ -32,34 +28,40 @@ def read_text_file(file_path):
 
 def process_text_file(text_lines):
     """Processes the text file by taking every 4 rows and choosing the highest percentage plus the relaxed percentage."""
-    percentages = []
-    for i in range(0, len(text_lines), 4):
-        # Take every group of 4 rows
-        group = text_lines[i:i + 4]
-        # Extract percentages from each line, handling 'nan' values
-        values = []
-        for line in group:
-            try:
-                # Extract the percentage as a float, stripping the '%' and handling 'nan'
-                percentage_str = line.split()[-2].strip('%')
-                if percentage_str.lower() == 'nan':
-                    values.append(0)  # If it's 'nan', consider it as 0
-                else:
-                    percentage = float(percentage_str)
-                    values.append(percentage)
-            except ValueError:
-                values.append(0)  # In case there's a line with non-numeric value
-
-        if values:
-            # Get the highest percentage from the first three rows (Happy, Angry, Sad)
-            max_value = max(values[:4])  # Take the max from first 3 rows (Happy, Angry, Sad)
-            relaxed_value = values[3]  # Take the relaxed value from the 4th row (Relaxed)
-            total_percentage = max_value  # Add Relaxed percentage
-            row_number = values.index(max_value) + 1  # Row number of the highest percentage from Happy, Angry, Sad
-            percentages.append((total_percentage, row_number))
-        else:
-            percentages.append((None, None))  # In case of no valid percentages
-    return percentages
+    # percentages = []
+    # for i in range(0, len(text_lines), 4):
+    #     # Take every group of 4 rows
+    #     group = text_lines[i:i + 4]
+    #     # Extract percentages from each line, handling 'nan' values
+    #     values = []
+    #     for line in group:
+    #         try:
+    #             # Extract the percentage as a float, stripping the '%' and handling 'nan'
+    #             percentage_str = line.split()[-2].strip('%')
+    #             if percentage_str.lower() == 'nan':
+    #                 values.append(0)  # If it's 'nan', consider it as 0
+    #             else:
+    #                 percentage = float(percentage_str)
+    #                 values.append(percentage)
+    #         except ValueError:
+    #             values.append(0)  # In case there's a line with non-numeric value
+    #
+    #     if values:
+    #         # Get the highest percentage from the first three rows (Happy, Angry, Sad)
+    #         max_value = max(values[:4])  # Take the max from first 3 rows (Happy, Angry, Sad)
+    #         relaxed_value = values[3]  # Take the relaxed value from the 4th row (Relaxed)
+    #         total_percentage = max_value  # Add Relaxed percentage
+    #         row_number = values.index(max_value) + 1  # Row number of the highest percentage from Happy, Angry, Sad
+    #         percentages.append((total_percentage, row_number))
+    #     else:
+    #         percentages.append((None, None))  # In case of no valid percentages
+    # return percentages
+    results = []
+    for line in text_lines:
+        word = line.strip()  # Usuń białe znaki z początku i końca linii
+        if word:  # Jeśli linia nie jest pusta
+            results.append(word)
+    return results
 
 
 def get_emotion_from_row(row_number):
@@ -73,12 +75,60 @@ def get_emotion_from_row(row_number):
     return emotion_map.get(row_number, "Unknown")  # Default to "Unknown" if no match
 
 
-def display_video_with_percentage(video_path, percentages):
-    """Displays the video and shows every 10th frame with its corresponding percentage."""
+# def display_video_with_percentage(video_path, percentages):
+#     """Displays the video and shows every 10th frame with its corresponding percentage."""
+#     # Open the video file
+#     cap = cv2.VideoCapture(video_path)
+#     frame_count = 0
+#     percentage_index = 0
+#
+#     while True:
+#         ret, frame = cap.read()
+#         if not ret:
+#             break
+#
+#         # Only process every 10th frame
+#         if frame_count % 10 == 0:
+#             if percentage_index < len(percentages):
+#                 total_percentage, row_number = percentages[percentage_index]
+#
+#                 # Get the emotion corresponding to the row number
+#                 emotion = get_emotion_from_row(row_number)
+#
+#                 # Check if the total_percentage is 0, and if so, display "Emotion unknown"
+#                 if total_percentage == 0:
+#                     total_percentage_text = "Emotion unknown"
+#                     print(f"Frame {frame_count}, Emotion: Unknown")
+#                 else:
+#                     total_percentage = round(total_percentage, 2)
+#                     total_percentage_text = f"{emotion} with {total_percentage}% certainty on last 10 frames "
+#                     print(f"Frame {frame_count}, Total Percentage: {total_percentage}% ({emotion})")
+#
+#                 # Add text on the frame
+#                 cv2.putText(frame, total_percentage_text, (50, 50),
+#                             cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA)
+#
+#             # Display the frame with percentage
+#             cv2.imshow('Video with Percentage', frame)
+#
+#             # Wait for the user to press 'n' for next frame or 'q' to quit
+#             key = cv2.waitKey(0) & 0xFF
+#             if key == ord('q'):  # Press 'q' to quit
+#                 break
+#             elif key == ord('n'):  # Press 'n' to show next frame
+#                 percentage_index += 1  # Move to the next frame
+#
+#         frame_count += 1
+#
+#     cap.release()
+#     cv2.destroyAllWindows()
+
+def display_video_with_emotion(video_path, emotions):
+    """Displays the video and shows every 10th frame with its corresponding emotion."""
     # Open the video file
     cap = cv2.VideoCapture(video_path)
     frame_count = 0
-    percentage_index = 0
+    emotion_index = 0
 
     while True:
         ret, frame = cap.read()
@@ -87,34 +137,31 @@ def display_video_with_percentage(video_path, percentages):
 
         # Only process every 10th frame
         if frame_count % 10 == 0:
-            if percentage_index < len(percentages):
-                total_percentage, row_number = percentages[percentage_index]
+            if emotion_index < len(emotions):
+                # Get the emotion for the current frame
+                emotion = emotions[emotion_index]
 
-                # Get the emotion corresponding to the row number
-                emotion = get_emotion_from_row(row_number)
-
-                # Check if the total_percentage is 0, and if so, display "Emotion unknown"
-                if total_percentage == 0:
-                    total_percentage_text = "Emotion unknown"
+                # Check if the emotion is valid, otherwise set as "Unknown"
+                if not emotion:
+                    emotion_text = "Emotion: Unknown"
                     print(f"Frame {frame_count}, Emotion: Unknown")
                 else:
-                    total_percentage = round(total_percentage, 2)
-                    total_percentage_text = f"{emotion} with {total_percentage}% certainty on last 10 frames "
-                    print(f"Frame {frame_count}, Total Percentage: {total_percentage}% ({emotion})")
+                    emotion_text = f"Emotion: {emotion}"
+                    print(f"Frame {frame_count}, Emotion: {emotion}")
 
-                # Add text on the frame
-                cv2.putText(frame, total_percentage_text, (50, 50),
+                # Add the emotion text on the frame
+                cv2.putText(frame, emotion_text, (50, 50),
                             cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA)
 
-            # Display the frame with percentage
-            cv2.imshow('Video with Percentage', frame)
+            # Display the frame with emotion
+            cv2.imshow('Video with Emotion', frame)
 
             # Wait for the user to press 'n' for next frame or 'q' to quit
             key = cv2.waitKey(0) & 0xFF
             if key == ord('q'):  # Press 'q' to quit
                 break
-            elif key == ord('n'):  # Press 'n' to show next frame
-                percentage_index += 1  # Move to the next frame
+            elif key == ord('n'):  # Press 'n' to show the next frame
+                emotion_index += 1  # Move to the next emotion
 
         frame_count += 1
 
@@ -129,8 +176,67 @@ def video_processing_complete():
 with open("results.txt", "w") as file:
     file.write("")
 
-def calcuate_emotion(angle_lpl, angle_ogon, angle_lpp, angle_glowa,angle_pu,angle_lu, visible_tongue, visible_teeth):
+def decyzja(ogon_pozycja, glowa_pozycja, uszy_pozycja, lapy_pozycja, visible_teeth, visible_tongue):
+    if ogon_pozycja == 2:
+        if lapy_pozycja == 1:  # Zgięte
+            return "Happy"
+        else:  # Proste
+            if visible_tongue:  # Głowa do góry
+                return "Happy"
+            else:  # Głowa na dół
+                if visible_teeth:  # Zęby widoczne
+                    return "Angry"
+                else:  # Zęby niewidoczne
+                    return "Relaxed"
+    elif ogon_pozycja == 1:
+        if rasa_psa == "2" and uszy_pozycja == 1:
+            return "Sad"
+        else:
+            if lapy_pozycja == 1:  # Zgięte
+                if glowa_pozycja == 2:  # Głowa do góry
+                    if visible_teeth:
+                        return "Angry"
+                    else:
+                        return "Relaxed"
+                else:  # Głowa na dół
+                    if visible_teeth:
+                        return "Angry"
+                    else:
+                        return "Sad"
+            else:  # Proste
+                if glowa_pozycja == 2:
+                    if visible_teeth:
+                        return "Angry"
+                    else:
+                        return "Relaxed"
+                else:  # Zęby niewidoczne
+                    return "Sad"
+    elif ogon_pozycja == 3:
+        if rasa_psa == "2" and uszy_pozycja == 1:
+            return "Sad"
+        else:
+            if lapy_pozycja == 1:  # Zgięte
+                if glowa_pozycja == 2:
+                    if visible_teeth:
+                        return "Angry"
+                    else:
+                        return "Happy"
+                else:
+                    return "Sad"
+            else:  # Proste
+                if visible_teeth:
+                    return "Angry"
+                else:
+                    return "Relaxed"
+    else:
+        return "Neutralny"
 
+
+def calcuate_emotion(angle_lpl, angle_ogon, angle_lpp, angle_glowa,angle_pu,angle_lu, visible_tongue, visible_teeth):
+    ogon_pozycja = 0  # 1 - opuszczony, 2 - uniesiony, 3 - wyprostowany
+    glowa_pozycja = 0  # 1 - opuszczona, 2 - uniesiona
+    uszy_pozycja = 0  # 1 - opuszczone, 2 - uniesione
+    lapy_pozycja = 0  # 1 - zgiete, 2 - wyprostowane
     # ogon
     if angle_ogon is not None:
         if 0 < angle_ogon < 90:
@@ -176,7 +282,8 @@ def calcuate_emotion(angle_lpl, angle_ogon, angle_lpp, angle_glowa,angle_pu,angl
             if angle_lu < -150:
                 uszy_pozycja = 1
 
-    return ogon_pozycja, glowa_pozycja, uszy_pozycja, lapy_pozycja, visible_teeth, visible_tongue
+    return decyzja(ogon_pozycja, glowa_pozycja, uszy_pozycja, lapy_pozycja, visible_teeth, visible_tongue)
+    #return ogon_pozycja, glowa_pozycja, uszy_pozycja, lapy_pozycja, visible_teeth, visible_tongue
 
 
 def calculate_angle(p0, p1, p2):
@@ -430,8 +537,9 @@ def process_frame(frame, frame_index, BOX_IOU_THRESH=0.55, BOX_CONF_THRESH=0.30,
             frame = draw_boxes(frame, boxes, score=score, color=(0, 255, 0))
             frame = draw_landmarks(frame, filter_kpts)
 
-    calcuate_emotion(angle_lpl, angle_ogon, angle_lpp, angle_ltp, angle_ltl, angle_glowa, angle_pu, angle_lu, angle_pysk, visible_tongue, visible_teeth)
-
+    wynik = calcuate_emotion(angle_lpl, angle_ogon, angle_lpp, angle_glowa,angle_pu,angle_lu, visible_tongue, visible_teeth)
+    with open("results.txt", "a") as file:
+        file.write(wynik + "\n")  # Zapisz wynik jako nową linię w pliku
     return frame
 
 
@@ -517,7 +625,7 @@ def main(img_path, text_file_path):
     percentages = process_text_file(text_lines)
 
     # Step 3: Display the video with every 10th frame and the corresponding percentage
-    display_video_with_percentage(img_path, percentages)
+    display_video_with_emotion(img_path, percentages)
 
 def rysiowanie(model, img):
     if img is None:
@@ -543,14 +651,14 @@ def rysiowanie(model, img):
         main('wyzel_framed.jpg', text_file_path)
 
 
-#model = YOLO('./models/model_2.pt')
-#img_path = 'aa.jfif'
-#img = cv2.imread(img_path)
-video_path = 'piesel_framed.mp4'  # Path to the MP4 video file
+model = YOLO('./models/model_3.pt')
+img_path = 'aa.jfif'
+img = cv2.imread(img_path)
+video_path = 'piesel.mp4'  # Path to the MP4 video file
 text_file_path = 'results.txt'  # Path to the text file
 
-#rysiowanie(model, img)
-# process_frame(img, 0)
-# main(img_path, text_file_path)
-process_video(input_path, output_path, video_processing_complete)
-main(video_path,text_file_path)
+rysiowanie(model, img)
+process_frame(img, 0)
+main(img_path, text_file_path)
+#process_video(input_path, output_path, video_processing_complete)
+#main(video_path,text_file_path)
