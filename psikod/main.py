@@ -12,6 +12,17 @@ output_path = 'piesel_framed.mp4'
 
 rasa_psa = "3"
 
+happy = False
+relaxed = False
+sad = False
+angry = False
+
+ogon_pozycja = 0 # 1 - opuszczony, 2 - uniesiony, 3 - wyprostowany
+glowa_pozycja = 0 # 1 - opuszczona, 2 - uniesiona
+uszy_pozycja = 0 # 1 - opuszczone, 2 - uniesione
+lapy_pozycja = 0 # 1 - zgiete, 2 - wyprostowane
+
+
 def read_text_file(file_path):
     """Reads the text file and returns a list of rows."""
     with open(file_path, 'r') as file:
@@ -115,159 +126,57 @@ def video_processing_complete():
     print("Video processing is complete.")
 
 
-happy = 0
-relaxed = 0
-sad = 0
-angry = 0
-i = 0
-
 with open("results.txt", "w") as file:
     file.write("")
 
-def calcuate_emotion(angle_lpl, angle_ogon, angle_lpp, angle_ltp, angle_ltl, angle_glowa,angle_pu,angle_lu,angle_pysk,visible_tongue,visible_teeth):
-    global happy, relaxed, sad, angry
-    global i
+def calcuate_emotion(angle_lpl, angle_ogon, angle_lpp, angle_glowa,angle_pu,angle_lu, visible_tongue, visible_teeth):
 
     # ogon
     if angle_ogon is not None:
         if 0 < angle_ogon < 90:
-            happy += np.sqrt(2 / np.pi * np.arctan(6 * (np.deg2rad(angle_ogon) + np.pi / 18)))*1.7
-            h_sr += np.sqrt(2 / np.pi * np.arctan(6 * (np.deg2rad(angle_ogon) + np.pi / 18))) * 1.7
-            if visible_teeth:
-                angry += np.sqrt(2 / np.pi * np.arctan(6 * (np.deg2rad(angle_ogon) + np.pi / 18)))*0.8
-                a_sr += np.sqrt(2 / np.pi * np.arctan(6 * (np.deg2rad(angle_ogon) + np.pi / 18))) * 0.8
+            ogon_pozycja = 2
         if 180 < angle_ogon < 230:
-            normal += -2.7 * (np.deg2rad(angle_ogon) - np.pi * 17 / 18) * (np.deg2rad(angle_ogon) - 24 * np.pi / 18)
-            n_sr += -2.7 * (np.deg2rad(angle_ogon) - np.pi * 17 / 18) * (np.deg2rad(angle_ogon) - 24 * np.pi / 18)
+            ogon_pozycja = 3
         if 0 < angle_ogon < 20:
-            normal += -33 * (np.deg2rad(angle_ogon) - np.pi * 2 / 18) * (np.deg2rad(angle_ogon))
-            n_sr += -33 * (np.deg2rad(angle_ogon) - np.pi * 2 / 18) * (np.deg2rad(angle_ogon))
+            ogon_pozycja = 3
         if angle_ogon > 210:
-            sad += np.sqrt(2 / np.pi * np.arctan(3 * np.deg2rad(angle_ogon) - 21 * np.pi / 18))
-            s_sr += np.sqrt(2 / np.pi * np.arctan(3 * np.deg2rad(angle_ogon) - 21 * np.pi / 18))
+            ogon_pozycja = 1
 
     # głowa
     if angle_glowa is not None:
         if angle_glowa < -10:
-            happy += np.sqrt(2 / np.pi * np.arctan(-8 * (np.deg2rad(angle_glowa) + np.pi / 36)))*1.7
-            h_sr += np.sqrt(2 / np.pi * np.arctan(-8 * (np.deg2rad(angle_glowa) + np.pi / 36))) * 1.7
-            angry += np.sqrt(2 / np.pi * np.arctan(-4 * (np.deg2rad(angle_glowa) + np.pi / 36)))*0.6
-            a_sr += np.sqrt(2 / np.pi * np.arctan(-4 * (np.deg2rad(angle_glowa) + np.pi / 36))) * 0.6
+            glowa_pozycja = 2
         if -10 < angle_glowa < 10:
-            normal += -30 * (np.deg2rad(angle_glowa) - np.pi / 18) * (np.deg2rad(angle_glowa) + np.pi / 18)
-            n_sr += -30 * (np.deg2rad(angle_glowa) - np.pi / 18) * (np.deg2rad(angle_glowa) + np.pi / 18)
+            glowa_pozycja = 2
         if angle_glowa > 10:
-            sad += np.sqrt(2 / np.pi * np.arctan(4 * (np.deg2rad(angle_glowa) - np.pi / 36)))
-            s_sr += np.sqrt(2 / np.pi * np.arctan(4 * (np.deg2rad(angle_glowa) - np.pi / 36)))
+            glowa_pozycja = 1
 
-    if angle_pysk is not None:
-        if 40 < angle_pysk < 60 :
-            happy += np.sqrt(2 / np.pi * np.arctan(15 * (np.deg2rad(angle_pysk) - 4 * np.pi / 18)))
-            h_sr += np.sqrt(2 / np.pi * np.arctan(15 * (np.deg2rad(angle_pysk) - 4 * np.pi / 18)))
-        if 30 < angle_pysk < 40:
-            normal += -130 * (np.deg2rad(angle_pysk) - np.pi * 3 / 18) * (np.deg2rad(angle_pysk) - 4 * np.pi / 18)
-            n_sr += -130 * (np.deg2rad(angle_pysk) - np.pi * 3 / 18) * (np.deg2rad(angle_pysk) - 4 * np.pi / 18)
-        if 20 < angle_pysk < 30:
-            angry += np.sqrt(2 / np.pi * np.arctan(15 * (np.deg2rad(angle_pysk) - 2 * np.pi / 18)))*0.5
-            a_sr += np.sqrt(2 / np.pi * np.arctan(15 * (np.deg2rad(angle_pysk) - 2 * np.pi / 18))) * 0.5
-            if visible_teeth:
-                angry += np.sqrt(2 / np.pi * np.arctan(15 * (np.deg2rad(angle_pysk) - 2 * np.pi / 18)))*2
-                a_sr += np.sqrt(2 / np.pi * np.arctan(15 * (np.deg2rad(angle_pysk) - 2 * np.pi / 18))) * 2
-        if 10 < angle_pysk < 20:
-            sad += np.sqrt(2 / np.pi * np.arctan(-15 * (np.deg2rad(angle_pysk) - 2 * np.pi / 18)))
-            s_sr += np.sqrt(2 / np.pi * np.arctan(-15 * (np.deg2rad(angle_pysk) - 2 * np.pi / 18)))
 
     # łapa przednia lewa i łapa przednia prawa
     if angle_lpl is not None and angle_lpp is not None:
-        if 140 < angle_lpl < 180:
-            angry += np.sqrt(2 / np.pi * np.arctan(6 * (np.deg2rad(angle_lpl) - 14 * np.pi / 18)))
-            a_sr += np.sqrt(2 / np.pi * np.arctan(6 * (np.deg2rad(angle_lpl) - 14 * np.pi / 18)))
-            if not visible_teeth:
-                normal += -8 * (np.deg2rad(angle_lpl) - 14 * np.pi / 18) * (np.deg2rad(angle_lpl) - 18 * np.pi / 18)
-                n_sr += -8 * (np.deg2rad(angle_lpl) - 14 * np.pi / 18) * (np.deg2rad(angle_lpl) - 18 * np.pi / 18)
-        elif 140 < angle_lpp < 180:
-            angry += np.sqrt(2 / np.pi * np.arctan(6 * (np.deg2rad(angle_lpp) - 14 * np.pi / 18)))
-            a_sr += np.sqrt(2 / np.pi * np.arctan(6 * (np.deg2rad(angle_lpp) - 14 * np.pi / 18)))
-            if not visible_teeth:
-                normal += -8 * (np.deg2rad(angle_lpp) - 14 * np.pi / 18) * (np.deg2rad(angle_lpp) - 18 * np.pi / 18)
-                n_sr += -8 * (np.deg2rad(angle_lpp) - 14 * np.pi / 18) * (np.deg2rad(angle_lpp) - 18 * np.pi / 18)
-        if 110 < angle_lpl < 150:
-            sad += np.sqrt(2 / np.pi * np.arctan(-8 * (np.deg2rad(angle_lpl) - 15 * np.pi / 18)))
-            s_sr += np.sqrt(2 / np.pi * np.arctan(-8 * (np.deg2rad(angle_lpl) - 15 * np.pi / 18)))
-        elif 110 < angle_lpp < 150:
-            sad += np.sqrt(2 / np.pi * np.arctan(-8 * (np.deg2rad(angle_lpp) - 15 * np.pi / 18)))
-            s_sr += np.sqrt(2 / np.pi * np.arctan(-8 * (np.deg2rad(angle_lpp) - 15 * np.pi / 18)))
+        if 140 < angle_lpl < 180 or 140 < angle_lpp < 180:
+            lapy_pozycja = 2        
+        if 110 < angle_lpl < 150 or 110 < angle_lpp < 150:
+            lapy_pozycja = 1
         if 80 < angle_lpl < 120 or 80 < angle_lpp < 120:
-            happy += np.sqrt(2 / np.pi * np.arctan(-6 * (np.deg2rad(angle_lpl) - 12 * np.pi / 18)))
-            h_sr += np.sqrt(2 / np.pi * np.arctan(-6 * (np.deg2rad(angle_lpl) - 12 * np.pi / 18)))
+            lapy_pozycja = 2
 
 
     # uszy
     if rasa_psa == "2":
         if angle_pu is not None:
-            if -140 < angle_pu < -100:
-                happy += np.sqrt(2 / np.pi * np.arctan(6 * (np.deg2rad(angle_pu) + np.pi / 18))*0.4)
-                h_sr += np.sqrt(2 / np.pi * np.arctan(6 * (np.deg2rad(angle_pu) + np.pi / 18))) * 0.4
-            if -100 < angle_pu:
-                angry += -2.7 * (np.deg2rad(angle_pu) - np.pi * 17 / 18) * (np.deg2rad(angle_pu) - 24 * np.pi / 18)*0.4
-                a_sr += -2.7 * (np.deg2rad(angle_pu) - np.pi * 17 / 18) * (np.deg2rad(angle_pu) - 24 * np.pi / 18) * 0.4
-            if -150 < angle_pu < -140:
-                normal += -33 * (np.deg2rad(angle_pu) - np.pi * 2 / 18) * (np.deg2rad(angle_pu))*0.4
-                n_sr += -33 * (np.deg2rad(angle_pu) - np.pi * 2 / 18) * (np.deg2rad(angle_pu)) * 0.4
+            if -150 < angle_pu:
+                uszy_pozycja = 2
             if angle_pu < -150:
-                sad += np.sqrt(2 / np.pi * np.arctan(3 * np.deg2rad(angle_pu) - 21 * np.pi / 18))*0.4
-                s_sr += np.sqrt(2 / np.pi * np.arctan(3 * np.deg2rad(angle_pu) - 21 * np.pi / 18)) * 0.4
+                uszy_pozycja = 1
 
         elif angle_lu is not None:
-            if -140 < angle_lu < -100:
-                happy += np.sqrt(2 / np.pi * np.arctan(6 * (np.deg2rad(angle_lu) + np.pi / 18))*0.4)
-                h_sr += np.sqrt(2 / np.pi * np.arctan(6 * (np.deg2rad(angle_lu) + np.pi / 18))) * 0.4
-            if -100 < angle_lu:
-                angry += -2.7 * (np.deg2rad(angle_lu) - np.pi * 17 / 18) * (np.deg2rad(angle_lu) - 24 * np.pi / 18)*0.4
-                a_sr += -2.7 * (np.deg2rad(angle_lu) - np.pi * 17 / 18) * (np.deg2rad(angle_lu) - 24 * np.pi / 18) * 0.4
-            if -150 < angle_lu < -140:
-                normal += -33 * (np.deg2rad(angle_lu) - np.pi * 2 / 18) * (np.deg2rad(angle_lu))*0.4
-                n_sr += -33 * (np.deg2rad(angle_lu) - np.pi * 2 / 18) * (np.deg2rad(angle_lu)) * 0.4
+            if -150 < angle_lu:
+                uszy_pozycja = 2
             if angle_lu < -150:
-                sad += np.sqrt(2 / np.pi * np.arctan(3 * np.deg2rad(angle_lu) - 21 * np.pi / 18))*0.4
-                s_sr += np.sqrt(2 / np.pi * np.arctan(3 * np.deg2rad(angle_lu) - 21 * np.pi / 18)) * 0.4
+                uszy_pozycja = 1
 
-
-    suma = a_sr + h_sr + n_sr + s_sr
-    if suma == 0:
-        suma = np.inf
-    with open("results.txt", "a") as file:
-        file.write(f"happy sr: {h_sr / suma*100} %\n")
-        file.write(f"angry sr: {a_sr / suma*100} %\n")
-        file.write(f"sad sr: {s_sr / suma*100} %\n")
-        file.write(f"relaxed sr: {n_sr / suma*100} %\n")
-
-    i += 1
-    if i == 10:
-        suma = a_sr+h_sr+n_sr+s_sr
-        if suma==0:
-            suma=np.inf
-        with open("results.txt", "a") as file:
-            file.write(f"happy sr: {h_sr / suma*100} %\n")
-            file.write(f"angry sr: {a_sr / suma*100} %\n")
-            file.write(f"sad sr: {s_sr / suma*100} %\n")
-            file.write(f"relaxed sr: {n_sr / suma*100} %\n")
-
-        print("happy sr: ", h_sr/suma*100, " %", "\n")
-        print("angry sr: ", a_sr/suma*100, " %", "\n")
-        print("sad sr: ", s_sr/suma*100, " %",  "\n")
-        print("relaxed sr: ", n_sr/suma*100, " %", "\n")
-        a_sr = 0
-        h_sr = 0
-        n_sr = 0
-        s_sr = 0
-        i = 0
-
-    print(suma)
-    # print("happy: ", happy, "\n")
-    # print("angry: ", angry, "\n")
-    # print("sad: ", sad, "\n")
-    # print("relaxed: ", normal, "\n")
+    return ogon_pozycja, glowa_pozycja, uszy_pozycja, lapy_pozycja, visible_teeth, visible_tongue
 
 
 def calculate_angle(p0, p1, p2):
@@ -296,7 +205,6 @@ def calculate_angle(p0, p1, p2):
 
     return angle_degrees
 
-# Function to calculate the intersection point of two lines
 
 
 def calculate_intersection_point(p1, p2, p3, p4):
@@ -349,8 +257,6 @@ def draw_boxes(image, boxes, score=None, color=(0, 255, 0)):
     if score is not None:
         cv2.putText(image, f"Conf: {score:.2f}", (int(x1), int(y1) - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.9, color, 2)
     return image
-
-# Function to draw keypoints
 
 
 def draw_landmarks(image, keypoints):
@@ -510,15 +416,10 @@ def process_frame(frame, frame_index, BOX_IOU_THRESH=0.55, BOX_CONF_THRESH=0.30,
             if not np.any(p24 == 0.0):
                 visible_tongue=True
 
-
             p25 = filter_kpts[25][:2]
-            if not np.any(p25 == 0.0):
-                visible_teeth = True
-
             p26 = filter_kpts[26][:2]
-            if not np.any(p26 == 0.0):
-                visible_teeth= True
-
+            if not np.any(p25 == 0.0) or not np.any(p26 == 0.0):
+                visible_teeth = True
 
 
         # Draw predicted bounding boxes, conf scores and keypoints on image.
