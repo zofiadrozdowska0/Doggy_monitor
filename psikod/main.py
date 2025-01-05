@@ -5,14 +5,23 @@ import torch
 import math
 
 # Load models
-model_duzy_path = './model_2.pt'
+model_duzy_path = './models/model_3.pt'
 model_duzy = YOLO(model_duzy_path)  # Use GPU if available
 <<<<<<< ours
 <<<<<<< ours
 <<<<<<< ours
 <<<<<<< ours
 <<<<<<< ours
+<<<<<<< ours
+||||||| ancestor
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+=======
+>>>>>>> theirs
 input_path = './psikod/piesel.mp4'
+<<<<<<< ours
 ||||||| ancestor
 input_path = 'piesel.mp4'
 =======
@@ -37,10 +46,33 @@ input_path = 'shepherd3.mp4'
 input_path = 'piesel.mp4'
 =======
 input_path = 'shepherd3.mp4'
+>>>>>>> theirs
+||||||| ancestor
+||||||| ancestor
+input_path = 'piesel.mp4'
+=======
+input_path = 'shepherd3.mp4'
+>>>>>>> theirs
+||||||| ancestor
+input_path = 'piesel.mp4'
+=======
+input_path = 'shepherd3.mp4'
+>>>>>>> theirs
+||||||| ancestor
+input_path = 'piesel.mp4'
+=======
+input_path = 'shepherd3.mp4'
+>>>>>>> theirs
+||||||| ancestor
+input_path = 'piesel.mp4'
+=======
+input_path = 'shepherd3.mp4'
+>>>>>>> theirs
+=======
 >>>>>>> theirs
 output_path = 'piesel_framed.mp4'
 
-rasa_psa = "2"
+rasa_psa = "3"
 
 def read_text_file(file_path):
     """Reads the text file and returns a list of rows."""
@@ -297,12 +329,26 @@ def calcuate_emotion(angle_lpl, angle_ogon, angle_lpp, angle_ltp, angle_ltl, ang
 <<<<<<< ours
 <<<<<<< ours
 <<<<<<< ours
+<<<<<<< ours
     #if suma == 0:
     #    suma = np.inf
 ||||||| ancestor
 =======
+||||||| ancestor
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+    #if suma == 0:
+    #    suma = np.inf
+||||||| ancestor
+=======
+=======
+>>>>>>> theirs
     if suma == 0:
         suma = np.inf
+<<<<<<< ours
 >>>>>>> theirs
 ||||||| ancestor
     #if suma == 0:
@@ -330,6 +376,32 @@ def calcuate_emotion(angle_lpl, angle_ogon, angle_lpp, angle_ltp, angle_ltl, ang
 =======
     if suma == 0:
         suma = np.inf
+>>>>>>> theirs
+||||||| ancestor
+>>>>>>> theirs
+||||||| ancestor
+    #if suma == 0:
+    #    suma = np.inf
+=======
+    if suma == 0:
+        suma = np.inf
+>>>>>>> theirs
+||||||| ancestor
+=======
+    if suma == 0:
+        suma = np.inf
+>>>>>>> theirs
+||||||| ancestor
+=======
+    if suma == 0:
+        suma = np.inf
+>>>>>>> theirs
+||||||| ancestor
+=======
+    if suma == 0:
+        suma = np.inf
+>>>>>>> theirs
+=======
 >>>>>>> theirs
     with open("results.txt", "a") as file:
         file.write(f"happy sr: {h_sr / suma*100} %\n")
@@ -346,6 +418,7 @@ def calcuate_emotion(angle_lpl, angle_ogon, angle_lpp, angle_ltp, angle_ltl, ang
 <<<<<<< ours
 <<<<<<< ours
 <<<<<<< ours
+<<<<<<< ours
         #if suma==0:
         #    suma=np.inf
 ||||||| ancestor
@@ -367,8 +440,38 @@ def calcuate_emotion(angle_lpl, angle_ogon, angle_lpp, angle_ltp, angle_ltl, ang
 >>>>>>> theirs
 ||||||| ancestor
 =======
+||||||| ancestor
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+        #if suma==0:
+        #    suma=np.inf
+||||||| ancestor
+=======
         if suma==0:
             suma=np.inf
+>>>>>>> theirs
+||||||| ancestor
+        #if suma==0:
+        #    suma=np.inf
+=======
+        if suma==0:
+            suma=np.inf
+>>>>>>> theirs
+||||||| ancestor
+=======
+        if suma==0:
+            suma=np.inf
+>>>>>>> theirs
+||||||| ancestor
+=======
+=======
+>>>>>>> theirs
+        if suma==0:
+            suma=np.inf
+<<<<<<< ours
 >>>>>>> theirs
 ||||||| ancestor
 =======
@@ -379,6 +482,15 @@ def calcuate_emotion(angle_lpl, angle_ogon, angle_lpp, angle_ltp, angle_ltl, ang
 =======
         if suma==0:
             suma=np.inf
+>>>>>>> theirs
+||||||| ancestor
+>>>>>>> theirs
+||||||| ancestor
+=======
+        if suma==0:
+            suma=np.inf
+>>>>>>> theirs
+=======
 >>>>>>> theirs
         with open("results.txt", "a") as file:
             file.write(f"happy sr: {h_sr / suma*100} %\n")
@@ -619,35 +731,7 @@ def process_frame(frame, frame_index, BOX_IOU_THRESH=0.55, BOX_CONF_THRESH=0.30,
                 print(f"Frame {frame_index}: Ogon: {angle_ogon:.2f} degrees")
             
 
-<<<<<<< ours
             if rasa_psa == "2":
-||||||| ancestor
-            if rasa_psa == "1" or rasa_psa == "3":
-                #prawe ucho
-                if not np.any(p16 == 0.0) and not np.any(p17 == 0.0) and not np.any(p20 == 0.0):
-                    angle_pu = calculate_intersection_angle(p20,p16,p16,p17)
-                    print(f"Frame {frame_index}: Prawe ucho: {angle_pu:.2f} degrees")
-
-                #lewe ucho
-                if not np.any(p18 == 0.0) and not np.any(p19 == 0.0) and not np.any(p20 == 0.0):
-                    angle_lu = calculate_intersection_angle(p20,p18,p18,p19)
-                    print(f"Frame {frame_index}: Lewe ucho: {angle_lu:.2f} degrees")
-
-            elif rasa_psa == "2":
-=======
-            if rasa_psa == "1" or rasa_psa == "3":
-                #prawe ucho
-                if not np.any(p16 == 0.0) and not np.any(p17 == 0.0) and not np.any(p20 == 0.0):
-                    angle_pu = calculate_intersection_angle(p20,p16,p16,p17)
-                    print(f"Frame {frame_index}: Prawe ucho: {angle_pu:.2f} degrees")
-
-                #lewe ucho
-                if not np.any(p18 == 0.0) and not np.any(p19 == 0.0) and not np.any(p20 == 0.0):
-                    angle_lu = calculate_intersection_angle(p20,p18,p18,p19)
-                    print(f"Frame {frame_index}: Lewe ucho: {angle_lu:.2f} degrees")
-
-            elif rasa_psa == "2":
->>>>>>> theirs
                 #prawe ucho
                 if not np.any(p16 == 0.0) and not np.any(p17 == 0.0) and not np.any(p20 == 0.0):
                     angle_pu = calculate_angle(p20,p16,p17)
@@ -808,9 +892,18 @@ def rysiowanie(model, img):
 <<<<<<< ours
 <<<<<<< ours
 <<<<<<< ours
+<<<<<<< ours
+||||||| ancestor
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+<<<<<<< ours
+=======
+>>>>>>> theirs
 #model = YOLO('./models/model_2.pt')
 #img_path = 'aa.jfif'
 #img = cv2.imread(img_path)
+<<<<<<< ours
 ||||||| ancestor
 model = YOLO('./models/model_3.pt')
 ||||||| ancestor
@@ -843,15 +936,46 @@ img_path = 'aa.jfif'
 img = cv2.imread(img_path)
 if img is None:
     raise ValueError(f"Nie można wczytać obrazu: {img_path}. Sprawdź ścieżkę i integralność pliku.")
+>>>>>>> theirs
+||||||| ancestor
+||||||| ancestor
+model = YOLO('./models/model_3.pt')
+||||||| ancestor
+model = YOLO('./models/model_3.pt')
+=======
+model = YOLO('./model_2.pt')
+>>>>>>> theirs
+||||||| ancestor
+model = YOLO('./models/model_3.pt')
+=======
+model = YOLO('./model_2.pt')
+>>>>>>> theirs
+img_path = 'aa.jfif'
+img = cv2.imread(img_path)
+if img is None:
+    raise ValueError(f"Nie można wczytać obrazu: {img_path}. Sprawdź ścieżkę i integralność pliku.")
+=======
+model = YOLO('./model_2.pt')
+||||||| ancestor
+model = YOLO('./models/model_3.pt')
+=======
+model = YOLO('./model_2.pt')
+>>>>>>> theirs
+img_path = 'aa.jfif'
+img = cv2.imread(img_path)
+if img is None:
+    raise ValueError(f"Nie można wczytać obrazu: {img_path}. Sprawdź ścieżkę i integralność pliku.")
+>>>>>>> theirs
+=======
 >>>>>>> theirs
 video_path = 'piesel_framed.mp4'  # Path to the MP4 video file
 text_file_path = 'results.txt'  # Path to the text file
 
-<<<<<<< ours
 #rysiowanie(model, img)
 # process_frame(img, 0)
 # main(img_path, text_file_path)
 process_video(input_path, output_path, video_processing_complete)
+<<<<<<< ours
 main(video_path,text_file_path)
 ||||||| ancestor
 rysiowanie(model, img)
@@ -912,5 +1036,59 @@ main(img_path, text_file_path)
 # process_frame(img, 0)
 # main(img_path, text_file_path)
 process_video(input_path, output_path, video_processing_complete)
+main(video_path,text_file_path)
+>>>>>>> theirs
+||||||| ancestor
+main(video_path,text_file_path)
+||||||| ancestor
+rysiowanie(model, img)
+<<<<<<< ours
+<<<<<<< ours
+process_frame(img, 0)
+main(img_path, text_file_path)
+#process_video(input_path, output_path, video_processing_complete)
+#main(video_path,text_file_path)
+=======
+rysiowanie(model, img)
+<<<<<<< ours
+# process_frame(img, 0)
+# main(img_path, text_file_path)
+process_video(input_path, output_path, video_processing_complete)
+main(video_path,text_file_path)
+>>>>>>> theirs
+||||||| ancestor
+process_frame(img, 0)
+main(img_path, text_file_path)
+#process_video(input_path, output_path, video_processing_complete)
+#main(video_path,text_file_path)
+=======
+# process_frame(img, 0)
+# main(img_path, text_file_path)
+process_video(input_path, output_path, video_processing_complete)
+main(video_path,text_file_path)
+>>>>>>> theirs
+||||||| ancestor
+process_frame(img, 0)
+main(img_path, text_file_path)
+#process_video(input_path, output_path, video_processing_complete)
+#main(video_path,text_file_path)
+=======
+# process_frame(img, 0)
+# main(img_path, text_file_path)
+process_video(input_path, output_path, video_processing_complete)
+main(video_path,text_file_path)
+>>>>>>> theirs
+||||||| ancestor
+process_frame(img, 0)
+main(img_path, text_file_path)
+#process_video(input_path, output_path, video_processing_complete)
+#main(video_path,text_file_path)
+=======
+# process_frame(img, 0)
+# main(img_path, text_file_path)
+process_video(input_path, output_path, video_processing_complete)
+main(video_path,text_file_path)
+>>>>>>> theirs
+=======
 main(video_path,text_file_path)
 >>>>>>> theirs
