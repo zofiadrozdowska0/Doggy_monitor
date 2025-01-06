@@ -169,8 +169,8 @@ class Tracker:
                 self.pid_x.reset()
                 self.pid_y.reset()
                 self.create_kalman_filter()
-                self.last_known_position_time = None
-            elif not search_mode and self.last_received_time and current_time - self.last_received_time > 10:
+                # self.last_known_position_time = None
+            if not search_mode and self.last_received_time and current_time - self.last_received_time > 10:
                 # Powrót do pozycji początkowej po 10 sekundach braku danych
                 print("Brak danych przez 10 sekund, powrót do pozycji początkowej.")
                 self.servo_controller.move(*self.initial_position)
