@@ -3,7 +3,7 @@ import cv2
 import numpy as np
 import struct
 import torch
-from facenet_pytorch import MTCNN
+from facenet_pytorch import MTCNN1
 
 # Abstrakcyjny interfejs dla źródła obrazu
 class ImageSource:
@@ -53,6 +53,7 @@ class FaceTracker:
         self.image_source = image_source
         # Ustawienia dla MTCNN i urządzenia (GPU lub CPU)
         self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+        from facenet_pytorch.models.mtcnn import MTCNN
         self.mtcnn = MTCNN(keep_all=True, device=self.device)
         
         # Inicjalizacja filtra Kalmana
@@ -157,8 +158,8 @@ class FaceTracker:
 # Przykład użycia
 if __name__ == "__main__":
     # Konfiguracja źródła obrazu ze strumienia i śledzenia twarzy
-    image_source = StreamImageSource('192.168.1.248', 8485)
-    face_tracker = FaceTracker(image_source, '192.168.1.248', 8486)
+    image_source = StreamImageSource('192.168.137.182', 8485)
+    face_tracker = FaceTracker(image_source, '192.168.137.182', 8486)
 
     try:
         face_tracker.process_frames()
