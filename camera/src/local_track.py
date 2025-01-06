@@ -5,6 +5,8 @@ import time
 import math
 import numpy as np
 from flask import Flask, Response
+from picamera2 import Picamera2
+from libcamera import Transform
 
 # Import klasy ServoController
 from servo_controller import ServoController
@@ -94,9 +96,7 @@ class Tracker:
         self.watchdog_thread.start()
 
     def start_camera(self):
-        # Konfiguracja kamery
-        from picamera2 import Picamera2
-        from libcamera import Transform
+
 
         self.picam2 = Picamera2()
         camera_config = self.picam2.create_preview_configuration(
@@ -122,6 +122,15 @@ class Tracker:
                        b'Content-Type: image/jpeg\r\n\r\n' + buffer.tobytes() + b'\r\n')
         except GeneratorExit:
             print("Przerwano strumieniowanie.")
+
+    def update_kalman_transition_matrix(self, dt):
+        """Aktualizuje macierz przejścia Kalmana uwzględniając krok czasowy."""
+        self.kalman.transitionMatrix = np.array([
+            [1, 0, dt, 0],
+            [0, 1, 0, dt],
+            [0, 0, 1, 0],
+            [0, 0, 0, 1]
+        ], dtype=np.float32)
 
     def watchdog(self):
         """Monitoruje stan odbioru danych i steruje trybem pracy."""
@@ -152,6 +161,14 @@ class Tracker:
                 self.current_angle_x, self.current_angle_y = self.initial_position
                 self.pid_x.reset()
                 self.pid_y.reset()
+                self.create_kalman_filter()
+                self.last_known_position_time = None
+            elif not search_mode and self.last_received_time and current_time - self.last_received_time > 1:
+                # Reset PID i Kalmana po 1 sekundzie braku danych
+                print("Reset PID i Kalmana po 1 sekundzie braku danych.")
+                self.pid_x.reset()
+                self.pid_y.reset()
+                self.create_kalman_filter()
                 self.last_known_position_time = None
             elif not search_mode and self.last_received_time and current_time - self.last_received_time > 10:
                 # Powrót do pozycji początkowej po 10 sekundach braku danych
@@ -160,10 +177,17 @@ class Tracker:
                 self.current_angle_x, self.current_angle_y = self.initial_position
                 self.pid_x.reset()
                 self.pid_y.reset()
+                self.create_kalman_filter()
                 self.last_known_position_time = None
 
             time.sleep(0.1)  # Odświeżanie co 100 ms
 
+    def create_kalman_filter(self):
+        self.kalman = cv2.KalmanFilter(4, 2)
+        self.kalman.measurementMatrix = np.array([[1, 0, 0, 0], [0, 1, 0, 0]], np.float32)
+        self.kalman.transitionMatrix = np.array([[1, 0, 1, 0], [0, 1, 0, 1], [0, 0, 1, 0], [0, 0, 0, 1]], np.float32)
+        self.kalman.processNoiseCov = np.eye(4, dtype=np.float32) * 0.03
+        self.kalman.measurementNoiseCov = np.eye(2, dtype=np.float32) * 0.1
 
     def manage_feedback_connections(self):
         while self.running:
@@ -188,8 +212,8 @@ class Tracker:
                 current_time = time.time()
                 dt = current_time - self.prev_time
 
-                if dt <= 0:
-                    continue
+                if dt > 0:
+                    self.update_kalman_transition_matrix(dt)
 
                 while '\n' in buffer:
                     line, buffer = buffer.split('\n', 1)
