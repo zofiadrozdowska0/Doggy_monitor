@@ -5,12 +5,18 @@ import torch
 import math
 
 # Load models
+<<<<<<< ours
 model_duzy_path = './psikod/model_3.pt'
+||||||| ancestor
+model_duzy_path = './models/model_3.pt'
+=======
+model_duzy_path = './model_3.pt'
+>>>>>>> theirs
 model_duzy = YOLO(model_duzy_path)  # Use GPU if available
-input_path = './psikod/piesel.mp4'
+input_path = './piesel.mp4'
 output_path = 'piesel_framed.mp4'
 
-rasa_psa = "3"
+rasa_psa = "2"
 
 happy = False
 relaxed = False
@@ -262,21 +268,47 @@ def calcuate_emotion(angle_lpl, angle_ogon, angle_lpp, angle_glowa,angle_pu,angl
     if angle_glowa is not None:
         if angle_glowa <= 10:
             glowa_pozycja = 2
+<<<<<<< ours
             #print("Głowa uniesiona")
         elif angle_glowa > 10:
+||||||| ancestor
+        if -10 < angle_glowa < 10:
+            glowa_pozycja = 2
+        if angle_glowa > 10:
+=======
+        elif angle_glowa > 10:
+>>>>>>> theirs
             glowa_pozycja = 1
             #print("Głowa opuszczona")
 
 
     # łapa przednia lewa i łapa przednia prawa
+<<<<<<< ours
     if angle_lpl is not None:
         if 140 < angle_lpl <= 180: 
             lapy_pozycja = 2 
             print("Lapy wyprostowane")       
         elif 110 < angle_lpl <= 140: 
+||||||| ancestor
+    if angle_lpl is not None and angle_lpp is not None:
+        if 140 < angle_lpl < 180 or 140 < angle_lpp < 180:
+            lapy_pozycja = 2        
+        if 110 < angle_lpl < 150 or 110 < angle_lpp < 150:
+=======
+    if angle_lpl is not None and angle_lpp is not None:
+        if 140 < angle_lpl <= 180 or 140 < angle_lpp <= 180:
+            lapy_pozycja = 2        
+        elif 110 < angle_lpl <= 140 or 110 < angle_lpp <= 140:
+>>>>>>> theirs
             lapy_pozycja = 1
+<<<<<<< ours
             print("Lapy zgięte")
         elif 80 < angle_lpl <= 110:
+||||||| ancestor
+        if 80 < angle_lpl < 120 or 80 < angle_lpp < 120:
+=======
+        elif 80 < angle_lpl <= 110 or 80 < angle_lpp <= 110:
+>>>>>>> theirs
             lapy_pozycja = 2
             print("Lapy wyprostowane")
 
@@ -673,14 +705,40 @@ def rysiowanie(model, img):
         main('wyzel_framed.jpg', text_file_path)
 
 
+<<<<<<< ours
 #model = YOLO('./model_3.pt')
 #img_path = 'aa.jfif'
 #img = cv2.imread(img_path)
+||||||| ancestor
+model = YOLO('./models/model_3.pt')
+img_path = 'aa.jfif'
+img = cv2.imread(img_path)
+=======
+model = YOLO('./model_3.pt')
+img_path = 'aa.jfif'
+img = cv2.imread(img_path)
+>>>>>>> theirs
 video_path = 'piesel.mp4'  # Path to the MP4 video file
 text_file_path = 'results.txt'  # Path to the text file
+<<<<<<< ours
 video_url = 'http://localhost:5000/video'
 #rysiowanie(model, img)
 # process_frame(img, 0)
 # main(img_path, text_file_path)
 process_video(input_path, output_path, video_processing_complete)
 main(input_path,text_file_path)
+||||||| ancestor
+
+rysiowanie(model, img)
+process_frame(img, 0)
+main(img_path, text_file_path)
+#process_video(input_path, output_path, video_processing_complete)
+#main(video_path,text_file_path)
+=======
+video_url = 'http://localhost:5000/video'
+#rysiowanie(model, img)
+# process_frame(img, 0)
+# main(img_path, text_file_path)
+process_video(video_url, output_path, video_processing_complete)
+main(video_url,text_file_path)
+>>>>>>> theirs
