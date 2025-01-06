@@ -1,3 +1,5 @@
+# Wykrywanie psa na filmach z użyciem Yolov5
+# Kod był czescia systemu sledzenia, zwraca wspolrzedne lokalizacji psa na posczegolnych klatkch wideo.
 import torch
 import cv2
 
