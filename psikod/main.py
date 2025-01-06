@@ -262,20 +262,10 @@ def calcuate_emotion(angle_lpl, angle_ogon, angle_lpp, angle_glowa,angle_pu,angl
     if angle_glowa is not None:
         if angle_glowa <= 10:
             glowa_pozycja = 2
-<<<<<<< ours
             #print("Głowa uniesiona")
-||||||| ancestor
-=======
-            print("Głowa uniesiona")
->>>>>>> theirs
         elif angle_glowa > 10:
             glowa_pozycja = 1
-<<<<<<< ours
             #print("Głowa opuszczona")
-||||||| ancestor
-=======
-            print("Głowa opuszczona")
->>>>>>> theirs
 
 
     # łapa przednia lewa i łapa przednia prawa
