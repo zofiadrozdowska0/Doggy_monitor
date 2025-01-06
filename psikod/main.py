@@ -5,12 +5,12 @@ import torch
 import math
 
 # Load models
-model_duzy_path = './models/model_3.pt'
+model_duzy_path = './model_3.pt'
 model_duzy = YOLO(model_duzy_path)  # Use GPU if available
-input_path = './psikod/piesel.mp4'
+input_path = './piesel.mp4'
 output_path = 'piesel_framed.mp4'
 
-rasa_psa = "3"
+rasa_psa = "2"
 
 happy = False
 relaxed = False
@@ -239,47 +239,45 @@ def calcuate_emotion(angle_lpl, angle_ogon, angle_lpp, angle_glowa,angle_pu,angl
     lapy_pozycja = 0  # 1 - zgiete, 2 - wyprostowane
     # ogon
     if angle_ogon is not None:
-        if 0 < angle_ogon < 90:
+        if 20 < angle_ogon <= 180:
             ogon_pozycja = 2
-        if 180 < angle_ogon < 230:
+        elif 180 < angle_ogon <= 230:
             ogon_pozycja = 3
-        if 0 < angle_ogon < 20:
+        elif 0 < angle_ogon <= 20:
             ogon_pozycja = 3
-        if angle_ogon > 210:
+        elif angle_ogon > 230:
             ogon_pozycja = 1
 
     # głowa
     if angle_glowa is not None:
-        if angle_glowa < -10:
+        if angle_glowa <= 10:
             glowa_pozycja = 2
-        if -10 < angle_glowa < 10:
-            glowa_pozycja = 2
-        if angle_glowa > 10:
+        elif angle_glowa > 10:
             glowa_pozycja = 1
 
 
     # łapa przednia lewa i łapa przednia prawa
     if angle_lpl is not None and angle_lpp is not None:
-        if 140 < angle_lpl < 180 or 140 < angle_lpp < 180:
+        if 140 < angle_lpl <= 180 or 140 < angle_lpp <= 180:
             lapy_pozycja = 2        
-        if 110 < angle_lpl < 150 or 110 < angle_lpp < 150:
+        elif 110 < angle_lpl <= 140 or 110 < angle_lpp <= 140:
             lapy_pozycja = 1
-        if 80 < angle_lpl < 120 or 80 < angle_lpp < 120:
+        elif 80 < angle_lpl <= 110 or 80 < angle_lpp <= 110:
             lapy_pozycja = 2
 
 
     # uszy
     if rasa_psa == "2":
         if angle_pu is not None:
-            if -150 < angle_pu:
+            if -150 <= angle_pu:
                 uszy_pozycja = 2
-            if angle_pu < -150:
+            elif angle_pu < -150:
                 uszy_pozycja = 1
 
         elif angle_lu is not None:
-            if -150 < angle_lu:
+            if -150 <= angle_lu:
                 uszy_pozycja = 2
-            if angle_lu < -150:
+            elif angle_lu < -150:
                 uszy_pozycja = 1
 
     return decyzja(ogon_pozycja, glowa_pozycja, uszy_pozycja, lapy_pozycja, visible_teeth, visible_tongue)
@@ -651,14 +649,14 @@ def rysiowanie(model, img):
         main('wyzel_framed.jpg', text_file_path)
 
 
-model = YOLO('./models/model_3.pt')
+model = YOLO('./model_3.pt')
 img_path = 'aa.jfif'
 img = cv2.imread(img_path)
 video_path = 'piesel.mp4'  # Path to the MP4 video file
 text_file_path = 'results.txt'  # Path to the text file
-
-rysiowanie(model, img)
-process_frame(img, 0)
-main(img_path, text_file_path)
-#process_video(input_path, output_path, video_processing_complete)
-#main(video_path,text_file_path)
+video_url = 'http://localhost:5000/video'
+#rysiowanie(model, img)
+# process_frame(img, 0)
+# main(img_path, text_file_path)
+process_video(video_url, output_path, video_processing_complete)
+main(video_url,text_file_path)
