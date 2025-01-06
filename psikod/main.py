@@ -5,12 +5,12 @@ import torch
 import math
 
 # Load models
-model_duzy_path = './model_3.pt'
+model_duzy_path = './psikod/model_3.pt'
 model_duzy = YOLO(model_duzy_path)  # Use GPU if available
-input_path = './piesel.mp4'
+input_path = './psikod/piesel.mp4'
 output_path = 'piesel_framed.mp4'
 
-rasa_psa = "2"
+rasa_psa = "3"
 
 happy = False
 relaxed = False
@@ -136,32 +136,42 @@ def display_video_with_emotion(video_path, emotions):
             break
 
         # Only process every 10th frame
-        if frame_count % 10 == 0:
-            if emotion_index < len(emotions):
-                # Get the emotion for the current frame
-                emotion = emotions[emotion_index]
+        #if frame_count % 10 == 0:
+        if emotion_index < len(emotions):
+            # Get the emotion for the current frame
+            emotion = emotions[emotion_index]
 
-                # Check if the emotion is valid, otherwise set as "Unknown"
-                if not emotion:
-                    emotion_text = "Emotion: Unknown"
-                    print(f"Frame {frame_count}, Emotion: Unknown")
-                else:
-                    emotion_text = f"Emotion: {emotion}"
-                    print(f"Frame {frame_count}, Emotion: {emotion}")
+            # Check if the emotion is valid, otherwise set as "Unknown"
+            if not emotion:
+                emotion_text = "Emotion: Unknown"
+                print(f"Frame {frame_count}, Emotion: Unknown")
+            else:
+                emotion_text = f"Emotion: {emotion}"
+                print(f"Frame {frame_count}, Emotion: {emotion}")
 
-                # Add the emotion text on the frame
-                cv2.putText(frame, emotion_text, (50, 50),
-                            cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA)
+            # Add the emotion text on the frame
+            cv2.putText(frame, emotion_text, (50, 50),
+                        cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA)
+            
+            # Add the frame number text in the bottom-right corner
+            frame_text = f"{frame_count}"
+            frame_height, frame_width = frame.shape[:2]
+            text_size = cv2.getTextSize(frame_text, cv2.FONT_HERSHEY_SIMPLEX, 1, 2)[0]
+            text_x = frame_width - text_size[0] - 10
+            text_y = frame_height - 10
 
-            # Display the frame with emotion
-            cv2.imshow('Video with Emotion', frame)
+            cv2.putText(frame, frame_text, (text_x, text_y),
+                        cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA)
 
-            # Wait for the user to press 'n' for next frame or 'q' to quit
-            key = cv2.waitKey(0) & 0xFF
-            if key == ord('q'):  # Press 'q' to quit
-                break
-            elif key == ord('n'):  # Press 'n' to show the next frame
-                emotion_index += 1  # Move to the next emotion
+        # Display the frame with emotion
+        cv2.imshow('Video with Emotion', frame)
+
+        # Wait for the user to press 'n' for next frame or 'q' to quit
+        key = cv2.waitKey(0) & 0xFF
+        if key == ord('q'):  # Press 'q' to quit
+            break
+        elif key == ord('n'):  # Press 'n' to show the next frame
+            emotion_index += 1  # Move to the next emotion
 
         frame_count += 1
 
@@ -252,19 +262,34 @@ def calcuate_emotion(angle_lpl, angle_ogon, angle_lpp, angle_glowa,angle_pu,angl
     if angle_glowa is not None:
         if angle_glowa <= 10:
             glowa_pozycja = 2
+            #print("Głowa uniesiona")
         elif angle_glowa > 10:
             glowa_pozycja = 1
+            #print("Głowa opuszczona")
 
 
     # łapa przednia lewa i łapa przednia prawa
-    if angle_lpl is not None and angle_lpp is not None:
-        if 140 < angle_lpl <= 180 or 140 < angle_lpp <= 180:
-            lapy_pozycja = 2        
-        elif 110 < angle_lpl <= 140 or 110 < angle_lpp <= 140:
+    if angle_lpl is not None:
+        if 140 < angle_lpl <= 180: 
+            lapy_pozycja = 2 
+            print("Lapy wyprostowane")       
+        elif 110 < angle_lpl <= 140: 
             lapy_pozycja = 1
-        elif 80 < angle_lpl <= 110 or 80 < angle_lpp <= 110:
+            print("Lapy zgięte")
+        elif 80 < angle_lpl <= 110:
             lapy_pozycja = 2
+            print("Lapy wyprostowane")
 
+    elif angle_lpp is not None:
+        if 140 < angle_lpp <= 180:
+            lapy_pozycja = 2 
+            print("Lapy wyprostowane")       
+        elif 110 < angle_lpp <= 140:
+            lapy_pozycja = 1
+            print("Lapy zgięte")
+        elif 80 < angle_lpp <= 110:
+            lapy_pozycja = 2
+            print("Lapy wyprostowane")
 
     # uszy
     if rasa_psa == "2":
@@ -396,7 +421,6 @@ def process_frame(frame, frame_index, BOX_IOU_THRESH=0.55, BOX_CONF_THRESH=0.30,
     result_duzy = results_duzy[0].cpu()
 
 
-
     if len(result_duzy.boxes.xyxy):
 
         # Get the predicted boxes, conf scores and keypoints.
@@ -439,13 +463,13 @@ def process_frame(frame, frame_index, BOX_IOU_THRESH=0.55, BOX_CONF_THRESH=0.30,
                 angle_lpp = np.abs(calculate_angle(p0, p1, p2))
                 print(f"Frame {frame_index}: Prawa przednia łapa: {angle_lpp:.2f} degrees")
             # prawa tylna lapa
-            if not np.any(p6 == 0.0) and not np.any(p7 == 0.0) and not np.any(p8 == 0.0):
-                angle_ltp = np.abs(calculate_angle(p6, p7, p8))
-                print(f"Frame {frame_index}: Prawa tylna łapa: {angle_ltp:.2f} degrees")
+            # if not np.any(p6 == 0.0) and not np.any(p7 == 0.0) and not np.any(p8 == 0.0):
+            #     angle_ltp = np.abs(calculate_angle(p6, p7, p8))
+            #     print(f"Frame {frame_index}: Prawa tylna łapa: {angle_ltp:.2f} degrees")
             # lewa tylna lapa
-            if not np.any(p9 == 0.0) and not np.any(p10 == 0.0) and not np.any(p11 == 0.0):
-                angle_ltl = np.abs(calculate_angle(p9, p10, p11))
-                print(f"Frame {frame_index}: Lewa tylna łapa: {angle_ltl:.2f} degrees")
+            # if not np.any(p9 == 0.0) and not np.any(p10 == 0.0) and not np.any(p11 == 0.0):
+            #     angle_ltl = np.abs(calculate_angle(p9, p10, p11))
+            #     print(f"Frame {frame_index}: Lewa tylna łapa: {angle_ltl:.2f} degrees")
             # lewa przednia lapa
             if not np.any(p3 == 0.0) and not np.any(p4 == 0.0) and not np.any(p5 == 0.0):
                 angle_lpl = np.abs(calculate_angle(p3, p4, p5))
@@ -509,12 +533,12 @@ def process_frame(frame, frame_index, BOX_IOU_THRESH=0.55, BOX_CONF_THRESH=0.30,
                     print(f"Frame {frame_index}: Lewe ucho: {angle_lu:.2f} degrees")
 
             #Otwarcie pyska
-            if not np.any(p22 == 0.0) and not np.any(p20 == 0.0) and not np.any(p21 == 0.0):
-                angle_pysk = calculate_angle(p20,p22,p21)
-                print(f"Frame {frame_index}: Pysk: {angle_pysk:.2f} degrees")
-            elif not np.any(p23 == 0.0) and not np.any(p20 == 0.0) and not np.any(p21 == 0.0):
-                angle_pysk = calculate_angle(p20, p23, p21)
-                print(f"Frame {frame_index}: Pysk: {angle_pysk:.2f} degrees")
+            # if not np.any(p22 == 0.0) and not np.any(p20 == 0.0) and not np.any(p21 == 0.0):
+            #     angle_pysk = calculate_angle(p20,p22,p21)
+            #     print(f"Frame {frame_index}: Pysk: {angle_pysk:.2f} degrees")
+            # elif not np.any(p23 == 0.0) and not np.any(p20 == 0.0) and not np.any(p21 == 0.0):
+            #     angle_pysk = calculate_angle(p20, p23, p21)
+            #     print(f"Frame {frame_index}: Pysk: {angle_pysk:.2f} degrees")
 
             #jezyk i zeby
             p24=filter_kpts[24][:2]
@@ -649,14 +673,14 @@ def rysiowanie(model, img):
         main('wyzel_framed.jpg', text_file_path)
 
 
-model = YOLO('./model_3.pt')
-img_path = 'aa.jfif'
-img = cv2.imread(img_path)
+#model = YOLO('./model_3.pt')
+#img_path = 'aa.jfif'
+#img = cv2.imread(img_path)
 video_path = 'piesel.mp4'  # Path to the MP4 video file
 text_file_path = 'results.txt'  # Path to the text file
 video_url = 'http://localhost:5000/video'
 #rysiowanie(model, img)
 # process_frame(img, 0)
 # main(img_path, text_file_path)
-process_video(video_url, output_path, video_processing_complete)
-main(video_url,text_file_path)
+process_video(input_path, output_path, video_processing_complete)
+main(input_path,text_file_path)
