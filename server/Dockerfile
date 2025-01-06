@@ -26,11 +26,10 @@ RUN pip install --no-cache-dir \
 # Ustawienie katalogu roboczego
 WORKDIR /app
 
-# Klonowanie repozytorium (zmień na odpowiednie repozytorium)
+# Klonowanie repozytorium
 RUN git clone https://git.pg.edu.pl/p1353132/doggy-monitor.git
 
 # Otwarte porty dla aplikacji API oraz RTMP/streaming
 EXPOSE 8000 1935
 
-# Uruchomienie aplikacji (zmień na komendę uruchamiającą Twój serwer)
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+

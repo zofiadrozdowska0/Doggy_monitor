@@ -10,7 +10,7 @@ services:
       - "1935:1935"
     volumes:
       - .:/app
-    command: ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+    command: ["python3", "server/img_receiver.py"]
 
   rtmp:
     image: tiangolo/nginx-rtmp
