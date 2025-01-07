@@ -583,6 +583,10 @@ def process_frame(frame, frame_index, BOX_IOU_THRESH=0.55, BOX_CONF_THRESH=0.30,
 
     wynik = calcuate_emotion(angle_lpl, angle_ogon, angle_lpp, angle_glowa,angle_pu,angle_lu, visible_tongue, visible_teeth)
     past_emotions.append(wynik)
+
+    if len(past_emotions) > 10:
+        past_emotions.pop(0)
+
     determine_dominant_emotion(past_emotions)
 
     with open("results.txt", "a") as file:
