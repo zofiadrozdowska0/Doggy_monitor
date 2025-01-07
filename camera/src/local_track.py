@@ -145,18 +145,18 @@ class Tracker:
             if not search_mode and detections_count >= 7:
                 # Włącz tryb szukania psa, jeśli ostatnie 7 detekcji było w ciągu 2 sekund
                 search_mode = True
-                print("Przejście w tryb szukania psa na podstawie Kalmana.")
+                #print("Przejście w tryb szukania psa na podstawie Kalmana.")
 
             if search_mode and self.last_known_position_time and current_time - self.last_known_position_time <= 3:
                 # Kontynuuj śledzenie na podstawie przewidywanych pozycji z Kalmana
                 prediction = self.kalman.predict()
                 pred_x, pred_y = int(prediction[0]), int(prediction[1])
-                print(f"Przewidywana pozycja (po zgubieniu psa): {pred_x}, {pred_y}")
+                #print(f"Przewidywana pozycja (po zgubieniu psa): {pred_x}, {pred_y}")
                 self.control_servos(pred_x, pred_y)
             elif search_mode and self.last_known_position_time and current_time - self.last_known_position_time > 5:
                 # Wyłącz tryb szukania, jeśli minęło 5 sekundy od ostatniej znanej pozycji
                 search_mode = False
-                print("Zakończenie trybu szukania psa. Reset do pozycji początkowej.")
+                #print("Zakończenie trybu szukania psa. Reset do pozycji początkowej.")
                 self.servo_controller.move(*self.initial_position)
                 self.current_angle_x, self.current_angle_y = self.initial_position
                 self.pid_x.reset()
@@ -165,14 +165,14 @@ class Tracker:
                 self.last_known_position_time = None
             elif not search_mode and self.last_received_time and current_time - self.last_received_time > 1:
                 # Reset PID i Kalmana po 1 sekundzie braku danych
-                print("Reset PID i Kalmana po 1 sekundzie braku danych.")
+                #print("Reset PID i Kalmana po 1 sekundzie braku danych.")
                 self.pid_x.reset()
                 self.pid_y.reset()
                 self.create_kalman_filter()
                 # self.last_known_position_time = None
             if not search_mode and self.last_received_time and current_time - self.last_received_time > 10:
                 # Powrót do pozycji początkowej po 10 sekundach braku danych
-                print("Brak danych przez 10 sekund, powrót do pozycji początkowej.")
+                #print("Brak danych przez 10 sekund, powrót do pozycji początkowej.")
                 self.servo_controller.move(*self.initial_position)
                 self.current_angle_x, self.current_angle_y = self.initial_position
                 self.pid_x.reset()
@@ -208,14 +208,15 @@ class Tracker:
         try:
             while self.running:
                 data = client_socket.recv(1024).decode()
-                buffer += data
+                buffer = data
+                # buffer = buffer
                 current_time = time.time()
                 dt = current_time - self.prev_time
 
                 if dt > 0:
                     self.update_kalman_transition_matrix(dt)
 
-                while '\n' in buffer:
+                if '\n' in buffer:
                     line, buffer = buffer.split('\n', 1)
                     try:
                         bbox_center_x, bbox_center_y = map(int, line.split(','))
@@ -291,7 +292,7 @@ class Tracker:
         self.current_angle_x, self.current_angle_y = new_angle_x, new_angle_y
 
     def stop(self):
-        print("Zamykanie wątków i zasobów...")
+        #print("Zamykanie wątków i zasobów...")
         self.running = False
 
         # Zamknij socket serwera
@@ -308,7 +309,7 @@ class Tracker:
         if self.watchdog_thread.is_alive():
             self.watchdog_thread.join()
 
-        print("Zasoby zostały zwolnione.")
+        #print("Zasoby zostały zwolnione.")
 
 # Flask do serwowania wideo
 app = Flask(__name__)

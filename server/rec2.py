@@ -2,6 +2,7 @@ import cv2
 import numpy as np
 import requests
 import socket
+from process_stream import ProcessStream
 
 class DogDetectionServer:
     def __init__(self, mjpeg_url, rpi_ip, rpi_port):
@@ -17,6 +18,8 @@ class DogDetectionServer:
 
         # Klasa psa w modelu MobileNet SSD (COCO dataset)
         self.DOG_CLASS_ID = 12
+
+        self.dog_detect = ProcessStream(model_path="model_3.pt")
 
     def connect_to_rpi(self):
         # Ustawienie połączenia socket do Raspberry Pi
@@ -54,32 +57,44 @@ class DogDetectionServer:
                     break
 
     def detect_and_send(self, frame):
-        h, w = frame.shape[:2]
+        # h, w = frame.shape[:2]
 
-        # Przygotowanie obrazu do modelu
-        blob = cv2.dnn.blobFromImage(frame, 0.007843, (300, 300), 127.5)
-        self.net.setInput(blob)
-        detections = self.net.forward()
+        # # Przygotowanie obrazu do modelu
+        # blob = cv2.dnn.blobFromImage(frame, 0.007843, (300, 300), 127.5)
+        # self.net.setInput(blob)
+        # detections = self.net.forward()
 
-        for i in range(detections.shape[2]):
-            confidence = detections[0, 0, i, 2]
-            class_id = int(detections[0, 0, i, 1])
+        # for i in range(detections.shape[2]):
+        #     confidence = detections[0, 0, i, 2]
+        #     class_id = int(detections[0, 0, i, 1])
 
-            # Detekcja psa z prawdopodobieństwem > 0.5
-            if confidence > 0.5 and class_id == self.DOG_CLASS_ID:
-                x1, y1, x2, y2 = (detections[0, 0, i, 3:7] * [w, h, w, h]).astype("int")
-                center_x = x1 + (x2 - x1) // 2
-                center_y = y1 + (y2 - y1) // 2
+        #     # Detekcja psa z prawdopodobieństwem > 0.5
+        #     if confidence > 0.5 and class_id == self.DOG_CLASS_ID:
+        #         x1, y1, x2, y2 = (detections[0, 0, i, 3:7] * [w, h, w, h]).astype("int")
+        #         center_x = x1 + (x2 - x1) // 2
+        #         center_y = y1 + (y2 - y1) // 2
 
-                # Rysowanie bounding boxa i rzeczywistego środka
-                cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), 2)
-                cv2.circle(frame, (center_x, center_y), 5, (0, 255, 0), -1)  # Zielona kropka - rzeczywisty środek
-                cv2.putText(frame, f'Dog: {confidence:.2f}', (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
+        #         # Rysowanie bounding boxa i rzeczywistego środka
+        #         cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), 2)
+        #         cv2.circle(frame, (center_x, center_y), 5, (0, 255, 0), -1)  # Zielona kropka - rzeczywisty środek
+        #         cv2.putText(frame, f'Dog: {confidence:.2f}', (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
 
-                # Wysłanie rzeczywistej pozycji do Raspberry Pi
-                bbox_message = f"{center_x},{center_y}\n"
-                self.rpi_socket.sendall(bbox_message.encode())
-                print(f"Wysłano do Raspberry Pi: {bbox_message}")
+        #         # Wysłanie rzeczywistej pozycji do Raspberry Pi
+        #         bbox_message = f"{center_x},{center_y}\n"
+        #         self.rpi_socket.sendall(bbox_message.encode())
+        #         print(f"Wysłano do Raspberry Pi: {bbox_message}")
+
+        frame, pred_boxes, emotion = self.dog_detect.process_frame(frame)
+
+        if pred_boxes is not None:
+            xmin, ymin, xmax, ymax = pred_boxes[0]
+            center_x = int((xmin + xmax) / 2)
+            center_y = int((ymin + ymax) / 2)
+
+            # Wysłanie rzeczywistej pozycji do Raspberry Pi
+            bbox_message = f"{center_x},{center_y}\n"
+            self.rpi_socket.sendall(bbox_message.encode())
+            print(f"Wysłano do Raspberry Pi: {bbox_message}")
 
     def close(self):
         if self.stream:
