@@ -3,6 +3,8 @@ import numpy as np
 import requests
 import socket
 from process_stream import ProcessStream
+from datetime import datetime
+import threading
 
 class DogDetectionServer:
     def __init__(self, mjpeg_url, rpi_ip, rpi_port):
@@ -20,6 +22,8 @@ class DogDetectionServer:
         self.DOG_CLASS_ID = 12
 
         self.dog_detect = ProcessStream(model_path="model_3.pt")
+
+        self.ostatnia_emocja = None
 
     def connect_to_rpi(self):
         # Ustawienie połączenia socket do Raspberry Pi
@@ -48,6 +52,7 @@ class DogDetectionServer:
 
                 # Wykrywanie psa
                 self.detect_and_send(frame)
+
 
                 # Wyświetlenie obrazu
                 cv2.imshow("Dog Detection", frame)
@@ -85,7 +90,7 @@ class DogDetectionServer:
         #         print(f"Wysłano do Raspberry Pi: {bbox_message}")
 
         frame, pred_boxes, emotion = self.dog_detect.process_frame(frame)
-
+        
         if pred_boxes is not None:
             xmin, ymin, xmax, ymax = pred_boxes[0]
             center_x = int((xmin + xmax) / 2)
@@ -96,11 +101,24 @@ class DogDetectionServer:
             self.rpi_socket.sendall(bbox_message.encode())
             print(f"Wysłano do Raspberry Pi: {bbox_message}")
 
+            self.zapisz_emocje_async(emotion)
+
+
     def close(self):
         if self.stream:
             self.stream.close()
         self.rpi_socket.close()
         cv2.destroyAllWindows()
+    
+    def zapisz_emocje(self, emotion):
+        if emotion != self.ostatnia_emocja:  # Sprawdzaj, czy emocja się zmieniła
+            czas = datetime.now().strftime("%d-%m-%Y %H:%M:%S")
+            with open("emocje.txt", "a") as f:
+                f.write(f"{czas} - {emotion}\n")
+            self.ostatnia_emocja = emotion  # Aktualizuj ostatnią emocję
+
+    def zapisz_emocje_async(self, emotion):
+        threading.Thread(target=self.zapisz_emocje, args=(emotion,)).start()
 
 # Przykład użycia
 if __name__ == "__main__":
