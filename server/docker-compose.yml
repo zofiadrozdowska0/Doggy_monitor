@@ -11,6 +11,7 @@ services:
     volumes:
       - .:/app
     command: ["python3", "server/img_receiver.py"]
+    restart: always
 
   rtmp:
     image: tiangolo/nginx-rtmp
