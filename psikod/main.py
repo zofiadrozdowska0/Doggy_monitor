@@ -5,23 +5,11 @@ import torch
 import math
 
 # Load models
-<<<<<<< ours
-<<<<<<< ours
-model_duzy_path = './psikod/model_3.pt'
-||||||| ancestor
-model_duzy_path = './models/model_3.pt'
-=======
-model_duzy_path = './model_3.pt'
->>>>>>> theirs
-||||||| ancestor
-model_duzy_path = './model_3.pt'
-=======
 
-model_duzy_path = './Model_1.pt'
->>>>>>> theirs
+model_duzy_path = './models/model_3.pt'
 model_duzy = YOLO(model_duzy_path)  # Use GPU if available
 # input_path = './piesel.mp4'
-input_path = './test/img.png'
+input_path = './psikod/piesel2.mp4'
 output_path = 'piesel_framed.mp4'
 
 rasa_psa = "3"
@@ -31,7 +19,7 @@ relaxed = False
 sad = False
 angry = False
 
-
+past_emotions = []
 
 def read_text_file(file_path):
     """Reads the text file and returns a list of rows."""
@@ -138,44 +126,47 @@ def get_emotion_from_row(row_number):
 #     cv2.destroyAllWindows()
 
 def display_video_with_emotion(video_path, emotions):
-    """Displays the video and shows every 10th frame with its corresponding emotion."""
     # Open the video file
     cap = cv2.VideoCapture(video_path)
     frame_count = 0
     emotion_index = 0
+    global past_emotions
 
     while True:
         ret, frame = cap.read()
-        if not ret or emotion_index >= len(emotions):
+        if not ret or frame_count >= len(past_emotions):  # Zakończ, jeśli koniec wideo lub brak więcej emocji
             break
 
-        # Only process every 10th frame
-        #if frame_count % 10 == 0:
-        if emotion_index < len(emotions):
-            # Get the emotion for the current frame
-            emotion = emotions[emotion_index]
+        # Pobierz ostatnie 10 emocji (lub mniej, jeśli nie ma jeszcze 10)
+        recent_emotions = past_emotions[max(0, frame_count - 9):frame_count + 1]
 
-            # Check if the emotion is valid, otherwise set as "Unknown"
-            if not emotion:
-                emotion_text = "Emotion: Unknown"
-                print(f"Frame {frame_count}, Emotion: Unknown")
-            else:
-                emotion_text = f"Emotion: {emotion}"
-                print(f"Frame {frame_count}, Emotion: {emotion}")
+        # Znajdź dominującą emocję
+        dominant_emotion = max(set(recent_emotions), key=recent_emotions.count)
+        print(dominant_emotion)
+        # Dodaj tekst z dominującą emocją na klatce
+        emotion_text = f"Emotion: {dominant_emotion}"
+        cv2.putText(frame, emotion_text, (50, 50),
+                    cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA)
 
-            # Add the emotion text on the frame
-            cv2.putText(frame, emotion_text, (50, 50),
-                        cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA)
+        # Dodaj numer klatki w prawym dolnym rogunnnn
+        frame_text = f"Frame: {frame_count}"
+        frame_height, frame_width = frame.shape[:2]
+        text_size = cv2.getTextSize(frame_text, cv2.FONT_HERSHEY_SIMPLEX, 1, 2)[0]
+        text_x = frame_width - text_size[0] - 10
+        text_y = frame_height - 10
+
+        cv2.putText(frame, frame_text, (text_x, text_y),
+                    cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA)
             
-            # Add the frame number text in the bottom-right corner
-            frame_text = f"{frame_count}"
-            frame_height, frame_width = frame.shape[:2]
-            text_size = cv2.getTextSize(frame_text, cv2.FONT_HERSHEY_SIMPLEX, 1, 2)[0]
-            text_x = frame_width - text_size[0] - 10
-            text_y = frame_height - 10
+        # Add the frame number text in the bottom-right corner
+        frame_text = f"{frame_count}"
+        frame_height, frame_width = frame.shape[:2]
+        text_size = cv2.getTextSize(frame_text, cv2.FONT_HERSHEY_SIMPLEX, 1, 2)[0]
+        text_x = frame_width - text_size[0] - 10
+        text_y = frame_height - 10
 
-            cv2.putText(frame, frame_text, (text_x, text_y),
-                        cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA)
+        cv2.putText(frame, frame_text, (text_x, text_y),
+                    cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA)
 
         # Display the frame with emotion
         cv2.imshow('Video with Emotion', frame)
@@ -253,7 +244,7 @@ def decyzja(ogon_pozycja, glowa_pozycja, uszy_pozycja, lapy_pozycja, visible_tee
                 else:
                     return "Relaxed"
     else:
-        return "Neutralny"
+        return "Tail not detected. Can't read emotions."
 
 
 def calcuate_emotion(angle_lpl, angle_ogon, angle_lpp, angle_glowa,angle_pu,angle_lu, visible_tongue, visible_teeth):
@@ -276,73 +267,22 @@ def calcuate_emotion(angle_lpl, angle_ogon, angle_lpp, angle_glowa,angle_pu,angl
     if angle_glowa is not None:
         if angle_glowa <= 10:
             glowa_pozycja = 2
-<<<<<<< ours
-<<<<<<< ours
             #print("Głowa uniesiona")
         elif angle_glowa > 10:
-||||||| ancestor
-        if -10 < angle_glowa < 10:
-            glowa_pozycja = 2
-        if angle_glowa > 10:
-=======
-||||||| ancestor
-=======
-            #print("Głowa uniesiona")
->>>>>>> theirs
-        elif angle_glowa > 10:
->>>>>>> theirs
             glowa_pozycja = 1
             #print("Głowa opuszczona")
 
 
     # łapa przednia lewa i łapa przednia prawa
-<<<<<<< ours
-<<<<<<< ours
-    if angle_lpl is not None:
-        if 140 < angle_lpl <= 180: 
-            lapy_pozycja = 2 
-            print("Lapy wyprostowane")       
-        elif 110 < angle_lpl <= 140: 
-||||||| ancestor
-    if angle_lpl is not None and angle_lpp is not None:
-        if 140 < angle_lpl < 180 or 140 < angle_lpp < 180:
-            lapy_pozycja = 2        
-        if 110 < angle_lpl < 150 or 110 < angle_lpp < 150:
-=======
-    if angle_lpl is not None and angle_lpp is not None:
-        if 140 < angle_lpl <= 180 or 140 < angle_lpp <= 180:
-            lapy_pozycja = 2        
-        elif 110 < angle_lpl <= 140 or 110 < angle_lpp <= 140:
->>>>>>> theirs
-||||||| ancestor
-    if angle_lpl is not None and angle_lpp is not None:
-        if 140 < angle_lpl <= 180 or 140 < angle_lpp <= 180:
-            lapy_pozycja = 2        
-        elif 110 < angle_lpl <= 140 or 110 < angle_lpp <= 140:
-=======
 
     if angle_lpl is not None:
         if 140 < angle_lpl <= 180: 
             lapy_pozycja = 2 
             print("Lapy wyprostowane")       
         elif 110 < angle_lpl <= 140: 
->>>>>>> theirs
             lapy_pozycja = 1
-<<<<<<< ours
-<<<<<<< ours
             print("Lapy zgięte")
         elif 80 < angle_lpl <= 110:
-||||||| ancestor
-        if 80 < angle_lpl < 120 or 80 < angle_lpp < 120:
-=======
-        elif 80 < angle_lpl <= 110 or 80 < angle_lpp <= 110:
->>>>>>> theirs
-||||||| ancestor
-        elif 80 < angle_lpl <= 110 or 80 < angle_lpp <= 110:
-=======
-            print("Lapy zgięte")
-        elif 80 < angle_lpl <= 110:
->>>>>>> theirs
             lapy_pozycja = 2
             print("Lapy wyprostowane")
 
@@ -642,9 +582,25 @@ def process_frame(frame, frame_index, BOX_IOU_THRESH=0.55, BOX_CONF_THRESH=0.30,
             frame = draw_landmarks(frame, filter_kpts)
 
     wynik = calcuate_emotion(angle_lpl, angle_ogon, angle_lpp, angle_glowa,angle_pu,angle_lu, visible_tongue, visible_teeth)
+    past_emotions.append(wynik)
+    determine_dominant_emotion(past_emotions)
+
     with open("results.txt", "a") as file:
         file.write(wynik + "\n")  # Zapisz wynik jako nową linię w pliku
     return frame
+
+def determine_dominant_emotion(past_emotions):
+    if len(past_emotions) < 10:
+        print("Za mało danych, aby określić dominującą emocję.")
+        return None
+    
+    # Pobierz ostatnie 10 emocji
+    recent_emotions = past_emotions[-10:]
+    
+    dominant_emotion = max(set(recent_emotions), key=recent_emotions.count)
+    
+    print(f"Dominująca emocja z ostatnich 10 klatek to: {dominant_emotion}")
+    return dominant_emotion
 
 
 # Function to process video
@@ -755,58 +711,16 @@ def rysiowanie(model, img):
         main('wyzel_framed.jpg', text_file_path)
 
 
-<<<<<<< ours
-<<<<<<< ours
-#model = YOLO('./model_3.pt')
-#img_path = 'aa.jfif'
-#img = cv2.imread(img_path)
-||||||| ancestor
-model = YOLO('./models/model_3.pt')
-img_path = 'aa.jfif'
-img = cv2.imread(img_path)
-=======
-model = YOLO('./model_3.pt')
-img_path = 'aa.jfif'
-||||||| ancestor
-model = YOLO('./model_3.pt')
-img_path = 'aa.jfif'
-=======
 # #
 # model = YOLO('./model_3.pt')
 img_path = input_path
->>>>>>> theirs
 img = cv2.imread(img_path)
->>>>>>> theirs
 video_path = 'piesel.mp4'  # Path to the MP4 video file
 text_file_path = 'results.txt'  # Path to the text file
-<<<<<<< ours
-video_url = 'http://localhost:5000/video'
-#rysiowanie(model, img)
-# process_frame(img, 0)
-# main(img_path, text_file_path)
-process_video(input_path, output_path, video_processing_complete)
-main(input_path,text_file_path)
-||||||| ancestor
-
-rysiowanie(model, img)
-process_frame(img, 0)
-main(img_path, text_file_path)
-#process_video(input_path, output_path, video_processing_complete)
-#main(video_path,text_file_path)
-=======
 video_url = 'http://localhost:5000/video'
 # rysiowanie(model, img)
 # process_frame(img, 0)
 process_video(input_path, output_path, video_processing_complete)
 # main(img_path, text_file_path)
-<<<<<<< ours
-process_video(video_url, output_path, video_processing_complete)
-main(video_url,text_file_path)
->>>>>>> theirs
-||||||| ancestor
-process_video(video_url, output_path, video_processing_complete)
-main(video_url,text_file_path)
-=======
 
 main(output_path,text_file_path)
->>>>>>> theirs

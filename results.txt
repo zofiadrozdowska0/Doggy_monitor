@@ -1,7 +1,101 @@
-Neutralny
-Neutralny
-Neutralny
-Neutralny
+Relaxed
+Relaxed
+Relaxed
+Relaxed
+Relaxed
+Relaxed
+Relaxed
+Relaxed
+Relaxed
+Relaxed
+Relaxed
+Relaxed
+Relaxed
+Relaxed
+Tail not detected. Can't read emotions.
+Relaxed
+Relaxed
+Relaxed
+Relaxed
+Relaxed
+Relaxed
+Relaxed
+Relaxed
+Relaxed
+Relaxed
+Relaxed
+Relaxed
+Relaxed
+Tail not detected. Can't read emotions.
+Tail not detected. Can't read emotions.
+Tail not detected. Can't read emotions.
+Relaxed
+Relaxed
+Relaxed
+Tail not detected. Can't read emotions.
+Tail not detected. Can't read emotions.
+Tail not detected. Can't read emotions.
+Tail not detected. Can't read emotions.
+Tail not detected. Can't read emotions.
+Relaxed
+Relaxed
+Tail not detected. Can't read emotions.
+Tail not detected. Can't read emotions.
+Relaxed
+Tail not detected. Can't read emotions.
+Tail not detected. Can't read emotions.
+Tail not detected. Can't read emotions.
+Tail not detected. Can't read emotions.
+Tail not detected. Can't read emotions.
+Tail not detected. Can't read emotions.
+Tail not detected. Can't read emotions.
+Tail not detected. Can't read emotions.
+Tail not detected. Can't read emotions.
+Tail not detected. Can't read emotions.
+Tail not detected. Can't read emotions.
+Tail not detected. Can't read emotions.
+Tail not detected. Can't read emotions.
+Relaxed
+Relaxed
+Relaxed
+Relaxed
+Relaxed
+Relaxed
+Relaxed
+Relaxed
+Relaxed
+Relaxed
+Relaxed
+Relaxed
+Relaxed
+Relaxed
+Relaxed
+Relaxed
+Relaxed
+Relaxed
+Relaxed
+Relaxed
+Relaxed
+Relaxed
+Relaxed
+Relaxed
+Relaxed
+Relaxed
+Relaxed
+Relaxed
+Tail not detected. Can't read emotions.
+Relaxed
+Relaxed
+Relaxed
+Relaxed
+Relaxed
+Tail not detected. Can't read emotions.
+Relaxed
+Relaxed
+Relaxed
+Relaxed
+Relaxed
+Happy
 Relaxed
 Relaxed
 Relaxed
@@ -15,43 +109,6 @@ Relaxed
 Relaxed
 Relaxed
 Happy
-Neutralny
-Happy
-Neutralny
-Neutralny
-Neutralny
-Neutralny
-Neutralny
-Relaxed
-Neutralny
-Neutralny
-Neutralny
-Neutralny
-Neutralny
-Neutralny
-Neutralny
-Neutralny
-Neutralny
-Neutralny
-Neutralny
-Neutralny
-Neutralny
-Neutralny
-Neutralny
-Neutralny
-Neutralny
-Neutralny
-Neutralny
-Neutralny
-Relaxed
-Relaxed
-Relaxed
-Relaxed
-Relaxed
-Neutralny
-Relaxed
-Relaxed
-Happy
 Relaxed
 Relaxed
 Relaxed
@@ -60,91 +117,7 @@ Relaxed
 Relaxed
 Relaxed
 Relaxed
-Happy
-Happy
-Neutralny
-Happy
-Happy
-Happy
-Happy
-Happy
-Happy
-Happy
-Happy
-Neutralny
-Neutralny
-Neutralny
-Neutralny
-Neutralny
-Neutralny
-Neutralny
-Neutralny
-Neutralny
 Relaxed
 Relaxed
 Relaxed
-Neutralny
-Neutralny
-Neutralny
-Neutralny
-Neutralny
-Neutralny
-Neutralny
-Neutralny
-Neutralny
-Neutralny
-Neutralny
-Neutralny
-Neutralny
-Neutralny
-Neutralny
-Neutralny
-Neutralny
-Neutralny
-Neutralny
-Neutralny
-Neutralny
-Neutralny
-Neutralny
-Neutralny
-Neutralny
-Neutralny
-Neutralny
-Neutralny
-Neutralny
-Neutralny
-Neutralny
-Neutralny
-Neutralny
-Neutralny
-Neutralny
-Neutralny
-Neutralny
-Neutralny
-Neutralny
-Neutralny
-Neutralny
-Neutralny
-Neutralny
-Neutralny
-Neutralny
-Neutralny
-Neutralny
-Neutralny
-Neutralny
-Neutralny
-Neutralny
-Neutralny
-Neutralny
-Neutralny
-Neutralny
-Neutralny
-Neutralny
-Neutralny
-Neutralny
-Neutralny
-Neutralny
-Neutralny
-Neutralny
-Neutralny
-Neutralny
+Relaxed
