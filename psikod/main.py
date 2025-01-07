@@ -6,17 +6,25 @@ import math
 
 # Load models
 <<<<<<< ours
+<<<<<<< ours
 model_duzy_path = './psikod/model_3.pt'
 ||||||| ancestor
 model_duzy_path = './models/model_3.pt'
 =======
 model_duzy_path = './model_3.pt'
 >>>>>>> theirs
+||||||| ancestor
+model_duzy_path = './model_3.pt'
+=======
+
+model_duzy_path = './Model_1.pt'
+>>>>>>> theirs
 model_duzy = YOLO(model_duzy_path)  # Use GPU if available
-input_path = './piesel.mp4'
+# input_path = './piesel.mp4'
+input_path = './test/img.png'
 output_path = 'piesel_framed.mp4'
 
-rasa_psa = "2"
+rasa_psa = "3"
 
 happy = False
 relaxed = False
@@ -138,7 +146,7 @@ def display_video_with_emotion(video_path, emotions):
 
     while True:
         ret, frame = cap.read()
-        if not ret:
+        if not ret or emotion_index >= len(emotions):
             break
 
         # Only process every 10th frame
@@ -255,9 +263,9 @@ def calcuate_emotion(angle_lpl, angle_ogon, angle_lpp, angle_glowa,angle_pu,angl
     lapy_pozycja = 0  # 1 - zgiete, 2 - wyprostowane
     # ogon
     if angle_ogon is not None:
-        if 20 < angle_ogon <= 180:
+        if 0 < angle_ogon <= 100:
             ogon_pozycja = 2
-        elif 180 < angle_ogon <= 230:
+        elif 100 < angle_ogon <= 240:
             ogon_pozycja = 3
         elif 0 < angle_ogon <= 20:
             ogon_pozycja = 3
@@ -269,6 +277,7 @@ def calcuate_emotion(angle_lpl, angle_ogon, angle_lpp, angle_glowa,angle_pu,angl
         if angle_glowa <= 10:
             glowa_pozycja = 2
 <<<<<<< ours
+<<<<<<< ours
             #print("Głowa uniesiona")
         elif angle_glowa > 10:
 ||||||| ancestor
@@ -276,6 +285,10 @@ def calcuate_emotion(angle_lpl, angle_ogon, angle_lpp, angle_glowa,angle_pu,angl
             glowa_pozycja = 2
         if angle_glowa > 10:
 =======
+||||||| ancestor
+=======
+            #print("Głowa uniesiona")
+>>>>>>> theirs
         elif angle_glowa > 10:
 >>>>>>> theirs
             glowa_pozycja = 1
@@ -283,6 +296,7 @@ def calcuate_emotion(angle_lpl, angle_ogon, angle_lpp, angle_glowa,angle_pu,angl
 
 
     # łapa przednia lewa i łapa przednia prawa
+<<<<<<< ours
 <<<<<<< ours
     if angle_lpl is not None:
         if 140 < angle_lpl <= 180: 
@@ -300,7 +314,21 @@ def calcuate_emotion(angle_lpl, angle_ogon, angle_lpp, angle_glowa,angle_pu,angl
             lapy_pozycja = 2        
         elif 110 < angle_lpl <= 140 or 110 < angle_lpp <= 140:
 >>>>>>> theirs
+||||||| ancestor
+    if angle_lpl is not None and angle_lpp is not None:
+        if 140 < angle_lpl <= 180 or 140 < angle_lpp <= 180:
+            lapy_pozycja = 2        
+        elif 110 < angle_lpl <= 140 or 110 < angle_lpp <= 140:
+=======
+
+    if angle_lpl is not None:
+        if 140 < angle_lpl <= 180: 
+            lapy_pozycja = 2 
+            print("Lapy wyprostowane")       
+        elif 110 < angle_lpl <= 140: 
+>>>>>>> theirs
             lapy_pozycja = 1
+<<<<<<< ours
 <<<<<<< ours
             print("Lapy zgięte")
         elif 80 < angle_lpl <= 110:
@@ -308,6 +336,12 @@ def calcuate_emotion(angle_lpl, angle_ogon, angle_lpp, angle_glowa,angle_pu,angl
         if 80 < angle_lpl < 120 or 80 < angle_lpp < 120:
 =======
         elif 80 < angle_lpl <= 110 or 80 < angle_lpp <= 110:
+>>>>>>> theirs
+||||||| ancestor
+        elif 80 < angle_lpl <= 110 or 80 < angle_lpp <= 110:
+=======
+            print("Lapy zgięte")
+        elif 80 < angle_lpl <= 110:
 >>>>>>> theirs
             lapy_pozycja = 2
             print("Lapy wyprostowane")
@@ -456,11 +490,18 @@ def process_frame(frame, frame_index, BOX_IOU_THRESH=0.55, BOX_CONF_THRESH=0.30,
     if len(result_duzy.boxes.xyxy):
 
         # Get the predicted boxes, conf scores and keypoints.
-        pred_boxes = result_duzy.boxes.xyxy.numpy()
         pred_box_conf = result_duzy.boxes.conf.numpy()
-        pred_kpts_xy = result_duzy.keypoints.xy.numpy()
-        pred_kpts_conf = result_duzy.keypoints.conf.numpy()
-
+        max_conf = np.argmax(pred_box_conf)
+        boxes = result_duzy.boxes.xyxy.numpy()
+        pred_boxes=[boxes[max_conf]]
+        # print()
+        # pred_kpts_xy = result_duzy.keypoints.xy.numpy()
+        # # print(pred_kpts_xy)
+        # pred_kpts_conf = result_duzy.keypoints.conf.numpy()
+        pred_kpts = result_duzy.keypoints.xy.numpy()
+        pred_kpts_xy = [pred_kpts[max_conf]]
+        pred_kpt_conf = result_duzy.keypoints.conf.numpy()
+        pred_kpts_conf = [pred_kpt_conf[max_conf]]
         # Collect keypoints data
         for kpts, confs in zip(pred_kpts_xy, pred_kpts_conf):
             kpts_ids = np.arange(len(kpts))  # Include all keypoints
@@ -545,11 +586,20 @@ def process_frame(frame, frame_index, BOX_IOU_THRESH=0.55, BOX_CONF_THRESH=0.30,
 
 
             if np.all(p14 != 0.0) and np.all(p12 != 0.0) and np.all(p13 != 0.0):
-                angle_ogon = 180-calculate_intersection_angle(p14, p12, p12, p13)
+                print(p12)
+                print(p13)
+                if p12[1]>p13[1]:
+                    angle_ogon = calculate_angle(p14, p12, p13)
+                else:
+                    angle_ogon = 360 - calculate_angle(p14, p12, p13)
                 print(f"Frame {frame_index}: Ogon: {angle_ogon:.2f} degrees")
             elif np.all(p15 != 0.0) and np.all(p12 != 0.0) and np.all(p13 != 0.0):
-                angle_throat = 180-calculate_intersection_angle(p15, p12, p12, p13)
-                angle_ogon=18.7+0.98*angle_throat
+                if p12[1]>p13[1]:
+                    angle_throat = calculate_angle(p15, p12, p13)
+                    angle_ogon=18.7+0.98*angle_throat
+                else:
+                    angle_throat = 360-calculate_angle(p15, p12, p13)
+                    angle_ogon = 18.7 + 0.98 * angle_throat
                 print(f"Frame {frame_index}: Ogon: {angle_ogon:.2f} degrees")
             
 
@@ -706,6 +756,7 @@ def rysiowanie(model, img):
 
 
 <<<<<<< ours
+<<<<<<< ours
 #model = YOLO('./model_3.pt')
 #img_path = 'aa.jfif'
 #img = cv2.imread(img_path)
@@ -716,6 +767,14 @@ img = cv2.imread(img_path)
 =======
 model = YOLO('./model_3.pt')
 img_path = 'aa.jfif'
+||||||| ancestor
+model = YOLO('./model_3.pt')
+img_path = 'aa.jfif'
+=======
+# #
+# model = YOLO('./model_3.pt')
+img_path = input_path
+>>>>>>> theirs
 img = cv2.imread(img_path)
 >>>>>>> theirs
 video_path = 'piesel.mp4'  # Path to the MP4 video file
@@ -736,9 +795,18 @@ main(img_path, text_file_path)
 #main(video_path,text_file_path)
 =======
 video_url = 'http://localhost:5000/video'
-#rysiowanie(model, img)
+# rysiowanie(model, img)
 # process_frame(img, 0)
+process_video(input_path, output_path, video_processing_complete)
 # main(img_path, text_file_path)
+<<<<<<< ours
 process_video(video_url, output_path, video_processing_complete)
 main(video_url,text_file_path)
+>>>>>>> theirs
+||||||| ancestor
+process_video(video_url, output_path, video_processing_complete)
+main(video_url,text_file_path)
+=======
+
+main(output_path,text_file_path)
 >>>>>>> theirs
