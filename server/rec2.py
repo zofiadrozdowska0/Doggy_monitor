@@ -14,12 +14,12 @@ class DogDetectionServer:
         self.stream = None
 
         # Wczytanie modelu MobileNet SSD
-        self.model_path = "MobileNetSSD_deploy.caffemodel"
-        self.config_path = "MobileNetSSD_deploy.prototxt"
-        self.net = cv2.dnn.readNetFromCaffe(self.config_path, self.model_path)
+        # self.model_path = "MobileNetSSD_deploy.caffemodel"
+        # self.config_path = "MobileNetSSD_deploy.prototxt"
+        # self.net = cv2.dnn.readNetFromCaffe(self.config_path, self.model_path)
 
         # Klasa psa w modelu MobileNet SSD (COCO dataset)
-        self.DOG_CLASS_ID = 12
+        # self.DOG_CLASS_ID = 12
 
         self.dog_detect = ProcessStream(model_path="model_3.pt")
 

@@ -5,7 +5,7 @@ from ultralytics import YOLO
 
 class ProcessStream:
     def __init__(self, model_path, rasa_psa="3", box_iou_thresh=0.55, box_conf_thresh=0.30, kpt_conf_thresh=0.68):
-        self.device = torch.device('cuda' if torch.cuda.is_available() else 'cuda')
+        self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         self.model = YOLO(model_path).to(self.device)
         self.rasa_psa = rasa_psa
         self.box_iou_thresh = box_iou_thresh
