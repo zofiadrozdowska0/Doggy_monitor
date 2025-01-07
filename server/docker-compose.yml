@@ -1,0 +1,22 @@
+version: "3.8"
+services:
+  app:
+    build: .
+    runtime: nvidia
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+    ports:
+      - "8000:8000"
+      - "1935:1935"
+    volumes:
+      - .:/app
+    command: ["python3", "server/img_receiver.py"]
+    restart: always
+
+  rtmp:
+    image: tiangolo/nginx-rtmp
+    ports:
+      - "1935:1935"
+    environment:
+      - STREAM_KEY=somekey
+
