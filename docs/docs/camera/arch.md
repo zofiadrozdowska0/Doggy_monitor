@@ -4,7 +4,7 @@ Projekt “Doggy Monitor” oparty jest na Raspberry Pi Zero, który zarządza k
 
 ## **Diagramy**
 
-### Klasy
+<!-- ### Klasy
 
 ```mermaid
 classDiagram
@@ -68,7 +68,7 @@ classDiagram
         +predict()
         +correct(numpy.ndarray measurement)
     }
-```
+``` -->
 
 ### **Przepływ danych**
 
