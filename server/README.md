@@ -1,6 +1,3 @@
-## Serwer
-1. Biblioteki zostały zapisane w [requirements.txt](./requirements.txt). 
-
 ### Algorytm
 
 Skrypt wstępnie przetwarza otrzymaną klatkę aby dostosować ją do używanego modelu sieci neuronowej. Następnie klatka zostaje przekazana do sieci i przeprowadzana jest inferencja.
@@ -23,7 +20,7 @@ Serwer odbiera obraz w formacie strumienia MJPEG przesyłanego z kamery pod adre
 
 Serwer nasłuchuje port 5005 w oczekiwaniu na wiadomość o połączeniu się aplikacji mobilnej. Kiedy aplikacja wyśle wiadomość, serwer co sekundę wysyłą wykrywaną aktualnie emocje psa.
 
-Serwer rejestruje każdą zmianę emocji psa i zapisuje ją, wraz z datą i godziną, do pliku txt
+Serwer rejestruje każdą zmianę emocji psa i zapisuje ją, wraz z datą i godziną, do pliku txt.
 
 ### Inne
 
@@ -51,3 +48,5 @@ graph TD
 • `server_main.py`: Wykrywa psa i jego emocje, przesyła dane do Raspberry Pi oraz obsługuje wysyłąnie emocji do aplikacji
 
 • `process_stream.py`: Przetwarza klatki wideo, analizuje kluczowe punkty psa w celu określenia jego emocji, a także rysuje wyniki detekcji na obrazie.
+
+Biblioteki zostały zapisane w [requirements.txt](./requirements.txt). 
