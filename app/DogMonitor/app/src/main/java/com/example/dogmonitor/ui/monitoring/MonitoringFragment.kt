@@ -16,9 +16,13 @@ import com.google.android.exoplayer2.ui.PlayerView
 import com.longdo.mjpegviewer.MjpegView
 
 
-abstract class MonitoringFragment : Fragment() {
+class MonitoringFragment : Fragment() {
 
 
+//    private var _binding: FragmentMonitoringBinding? = null
+//    private val binding get() = _binding!!
+//
+//    private var player: ExoPlayer? = null
 
 
     private var viewer: MjpegView? = null

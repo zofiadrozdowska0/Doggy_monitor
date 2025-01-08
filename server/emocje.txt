@@ -1,0 +1,59 @@
+07-01-2025 23:04:11 - Tail not detected. Can't read emotions.
+07-01-2025 23:04:12 - Sad
+07-01-2025 23:04:14 - Tail not detected. Can't read emotions.
+08-01-2025 00:04:57 - Tail not detected. Can't read emotions.
+08-01-2025 00:09:44 - Tail not detected. Can't read emotions.
+08-01-2025 00:15:51 - Tail not detected. Can't read emotions.
+08-01-2025 00:15:54 - Sad
+08-01-2025 00:15:55 - Tail not detected. Can't read emotions.
+08-01-2025 00:16:00 - Sad
+08-01-2025 00:16:01 - Tail not detected. Can't read emotions.
+08-01-2025 00:16:09 - Sad
+08-01-2025 00:16:13 - Tail not detected. Can't read emotions.
+08-01-2025 00:16:14 - Sad
+08-01-2025 00:16:17 - Tail not detected. Can't read emotions.
+08-01-2025 00:16:20 - Sad
+08-01-2025 00:16:20 - Tail not detected. Can't read emotions.
+08-01-2025 00:16:20 - Sad
+08-01-2025 00:16:21 - Tail not detected. Can't read emotions.
+08-01-2025 00:16:25 - Sad
+08-01-2025 00:16:26 - Tail not detected. Can't read emotions.
+08-01-2025 00:16:38 - Sad
+08-01-2025 00:16:40 - Tail not detected. Can't read emotions.
+08-01-2025 00:16:42 - Relaxed
+08-01-2025 00:16:44 - Tail not detected. Can't read emotions.
+08-01-2025 00:16:45 - Relaxed
+08-01-2025 00:16:48 - Tail not detected. Can't read emotions.
+08-01-2025 00:16:49 - Relaxed
+08-01-2025 00:16:50 - Tail not detected. Can't read emotions.
+08-01-2025 00:16:52 - Relaxed
+08-01-2025 00:16:55 - Tail not detected. Can't read emotions.
+08-01-2025 00:17:00 - Relaxed
+08-01-2025 00:17:01 - Tail not detected. Can't read emotions.
+08-01-2025 00:17:01 - Relaxed
+08-01-2025 00:17:03 - Tail not detected. Can't read emotions.
+08-01-2025 00:17:04 - Relaxed
+08-01-2025 00:17:05 - Tail not detected. Can't read emotions.
+08-01-2025 00:17:05 - Relaxed
+08-01-2025 00:17:05 - Tail not detected. Can't read emotions.
+08-01-2025 00:17:12 - Sad
+08-01-2025 00:17:13 - Tail not detected. Can't read emotions.
+08-01-2025 00:17:13 - Sad
+08-01-2025 00:17:14 - Tail not detected. Can't read emotions.
+08-01-2025 00:17:14 - Sad
+08-01-2025 00:17:16 - Tail not detected. Can't read emotions.
+08-01-2025 00:17:16 - Sad
+08-01-2025 00:17:17 - Relaxed
+08-01-2025 00:17:17 - Tail not detected. Can't read emotions.
+08-01-2025 00:17:32 - Relaxed
+08-01-2025 00:17:33 - Tail not detected. Can't read emotions.
+08-01-2025 00:17:34 - Sad
+08-01-2025 00:17:35 - Relaxed
+08-01-2025 00:17:35 - Sad
+08-01-2025 00:17:35 - Relaxed
+08-01-2025 00:17:37 - Tail not detected. Can't read emotions.
+08-01-2025 00:17:37 - Relaxed
+08-01-2025 00:17:38 - Tail not detected. Can't read emotions.
+08-01-2025 00:21:36 - Tail not detected. Can't read emotions.
+08-01-2025 00:45:49 - Tail not detected. Can't read emotions.
+08-01-2025 00:46:13 - Tail not detected. Can't read emotions.
