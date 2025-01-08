@@ -1,30 +1,23 @@
+import socket
+import threading
 import cv2
 import numpy as np
 import requests
-import socket
 from process_stream import ProcessStream
 from datetime import datetime
-import threading
-import time
 
 class DogDetectionServer:
-    def __init__(self, mjpeg_url, rpi_ip, rpi_port, emotion_broadcast_port, file_broadcast_port, file_path):
+    def __init__(self, mjpeg_url, rpi_ip, rpi_port, file_path):
         self.mjpeg_url = mjpeg_url
         self.rpi_ip = rpi_ip
         self.rpi_port = rpi_port
-        self.emotion_broadcast_port = emotion_broadcast_port
-        self.file_broadcast_port = file_broadcast_port
         self.file_path = file_path  # Ścieżka do pliku tekstowego
         self.stream = None
 
-
-        # Tworzenie gniazda UDP do broadcast emocji
-        self.emotion_broadcast_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        self.emotion_broadcast_socket.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
-
-        # Tworzenie gniazda UDP do broadcast pliku
-        self.file_broadcast_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        self.file_broadcast_socket.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
+        # TCP serwer do transmisji emocji
+        self.emotion_server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.emotion_server_socket.bind(("0.0.0.0", 5005))  # Wiązanie z dowolnym adresem na porcie 5005
+        self.emotion_server_socket.listen(5)  # Maksymalna liczba oczekujących połączeń
 
         # Wczytanie modelu MobileNet SSD
         # self.model_path = "MobileNetSSD_deploy.caffemodel"
@@ -34,8 +27,9 @@ class DogDetectionServer:
         # Klasa psa w modelu MobileNet SSD (COCO dataset)
         # self.DOG_CLASS_ID = 12
 
-        self.dog_detect = ProcessStream(model_path="model_3.pt")
 
+        # Wczytanie modelu do detekcji psa
+        self.dog_detect = ProcessStream(model_path="model_1.pt")
         self.ostatnia_emocja = None
 
     def connect_to_rpi(self):
@@ -66,7 +60,6 @@ class DogDetectionServer:
                 # Wykrywanie psa
                 self.detect_and_send(frame)
 
-
                 # Wyświetlenie obrazu
                 cv2.imshow("Dog Detection", frame)
 
@@ -75,6 +68,7 @@ class DogDetectionServer:
                     break
 
     def detect_and_send(self, frame):
+
         # h, w = frame.shape[:2]
 
         # # Przygotowanie obrazu do modelu
@@ -112,50 +106,37 @@ class DogDetectionServer:
             # Wysłanie rzeczywistej pozycji do Raspberry Pi
             bbox_message = f"{center_x},{center_y}\n"
             self.rpi_socket.sendall(bbox_message.encode())
-            # print(f"Wysłano do Raspberry Pi: {bbox_message}")
 
-            self.wyslij_emocje_broadcast_async(emotion)
-
+            # Zapis emocji asynchronicznie
             self.zapisz_emocje_async(emotion)
 
-    def wyslij_plik_broadcast(self):
+    def handle_emotion_client(self, conn, addr):
         try:
-            while True:
-                # Wczytaj zawartość pliku
-                with open(self.file_path, "r") as file:
-                    file_content = file.read()
-                
-                # Wysyłanie zawartości pliku
-                self.file_broadcast_socket.sendto(file_content.encode(), ('<broadcast>', self.file_broadcast_port))
-                print(f"Wysłano zawartość pliku przez broadcast na porcie {self.file_broadcast_port}:\n{file_content}")
-
-                # Czekaj 60 sekund
-                time.sleep(60)
+            print(f"Połączono z klientem: {addr}")
+            data = conn.recv(1024).decode().strip()
+            if data.lower() == "start_emotion":
+                print(f"Otrzymano start_emotion od: {addr}")
+                while True:
+                    if self.ostatnia_emocja:
+                        conn.sendall(f"{self.ostatnia_emocja}\n".encode())
+                    else:
+                        # Jeśli brak nowej emocji, wysyłaj "brak danych" co 1 sekundę
+                        conn.sendall("brak danych\n".encode())
+                    threading.Event().wait(1)  # Czekaj 1 sekundę
+        except (ConnectionResetError, BrokenPipeError) as e:
+            print(f"Klient {addr} rozłączył się: {e}")
         except Exception as e:
-            print(f"Błąd podczas wysyłania broadcastu pliku: {e}")
-
-    def start_file_broadcast(self):
-        # Uruchomienie wątku do wysyłania pliku
-        threading.Thread(target=self.wyslij_plik_broadcast, daemon=True).start()
-
-    def wyslij_emocje_broadcast(self, emotion):
-        try:
-            emotion_message = f"{emotion}\n"
-            self.emotion_broadcast_socket.sendto(emotion_message.encode(), ('<broadcast>', self.emotion_broadcast_port))
-        except Exception as e:
-            print(f"Błąd podczas wysyłania broadcastu emocji: {e}")
-
-    def wyslij_emocje_broadcast_async(self, emotion):
-        threading.Thread(target=self.wyslij_emocje_broadcast, args=(emotion,)).start()
+            print(f"Błąd w połączeniu z klientem {addr}: {e}")
+        finally:
+            conn.close()
 
 
-    def close(self):
-        if self.stream:
-            self.stream.close()
-        self.rpi_socket.close()
-        self.broadcast_socket.close()
-        cv2.destroyAllWindows()
-    
+    def start_emotion_server(self):
+        print("Serwer emocji uruchomiony, oczekiwanie na połączenia...")
+        while True:
+            conn, addr = self.emotion_server_socket.accept()
+            threading.Thread(target=self.handle_emotion_client, args=(conn, addr), daemon=True).start()
+
     def zapisz_emocje(self, emotion):
         if emotion != self.ostatnia_emocja:  # Sprawdzaj, czy emocja się zmieniła
             czas = datetime.now().strftime("%d-%m-%Y %H:%M:%S")
@@ -166,24 +147,27 @@ class DogDetectionServer:
     def zapisz_emocje_async(self, emotion):
         threading.Thread(target=self.zapisz_emocje, args=(emotion,)).start()
 
+    def close(self):
+        if self.stream:
+            self.stream.close()
+        self.rpi_socket.close()
+        self.emotion_server_socket.close()
+        cv2.destroyAllWindows()
+
 # Przykład użycia
 if __name__ == "__main__":
     mjpeg_url = "http://192.168.137.182:5000/video_feed"
     rpi_ip = "192.168.137.182"
     rpi_port = 8487
-    emotion_broadcast_port = 5005  # Port dla broadcastu emocji
-    file_broadcast_port = 5006    # Port dla broadcastu pliku
-    file_path = "emocje.txt"      # Ścieżka do pliku tekstowego
+    file_path = "emocje.txt"  # Ścieżka do pliku tekstowego
 
-    server = DogDetectionServer(
-        mjpeg_url, rpi_ip, rpi_port, emotion_broadcast_port, file_broadcast_port, file_path
-    )
+    server = DogDetectionServer(mjpeg_url, rpi_ip, rpi_port, file_path)
     try:
         server.connect_to_rpi()
         server.start_stream()
 
-        # Rozpocznij broadcast pliku
-        server.start_file_broadcast()
+        # Uruchomienie serwera emocji w osobnym wątku
+        threading.Thread(target=server.start_emotion_server, daemon=True).start()
 
         server.process_stream()
     finally:

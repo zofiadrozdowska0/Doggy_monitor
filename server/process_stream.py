@@ -227,7 +227,7 @@ class ProcessStream:
         return image
     
 
-    def process_frame(self, frame, BOX_IOU_THRESH=0.55, BOX_CONF_THRESH=0.30, KPT_CONF_THRESH=0.68):
+    def process_frame(self, frame, BOX_IOU_THRESH=0.55, BOX_CONF_THRESH=0.50, KPT_CONF_THRESH=0.68):
         angle_lpl = angle_lpp = angle_ltp = angle_ltl = angle_glowa =angle_pu=angle_lu= angle_pysk = angle_ogon = None
         visible_tongue = False
         visible_teeth = False
