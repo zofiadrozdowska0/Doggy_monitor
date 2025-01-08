@@ -37,6 +37,12 @@
 3. Wprowadź adres URL kamery w menu opcji aplikacji, oraz adres serwera w pliku MonitoringFragment.
 4. Rozpocznij monitorowanie, aby na bieżąco obserwować psa i odczytywać jego emocje.
 
+## Przykładowy widok aplikacji
+
+Poniżej znajduje się przykład działania aplikacji, w którym pokazano obraz z kamery oraz rozpoznaną emocję psa. Na dole ekranu widoczne jest menu, które umożliwia łatwą nawigację między funkcjami aplikacji:
+- **Ustawienia**: konfiguracja aplikacji, wprowadzenie adresów serwera i kamery.  
+- **Monitoring psa**: bieżące monitorowanie obrazu i emocji psa.  
+- **Statystyki**: przegląd zebranych danych i historii emocji psa – niestety nie udało się zrealizować tego zadania. Dodanie statystyk może być kolejną rozbudową programu.
 
 
 ![Widok z poziomu aplikacji](screenshots/klatka_200.png)
