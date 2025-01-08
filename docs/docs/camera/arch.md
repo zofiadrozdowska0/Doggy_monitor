@@ -74,12 +74,12 @@ classDiagram
 
 ```mermaid
 flowchart LR
-    camera-- image -->http
+    RPI-- image -->http
     http-- image -->server
     server-- emotion -->mobile_app
     http-- image -->mobile_app
-    camera-- tracking and cropping -->dog_tracker
-    dog_tracker-- move to track dog -->move_servo
+    server-- tracking and cropping -->RPI
+    RPI-- move to track dog -->move_servo
 ```
 
 ## **Zastosowane technologie**
