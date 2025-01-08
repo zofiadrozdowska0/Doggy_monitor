@@ -39,7 +39,7 @@ class MonitoringFragment : Fragment() {
         viewer.setMode(MjpegView.MODE_FIT_WIDTH);
         viewer.setAdjustHeight(true);
         viewer.setSupportPinchZoomAndPan(true);
-        viewer.setUrl("https://app.punyapat.me/mjpeg-server/mjpeg");
+        viewer.setUrl("http://192.168.137.182:5000/video_feed");
         viewer.startStream();
         // Initialize PlayerView
 //        initializePlayer() // Call to initialize the player
