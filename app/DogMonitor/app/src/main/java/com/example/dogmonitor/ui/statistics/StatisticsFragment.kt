@@ -84,7 +84,7 @@ class StatisticsFragment : Fragment() {
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 cardHeightPx
             ).apply {
-                bottomMargin = 16 // Margines między kolejnymi CardView
+                bottomMargin = 0 // Margines między kolejnymi CardView
             }
             setCardBackgroundColor(resources.getColor(R.color.teal_700, requireContext().theme))
             radius = 10f // Zaokrąglenie narożników

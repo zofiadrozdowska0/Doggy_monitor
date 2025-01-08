@@ -580,9 +580,12 @@
                     android:layout_gravity="center_vertical"
                     android:layoutMode="opticalBounds"
                     android:outlineProvider="none"
+                    app:cardElevation="4dp"
 
                     app:cardBackgroundColor="#ff00ff"
                     app:cardCornerRadius="10dp">
+
+
 
                     <TextView
                         android:layout_width="match_parent"

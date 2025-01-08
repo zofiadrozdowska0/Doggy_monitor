@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.example.dogmonitor.SettingsPreferences
 import com.example.dogmonitor.databinding.FragmentMonitoringBinding
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
@@ -38,7 +39,7 @@ class MonitoringFragment : Fragment() {
         binding.playerView.player = player // Accessing PlayerView using View Binding
 
         // Set the media item to be played (replace with your video URL)
-        val videoUri = Uri.parse("https://www.learningcontainer.com/wp-content/uploads/2020/05/sample-mp4-file.mp4")
+        val videoUri = Uri.parse(SettingsPreferences.server_address)
         val mediaItem = MediaItem.fromUri(videoUri)
         player?.setMediaItem(mediaItem)
 

@@ -18,6 +18,8 @@ object SettingsPreferences {
     private const val VIDEOCLIP_INDICATOR_ANGRY_KEY = "videoclip_indicator_angry"
     private const val VIDEOCLIP_INDICATOR_HUNGRY_KEY = "videoclip_indicator_hungry"
 
+    private const val DOG_BREED_KEY = "dog_breed"
+
 
 
     private lateinit var prefs: SharedPreferences
@@ -66,8 +68,15 @@ object SettingsPreferences {
         get() = prefs.getBoolean(VIDEOCLIP_INDICATOR_HUNGRY_KEY, false)
         set(value) = prefs.edit().putBoolean(VIDEOCLIP_INDICATOR_HUNGRY_KEY, value).apply()
 
-    var server_address: String?
-        get() = prefs.getString(SERVER_ADDRESS_KEY,"")
-        set(value) = prefs.edit().putString(SERVER_ADDRESS_KEY,value).apply()
+    var server_address: String
+        get() = prefs.getString("server_address", "") ?: ""
+        set(value) {
+            prefs.edit().putString("server_address", value).apply()
+        }
+
+    var dog_breed: Int
+        get() = prefs.getInt(DOG_BREED_KEY, 0)
+        set(value) = prefs.edit().putInt(DOG_BREED_KEY,value).apply()
+
 
 }
