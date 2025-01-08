@@ -52,7 +52,7 @@ class MonitoringFragment : Fragment() {
     private var emotionTextView: TextView? = null
     private var emotionContainer: androidx.cardview.widget.CardView? = null
 
-    private var serverIp = "192.168.0.38" // Adres serwera
+    private var serverIp = "192.168.137.1" // Adres serwera
     private var serverPort = 5005           // Port serwera
     private lateinit var textView: TextView
     private var isRunning = true
@@ -64,20 +64,17 @@ class MonitoringFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-
-
     ): View {
         _binding = FragmentMonitoringBinding.inflate(inflater, container, false)
         val root: View = binding.root
-        val view = inflater.inflate(R.layout.fragment_monitoring, container, false)
 
-        emotionTextView = view.findViewById<TextView>(R.id.DogEmotion)
-        emotionContainer = view.findViewById<androidx.cardview.widget.CardView>(R.id.DogEmotionCont)
+        // Odwołaj się do elementów UI za pomocą binding
+        emotionTextView = binding.DogEmotion
+        emotionContainer = binding.DogEmotionCont
 
         startEmotionMonitoring()
 
-
-        viewer = view.findViewById<MjpegView>(R.id.mjpegview)
+        viewer = binding.mjpegview
         viewer?.apply {
             setMode(MjpegView.MODE_FIT_WIDTH)
             setAdjustHeight(true)
@@ -85,8 +82,6 @@ class MonitoringFragment : Fragment() {
             setUrl(SettingsPreferences.server_address)
             startStream()
         }
-
-
 
         return root
     }
@@ -107,17 +102,27 @@ class MonitoringFragment : Fragment() {
                 writer.println("start_emotion")
                 Log.d("Emotion", "Start")
                 isRunning = true
+
                 // Odbieraj dane od serwera
                 while (isRunning) {
                     Log.d("Emotion", "Odbieranie")
                     val message = reader.readLine() ?: break
                     Log.d("Emotion", "odebrano: $message")
-                    updateTextView(message)
+
+                    // Zaktualizuj interfejs użytkownika
+                    withContext(Dispatchers.Main) {
+                        emotionTextView?.text = message ?: "Brak danych"
+                    }
+
                 }
             } catch (e: Exception) {
                 Log.d("Emotion", "Błąd połączenia")
                 e.printStackTrace()
-                updateTextView("Błąd połączenia z serwerem")
+
+                // Zaktualizuj interfejs użytkownika z błędem
+                withContext(Dispatchers.Main) {
+                    emotionTextView?.text = "Błąd połączenia z serwerem"
+                }
             } finally {
                 Log.d("Emotion", "Zakończono")
                 // Zamknij zasoby
@@ -125,13 +130,6 @@ class MonitoringFragment : Fragment() {
                 writer?.close()
                 socket?.close()
             }
-        }
-    }
-
-
-    private fun updateTextView(message: String) {
-        CoroutineScope(Dispatchers.Main).launch {
-            emotionTextView?.text = message // Zaktualizuj TextView w interfejsie użytkownika
         }
     }
 
