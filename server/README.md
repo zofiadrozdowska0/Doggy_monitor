@@ -24,3 +24,7 @@ Serwer odbiera obraz w formacie strumienia MJPEG przesyłanego z kamery pod adre
 Serwer nasłuchuje port 5005 w oczekiwaniu na wiadomość o połączeniu się aplikacji mobilnej. Kiedy aplikacja wyśle wiadomość, serwer co sekundę wysyłą wykrywaną aktualnie emocje psa.
 
 Serwer rejestruje każdą zmianę emocji psa i zapisuje ją, wraz z datą i godziną, do pliku txt
+
+### Inne
+
+Folder inne zawiera pliki używane do testowania i tworzenia kodu serwera
