@@ -2,68 +2,149 @@ package com.example.dogmonitor.ui.monitoring
 
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
+import android.widget.TextView
 import androidx.fragment.app.Fragment
+import com.example.dogmonitor.R
+
+import com.example.dogmonitor.SettingsPreferences
 import com.example.dogmonitor.databinding.FragmentMonitoringBinding
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.ui.PlayerView
 
+import com.longdo.mjpegviewer.MjpegView
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.io.BufferedReader
+import java.io.InputStreamReader
+import java.net.DatagramPacket
+import java.net.DatagramSocket
+import java.net.Socket
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.WebSocket
+import okhttp3.WebSocketListener
+import okio.ByteString
+import java.io.PrintWriter
+
+
 class MonitoringFragment : Fragment() {
+
+
+//    private var _binding: FragmentMonitoringBinding? = null
+//    private val binding get() = _binding!!
+//
+//    private var player: ExoPlayer? = null
 
     private var _binding: FragmentMonitoringBinding? = null
     private val binding get() = _binding!!
 
-    private var player: ExoPlayer? = null
+    private var viewer: MjpegView? = null
+    private var emotionTextView: TextView? = null
+    private var emotionContainer: androidx.cardview.widget.CardView? = null
+
+    private var serverIp = "192.168.0.38" // Adres serwera
+    private var serverPort = 5005           // Port serwera
+    private lateinit var textView: TextView
+    private var isRunning = true
+
+
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
+
+
     ): View {
-        // Inflate the layout for this fragment
         _binding = FragmentMonitoringBinding.inflate(inflater, container, false)
         val root: View = binding.root
+        val view = inflater.inflate(R.layout.fragment_monitoring, container, false)
 
-        // Initialize PlayerView
-        initializePlayer() // Call to initialize the player
+        emotionTextView = view.findViewById<TextView>(R.id.DogEmotion)
+        emotionContainer = view.findViewById<androidx.cardview.widget.CardView>(R.id.DogEmotionCont)
+
+        startEmotionMonitoring()
+
+
+        viewer = view.findViewById<MjpegView>(R.id.mjpegview)
+        viewer?.apply {
+            setMode(MjpegView.MODE_FIT_WIDTH)
+            setAdjustHeight(true)
+            setSupportPinchZoomAndPan(true)
+            setUrl(SettingsPreferences.server_address)
+            startStream()
+        }
+
+
 
         return root
     }
 
-    private fun initializePlayer() {
-        player = ExoPlayer.Builder(requireContext()).build()
-        binding.playerView.player = player // Accessing PlayerView using View Binding
+    private fun startEmotionMonitoring() {
+        CoroutineScope(Dispatchers.IO).launch {
+            var socket: Socket? = null
+            var reader: BufferedReader? = null
+            var writer: PrintWriter? = null
 
-        // Set the media item to be played (replace with your video URL)
-        val videoUri = Uri.parse("https://www.learningcontainer.com/wp-content/uploads/2020/05/sample-mp4-file.mp4")
-        val mediaItem = MediaItem.fromUri(videoUri)
-        player?.setMediaItem(mediaItem)
+            try {
+                // Nawiąż połączenie z serwerem
+                socket = Socket(serverIp, serverPort)
+                reader = BufferedReader(InputStreamReader(socket.getInputStream()))
+                writer = PrintWriter(socket.getOutputStream(), true)
 
-        // Prepare and start playback
-        player?.prepare()
-        player?.playWhenReady = true
+                // Wyślij wiadomość inicjującą
+                writer.println("start_emotion")
+                Log.d("Emotion", "Start")
+                isRunning = true
+                // Odbieraj dane od serwera
+                while (isRunning) {
+                    Log.d("Emotion", "Odbieranie")
+                    val message = reader.readLine() ?: break
+                    Log.d("Emotion", "odebrano: $message")
+                    updateTextView(message)
+                }
+            } catch (e: Exception) {
+                Log.d("Emotion", "Błąd połączenia")
+                e.printStackTrace()
+                updateTextView("Błąd połączenia z serwerem")
+            } finally {
+                Log.d("Emotion", "Zakończono")
+                // Zamknij zasoby
+                reader?.close()
+                writer?.close()
+                socket?.close()
+            }
+        }
     }
 
-    override fun onPause() {
-        super.onPause()
-        player?.pause() // Pause the player when the fragment is paused
+
+    private fun updateTextView(message: String) {
+        CoroutineScope(Dispatchers.Main).launch {
+            emotionTextView?.text = message // Zaktualizuj TextView w interfejsie użytkownika
+        }
     }
 
-    override fun onStop() {
-        super.onStop()
-        releasePlayer() // Release the player when the fragment is stopped
-    }
 
-    private fun releasePlayer() {
-        player?.release()
-        player = null // Clear the player reference
-    }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding = null // Clear the binding reference
+        viewer?.stopStream()
+        viewer = null
+
+        isRunning = false
+        _binding = null
+
+
     }
 }

@@ -9,16 +9,40 @@
     android:layout_height="match_parent"
     tools:context=".ui.monitoring.MonitoringFragment">
 
-    <com.google.android.exoplayer2.ui.PlayerView
-        android:id="@+id/playerView"
-        android:layout_width="wrap_content"
+<!--    <com.google.android.exoplayer2.ui.PlayerView-->
+<!--        android:id="@+id/playerView"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_margin="16dp"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:resize_mode="fit" />-->
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/DogEmotionCont"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/DogEmotion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </androidx.cardview.widget.CardView>
+
+    <com.longdo.mjpegviewer.MjpegView
+        android:id="@+id/mjpegview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:resize_mode="fit" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 

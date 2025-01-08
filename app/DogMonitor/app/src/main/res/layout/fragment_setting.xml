@@ -91,77 +91,6 @@
                 android:layout_height="1dp"
                 android:background="?android:attr/listDivider" />
 
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <Switch
-                    android:id="@+id/switch_notifications"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:text="Powiadomienia"
-                    android:textColor="@color/teal_700"
-                    android:textSize="24sp" />
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/notifications_options"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
-
-                    <TextView
-
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Nadaj powiadomienie gdy:"
-                        android:textColor="@color/material_dynamic_neutral30"
-                        android:textSize="20sp" />
-
-                    <CheckBox
-                        android:id="@+id/notification_indicator_happy_checkBox"
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:text="Zmiana nastroju na &quot;Szczęśliwy&quot;"
-                        android:textColor="@color/material_dynamic_neutral20"
-                        android:textSize="16sp" />
-
-                    <CheckBox
-                        android:id="@+id/notification_indicator_sad_checkBox"
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:text="Zmiana nastroju na &quot;Smutny&quot;"
-                        android:textColor="@color/material_dynamic_neutral20"
-                        android:textSize="16sp" />
-
-                    <CheckBox
-                        android:id="@+id/notification_indicator_angry_checkBox"
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:text="Zmiana nastroju na &quot;Zdenerwowany&quot;"
-                        android:textColor="@color/material_dynamic_neutral20"
-                        android:textSize="16sp" />
-
-                    <CheckBox
-                        android:id="@+id/notification_indicator_hungry_checkBox"
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:text="Zmiana nastroju na &quot;Głodny&quot;"
-                        android:textColor="@color/material_dynamic_neutral20"
-                        android:textSize="16sp" />
-                </LinearLayout>
-
-            </androidx.cardview.widget.CardView>
-
-            <View
-                android:id="@+id/divider2"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="?android:attr/listDivider" />
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
@@ -173,61 +102,13 @@
                     android:importantForAccessibility="yes"
                     android:paddingTop="8dp"
                     android:paddingBottom="4dp"
-                    android:text="Zapis klipów"
+                    android:text="Typ psa"
                     android:textColor="@color/teal_700"
                     android:textSize="24sp" />
 
             </androidx.cardview.widget.CardView>
-
             <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:layout_weight="4"
-                        android:importantForAccessibility="yes"
-                        android:paddingTop="8dp"
-                        android:paddingBottom="4dp"
-                        android:text="Długość zpisywanych klipów"
-                        android:textColor="@color/material_dynamic_neutral30"
-                        android:textSize="20sp" />
-
-                    <EditText
-                        android:id="@+id/video_clip_lenght"
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:layout_weight="9"
-                        android:gravity="center_vertical"
-                        android:hint="0"
-                        android:inputType="number|numberDecimal"
-                        android:textAlignment="center"
-                        android:textColor="@color/material_dynamic_neutral20" />
-
-                    <TextView
-                        android:id="@+id/textView2"
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_weight="11"
-                        android:importantForAccessibility="yes"
-                        android:paddingTop="8dp"
-                        android:paddingBottom="4dp"
-                        android:text="s"
-                        android:textColor="@color/material_dynamic_neutral30"
-                        android:textSize="20sp" />
-                </LinearLayout>
-
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/video_clip_options"
+                android:id="@+id/dog_breed_options"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
@@ -236,48 +117,42 @@
                     android:layout_height="match_parent"
                     android:orientation="vertical">
 
-                    <TextView
+                <TextView
 
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Wybierz opis najbardziej pasujący do twojego psa:"
+                    android:textColor="@color/material_dynamic_neutral30"
+                    android:textSize="20sp" />
+
+                <RadioGroup
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" >
+
+                    <RadioButton
+                        android:id="@+id/Breed1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Zapisz klip gdy:"
-                        android:textColor="@color/material_dynamic_neutral30"
-                        android:textSize="20sp" />
+                        android:text="Klapnięte uszy, prosty ogon, średniej długości sierść, długi pysk, długie nogi" />
 
-                    <CheckBox
-                        android:id="@+id/video_clip_indicator_happy_checkBox"
+                    <RadioButton
+                        android:id="@+id/Breed2"
                         android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:text="Zmiana nastroju na &quot;Szczęśliwy&quot;"
-                        android:textColor="@color/material_dynamic_neutral20"
-                        android:textSize="16sp" />
-
-                    <CheckBox
-                        android:id="@+id/video_clip_indicator_sad_checkBox"
+                        android:layout_height="wrap_content"
+                        android:text="Postawione uszy, prosty ogon, gęsta sierść średniej długości, długi pysk, długie nogi" />
+                    <RadioButton
+                        android:id="@+id/Breed3"
                         android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:text="Zmiana nastroju na &quot;Smutny&quot;"
-                        android:textColor="@color/material_dynamic_neutral20"
-                        android:textSize="16sp" />
-
-                    <CheckBox
-                        android:id="@+id/video_clip_indicator_angry_checkBox"
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:text="Zmiana nastroju na &quot;Zdenerwowany&quot;"
-                        android:textColor="@color/material_dynamic_neutral20"
-                        android:textSize="16sp" />
-
-                    <CheckBox
-                        android:id="@+id/video_clip_indicator_hungry_checkBox"
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:text="Zmiana nastroju na &quot;Głodny&quot;"
-                        android:textColor="@color/material_dynamic_neutral20"
-                        android:textSize="16sp" />
+                        android:layout_height="wrap_content"
+                        android:text="Klapnięte uszy, prosty ogon, opływowy kształt, krótka sierść, długi pysk, długie nogi" />
+                </RadioGroup>
                 </LinearLayout>
 
+
+
             </androidx.cardview.widget.CardView>
+
+
             <!-- Setting item with EditText -->
 
             <!-- Setting item with Checkbox -->
