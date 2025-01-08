@@ -75,7 +75,7 @@ class ProcessStream:
                     else:
                         return "Relaxed"
         else:
-            return "Tail not detected. Can't read emotions."
+            return "NotDetected" #Tail not detected. Can't read emotions.
 
 
     def calcuate_emotion(self, angle_lpl, angle_ogon, angle_lpp, angle_glowa,angle_pu,angle_lu, visible_tongue, visible_teeth):
@@ -227,7 +227,7 @@ class ProcessStream:
         return image
     
 
-    def process_frame(self, frame, BOX_IOU_THRESH=0.55, BOX_CONF_THRESH=0.30, KPT_CONF_THRESH=0.68):
+    def process_frame(self, frame, BOX_IOU_THRESH=0.55, BOX_CONF_THRESH=0.50, KPT_CONF_THRESH=0.68):
         angle_lpl = angle_lpp = angle_ltp = angle_ltl = angle_glowa =angle_pu=angle_lu= angle_pysk = angle_ogon = None
         visible_tongue = False
         visible_teeth = False
