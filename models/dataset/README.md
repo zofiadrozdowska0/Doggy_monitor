@@ -16,8 +16,8 @@ W anotacji udział brali: Zofia Drozdowska, Joanna Ryś, Tomasz Sekrecki, Micha�
 
 Uporządkowane i połączone datasety dla każdej grupy: (todo)
 - 1
-- 2
-- 3
+- [grupa 2](https://pgedupl-my.sharepoint.com/:u:/g/personal/s189051_student_pg_edu_pl/EaRdm1MboatEjiDvH8hPlaIBr5nATIJTLO_sjIUxEFvoRg?e=9sDhVV)
+- [grupa 3](https://pgedupl-my.sharepoint.com/:u:/g/personal/s189051_student_pg_edu_pl/EWpUt6ElwaRNo73xTum4XJsB8npimUAWWYw0iadSRT1IUQ?e=P5CKTA)
 
 Programy pomocnicze do tworzenia datasetu:
 - [data_merge.py](./data_merge.py) - łączenie folderów z danymi
