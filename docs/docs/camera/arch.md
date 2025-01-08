@@ -32,9 +32,10 @@ classDiagram
 
 ```mermaid
 flowchart LR
-    camera-- image -->camera_streamer
+    camera-- image -->http
+    http-- image -->server
+    server-- emotion -->mobile_app
     camera-- tracking and cropping -->dog_tracker
-    camera_streamer-- streaming image to cloud -->cloud
     dog_tracker-- move to track dog -->move_servo
     cloud-->...
 ```
@@ -55,20 +56,14 @@ System działa na Raspberry Pi Zero, który jest odpowiedzialny za obsługę zar
 graph TD
     src --> main.py
     src --> servo_controller.py
-    src --> camera_stream.py
-    src --> dog_tracker.py
     lib --> gpio_handler.py
     lib --> camera_handler.py
     config --> config.yaml
 ```
 
-• `main.py`: Główny plik uruchamiający system.
+• `main.py`: Obsługa strumieniowania obrazu z kamery i śledzenia psa.
 
 • `servo_controller.py`: Kod odpowiedzialny za sterowanie serwami.
-
-• `camera_stream.py`: Obsługa strumieniowania obrazu z kamery.
-
-• `dog_tracker.py`: Algorytmy śledzenia psa i przekazywania ruchu do serw.
 
 • `gpio_handler.py`: Obsługa pinów GPIO.
 
