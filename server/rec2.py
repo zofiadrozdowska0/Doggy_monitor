@@ -7,11 +7,17 @@ from datetime import datetime
 import threading
 
 class DogDetectionServer:
-    def __init__(self, mjpeg_url, rpi_ip, rpi_port):
+    def __init__(self, mjpeg_url, rpi_ip, rpi_port, broadcast_port):
         self.mjpeg_url = mjpeg_url
         self.rpi_ip = rpi_ip
         self.rpi_port = rpi_port
+        self.broadcast_port = broadcast_port
         self.stream = None
+
+
+        # Tworzenie gniazda UDP do broadcast
+        self.broadcast_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        self.broadcast_socket.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
 
         # Wczytanie modelu MobileNet SSD
         # self.model_path = "MobileNetSSD_deploy.caffemodel"
@@ -99,15 +105,32 @@ class DogDetectionServer:
             # Wysłanie rzeczywistej pozycji do Raspberry Pi
             bbox_message = f"{center_x},{center_y}\n"
             self.rpi_socket.sendall(bbox_message.encode())
-            print(f"Wysłano do Raspberry Pi: {bbox_message}")
+            # print(f"Wysłano do Raspberry Pi: {bbox_message}")
+
+            self.wyslij_emocje_broadcast_async(emotion)
 
             self.zapisz_emocje_async(emotion)
+
+    def wyslij_emocje_broadcast(self, emotion):
+            try:
+                # Przygotowanie wiadomości do wysłania
+                emotion_message = f"{emotion}\n"
+                
+                # Wysłanie na adres broadcast w sieci lokalnej
+                self.broadcast_socket.sendto(emotion_message.encode(), ('<broadcast>', self.broadcast_port))
+                # print(f"Wysłano broadcast emocji: {emotion_message}")
+            except Exception as e:
+                print(f"Błąd podczas wysyłania broadcastu emocji: {e}")
+
+    def wyslij_emocje_broadcast_async(self, emotion):
+        threading.Thread(target=self.wyslij_emocje_broadcast, args=(emotion,)).start()
 
 
     def close(self):
         if self.stream:
             self.stream.close()
         self.rpi_socket.close()
+        self.broadcast_socket.close()
         cv2.destroyAllWindows()
     
     def zapisz_emocje(self, emotion):
@@ -125,8 +148,9 @@ if __name__ == "__main__":
     mjpeg_url = "http://192.168.137.182:5000/video_feed"  # Adres Raspberry Pi
     rpi_ip = "192.168.137.182"  # Adres IP Raspberry Pi
     rpi_port = 8487  # Port, na którym Raspberry Pi odbiera dane
+    broadcast_port = 5005  # Port dla broadcastu emocji
 
-    server = DogDetectionServer(mjpeg_url, rpi_ip, rpi_port)
+    server = DogDetectionServer(mjpeg_url, rpi_ip, rpi_port, broadcast_port)
     try:
         server.connect_to_rpi()
         server.start_stream()
