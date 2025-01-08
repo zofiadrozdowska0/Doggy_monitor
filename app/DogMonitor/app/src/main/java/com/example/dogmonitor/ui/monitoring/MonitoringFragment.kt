@@ -16,6 +16,7 @@ import com.example.dogmonitor.databinding.FragmentMonitoringBinding
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.ui.PlayerView
+
 import com.longdo.mjpegviewer.MjpegView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -28,6 +29,12 @@ import java.io.InputStreamReader
 import java.net.DatagramPacket
 import java.net.DatagramSocket
 import java.net.Socket
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.WebSocket
+import okhttp3.WebSocketListener
+import okio.ByteString
+import java.io.PrintWriter
 
 
 class MonitoringFragment : Fragment() {
@@ -38,14 +45,20 @@ class MonitoringFragment : Fragment() {
 //
 //    private var player: ExoPlayer? = null
 
+    private var _binding: FragmentMonitoringBinding? = null
+    private val binding get() = _binding!!
 
     private var viewer: MjpegView? = null
     private var emotionTextView: TextView? = null
     private var emotionContainer: androidx.cardview.widget.CardView? = null
 
-    private var job: Job? = null
-    private val port = 8488
-    private var socket: DatagramSocket? = null
+    private var serverIp = "192.168.0.38" // Adres serwera
+    private var serverPort = 5005           // Port serwera
+    private lateinit var textView: TextView
+    private var isRunning = true
+
+
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -54,13 +67,14 @@ class MonitoringFragment : Fragment() {
 
 
     ): View {
-
+        _binding = FragmentMonitoringBinding.inflate(inflater, container, false)
+        val root: View = binding.root
         val view = inflater.inflate(R.layout.fragment_monitoring, container, false)
 
         emotionTextView = view.findViewById<TextView>(R.id.DogEmotion)
         emotionContainer = view.findViewById<androidx.cardview.widget.CardView>(R.id.DogEmotionCont)
 
-        startBroadcastReceiver()
+        startEmotionMonitoring()
 
 
         viewer = view.findViewById<MjpegView>(R.id.mjpegview)
@@ -73,40 +87,51 @@ class MonitoringFragment : Fragment() {
         }
 
 
-        return view
+
+        return root
     }
 
-    private fun startBroadcastReceiver() {
-        Log.d("MonitoringFragment", "Uruchamianie nasłuchiwania na porcie $port")
-
-        job = CoroutineScope(Dispatchers.IO).launch {
+    private fun startEmotionMonitoring() {
+        CoroutineScope(Dispatchers.IO).launch {
+            var socket: Socket? = null
+            var reader: BufferedReader? = null
+            var writer: PrintWriter? = null
 
             try {
-                socket = DatagramSocket(port)
-                socket?.broadcast = true
+                // Nawiąż połączenie z serwerem
+                socket = Socket(serverIp, serverPort)
+                reader = BufferedReader(InputStreamReader(socket.getInputStream()))
+                writer = PrintWriter(socket.getOutputStream(), true)
 
-                while (true) {
-                    Log.d("MonitoringFragment", "1")
-                    val buffer = ByteArray(1024)
-                    Log.d("MonitoringFragment", "2")
-                    val packet = DatagramPacket(buffer, buffer.size)
-                    Log.d("MonitoringFragment", "3")
-                    socket?.receive(packet)
-                    Log.d("MonitoringFragment", "4")
-
-                    val receivedText = String(packet.data, 0, packet.length)
-                    withContext(Dispatchers.Main) {
-                        emotionTextView?.text = receivedText
-                    }
+                // Wyślij wiadomość inicjującą
+                writer.println("start_emotion")
+                Log.d("Emotion", "Start")
+                isRunning = true
+                // Odbieraj dane od serwera
+                while (isRunning) {
+                    Log.d("Emotion", "Odbieranie")
+                    val message = reader.readLine() ?: break
+                    Log.d("Emotion", "odebrano: $message")
+                    updateTextView(message)
                 }
             } catch (e: Exception) {
+                Log.d("Emotion", "Błąd połączenia")
                 e.printStackTrace()
-                withContext(Dispatchers.Main) {
-                    emotionTextView?.text = "Błąd odbioru: ${e.message}"
-                }
+                updateTextView("Błąd połączenia z serwerem")
             } finally {
-                socket?.close() // Zamknięcie socketu
+                Log.d("Emotion", "Zakończono")
+                // Zamknij zasoby
+                reader?.close()
+                writer?.close()
+                socket?.close()
             }
+        }
+    }
+
+
+    private fun updateTextView(message: String) {
+        CoroutineScope(Dispatchers.Main).launch {
+            emotionTextView?.text = message // Zaktualizuj TextView w interfejsie użytkownika
         }
     }
 
@@ -116,8 +141,10 @@ class MonitoringFragment : Fragment() {
         super.onDestroyView()
         viewer?.stopStream()
         viewer = null
-        job?.cancel()
-        socket?.close()
+
+        isRunning = false
+        _binding = null
+
 
     }
 }
