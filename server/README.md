@@ -28,3 +28,25 @@ Serwer rejestruje każdą zmianę emocji psa i zapisuje ją, wraz z datą i godz
 ### Inne
 
 Folder inne zawiera pliki używane do testowania i tworzenia kodu serwera
+
+
+### **Przepływ danych**
+
+```mermaid
+flowchart LR
+    RPI-- MJPEG_stream -->Server
+    Server-- bounding_box -->RPI
+    Server-- emotions -->mobile_app
+```
+
+**Struktura plików**
+
+```mermaid
+graph TD
+    server --> server_main.py
+    server --> process_stream.py
+```
+
+• `server_main.py`: Wykrywa psa i jego emocje, przesyła dane do Raspberry Pi oraz obsługuje wysyłąnie emocji do aplikacji
+
+• `process_stream.py`: Przetwarza klatki wideo, analizuje kluczowe punkty psa w celu określenia jego emocji, a także rysuje wyniki detekcji na obrazie.
