@@ -1,2 +1,2 @@
 # Wykrywanie psa na filmach z użyciem Yolov5
-Kod był częscia systemu sledzenia, zwraca współrzędne lokalizacji psa na posczególnych klatkch wideo. Przekazywane później współrzędne były do RaspberryPI. 
+Jest to pierwsza wersja kodu, który był częscia systemu sledzenia (zwraca współrzędne lokalizacji psa na posczególnych klatkch wideo).  Współrzędne były później przekazywane do RaspberryPI. 
