@@ -39,4 +39,4 @@
 
 
 
-![Widok z poziomu aplikacji](screenshots/klatka200.png)
+![Widok z poziomu aplikacji](screenshots/klatka_200.png)
