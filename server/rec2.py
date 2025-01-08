@@ -5,19 +5,26 @@ import socket
 from process_stream import ProcessStream
 from datetime import datetime
 import threading
+import time
 
 class DogDetectionServer:
-    def __init__(self, mjpeg_url, rpi_ip, rpi_port, broadcast_port):
+    def __init__(self, mjpeg_url, rpi_ip, rpi_port, emotion_broadcast_port, file_broadcast_port, file_path):
         self.mjpeg_url = mjpeg_url
         self.rpi_ip = rpi_ip
         self.rpi_port = rpi_port
-        self.broadcast_port = broadcast_port
+        self.emotion_broadcast_port = emotion_broadcast_port
+        self.file_broadcast_port = file_broadcast_port
+        self.file_path = file_path  # Ścieżka do pliku tekstowego
         self.stream = None
 
 
-        # Tworzenie gniazda UDP do broadcast
-        self.broadcast_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        self.broadcast_socket.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
+        # Tworzenie gniazda UDP do broadcast emocji
+        self.emotion_broadcast_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        self.emotion_broadcast_socket.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
+
+        # Tworzenie gniazda UDP do broadcast pliku
+        self.file_broadcast_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        self.file_broadcast_socket.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
 
         # Wczytanie modelu MobileNet SSD
         # self.model_path = "MobileNetSSD_deploy.caffemodel"
@@ -111,16 +118,32 @@ class DogDetectionServer:
 
             self.zapisz_emocje_async(emotion)
 
-    def wyslij_emocje_broadcast(self, emotion):
-            try:
-                # Przygotowanie wiadomości do wysłania
-                emotion_message = f"{emotion}\n"
+    def wyslij_plik_broadcast(self):
+        try:
+            while True:
+                # Wczytaj zawartość pliku
+                with open(self.file_path, "r") as file:
+                    file_content = file.read()
                 
-                # Wysłanie na adres broadcast w sieci lokalnej
-                self.broadcast_socket.sendto(emotion_message.encode(), ('<broadcast>', self.broadcast_port))
-                # print(f"Wysłano broadcast emocji: {emotion_message}")
-            except Exception as e:
-                print(f"Błąd podczas wysyłania broadcastu emocji: {e}")
+                # Wysyłanie zawartości pliku
+                self.file_broadcast_socket.sendto(file_content.encode(), ('<broadcast>', self.file_broadcast_port))
+                print(f"Wysłano zawartość pliku przez broadcast na porcie {self.file_broadcast_port}:\n{file_content}")
+
+                # Czekaj 60 sekund
+                time.sleep(60)
+        except Exception as e:
+            print(f"Błąd podczas wysyłania broadcastu pliku: {e}")
+
+    def start_file_broadcast(self):
+        # Uruchomienie wątku do wysyłania pliku
+        threading.Thread(target=self.wyslij_plik_broadcast, daemon=True).start()
+
+    def wyslij_emocje_broadcast(self, emotion):
+        try:
+            emotion_message = f"{emotion}\n"
+            self.emotion_broadcast_socket.sendto(emotion_message.encode(), ('<broadcast>', self.emotion_broadcast_port))
+        except Exception as e:
+            print(f"Błąd podczas wysyłania broadcastu emocji: {e}")
 
     def wyslij_emocje_broadcast_async(self, emotion):
         threading.Thread(target=self.wyslij_emocje_broadcast, args=(emotion,)).start()
@@ -145,15 +168,23 @@ class DogDetectionServer:
 
 # Przykład użycia
 if __name__ == "__main__":
-    mjpeg_url = "http://192.168.137.182:5000/video_feed"  # Adres Raspberry Pi
-    rpi_ip = "192.168.137.182"  # Adres IP Raspberry Pi
-    rpi_port = 8487  # Port, na którym Raspberry Pi odbiera dane
-    broadcast_port = 5005  # Port dla broadcastu emocji
+    mjpeg_url = "http://192.168.137.182:5000/video_feed"
+    rpi_ip = "192.168.137.182"
+    rpi_port = 8487
+    emotion_broadcast_port = 5005  # Port dla broadcastu emocji
+    file_broadcast_port = 5006    # Port dla broadcastu pliku
+    file_path = "emocje.txt"      # Ścieżka do pliku tekstowego
 
-    server = DogDetectionServer(mjpeg_url, rpi_ip, rpi_port, broadcast_port)
+    server = DogDetectionServer(
+        mjpeg_url, rpi_ip, rpi_port, emotion_broadcast_port, file_broadcast_port, file_path
+    )
     try:
         server.connect_to_rpi()
         server.start_stream()
+
+        # Rozpocznij broadcast pliku
+        server.start_file_broadcast()
+
         server.process_stream()
     finally:
         server.close()
