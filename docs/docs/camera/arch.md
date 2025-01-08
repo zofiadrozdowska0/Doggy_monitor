@@ -4,39 +4,82 @@ Projekt “Doggy Monitor” oparty jest na Raspberry Pi Zero, który zarządza k
 
 ## **Diagramy**
 
-### Klasy
+<!-- ### Klasy
 
 ```mermaid
 classDiagram
-    Move <|-- MoveServo : inherits
-    class Move {
-        +float speed
-        +float current_angle
-        +default_position()
-        +move(float angle)
-        +move_override_speed(float angle, float speed)
-        +_save_angle()
+    Tracker <|-- PIDController
+    Tracker <|-- ServoController
+    Tracker <|-- KalmanFilter
+
+    class Tracker {
+        -host: str
+        -port: int
+        -frame_width: int
+        -frame_height: int
+        -frame_center_x: int
+        -frame_center_y: int
+        -pid_x: PIDController
+        -pid_y: PIDController
+        -servo_controller: ServoController
+        -kalman: KalmanFilter
+        -detections_in_last_2_sec: list
+        +start_camera()
+        +stream_frames()
+        +update_kalman_transition_matrix(float dt)
+        +watchdog()
+        +create_kalman_filter()
+        +manage_feedback_connections()
+        +handle_client(socket client_socket)
+        +control_servos(int pred_x, int pred_y)
+        +stop()
     }
-    class MoveServo {
-        + pins
+
+    class PIDController {
+        -K_p: float
+        -K_i: float
+        -K_d: float
+        -previous_error: float
+        -integral: float
+        +compute(float setpoint, float measured_value, float dt, float dead_zone=None)
+        +reset()
     }
-    class Camera{
-        # research needed
+
+    class ServoController {
+        -servo_pin_x: int
+        -servo_pin_y: int
+        -angle_file: str
+        -current_angle_x: float
+        -current_angle_y: float
+        +move_x(float target_angle_x)
+        +move_y(float target_angle_y)
+        +move(float target_angle_x, float target_angle_y)
+        +set_angle(int servo_pin, float angle)
+        +save_angles_to_file(float angle_x, float angle_y)
+        +read_angles_from_file()
+        +stop()
     }
-    class CameraStreamer{
-        # research needed
+
+    class KalmanFilter {
+        -measurementMatrix: numpy.ndarray
+        -transitionMatrix: numpy.ndarray
+        -processNoiseCov: numpy.ndarray
+        -measurementNoiseCov: numpy.ndarray
+        +predict()
+        +correct(numpy.ndarray measurement)
     }
-```
+``` -->
 
 ### **Przepływ danych**
 
 ```mermaid
 flowchart LR
-    camera-- image -->camera_streamer
-    camera-- tracking and cropping -->dog_tracker
-    camera_streamer-- streaming image to cloud -->cloud
-    dog_tracker-- move to track dog -->move_servo
-    cloud-->...
+    RPI-- image -->http
+    http-- image -->server
+    server-- emotion -->mobile_app
+    http-- image -->mobile_app
+    server-- tracking and cropping -->RPI
+    RPI-- move to track dog -->move_servo
 ```
 
 ## **Zastosowane technologie**
@@ -55,23 +98,8 @@ System działa na Raspberry Pi Zero, który jest odpowiedzialny za obsługę zar
 graph TD
     src --> main.py
     src --> servo_controller.py
-    src --> camera_stream.py
-    src --> dog_tracker.py
-    lib --> gpio_handler.py
-    lib --> camera_handler.py
-    config --> config.yaml
 ```
 
-• `main.py`: Główny plik uruchamiający system.
+• `main.py`: Obsługa strumieniowania obrazu z kamery i śledzenia psa.
 
 • `servo_controller.py`: Kod odpowiedzialny za sterowanie serwami.
-
-• `camera_stream.py`: Obsługa strumieniowania obrazu z kamery.
-
-• `dog_tracker.py`: Algorytmy śledzenia psa i przekazywania ruchu do serw.
-
-• `gpio_handler.py`: Obsługa pinów GPIO.
-
-• `camera_handler.py`: Integracja z kamerą.
-
-• `config.yaml`: Plik konfiguracyjny systemu.
