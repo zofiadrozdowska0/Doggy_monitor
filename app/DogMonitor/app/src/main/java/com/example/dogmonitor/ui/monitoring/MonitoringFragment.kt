@@ -16,13 +16,12 @@ import com.google.android.exoplayer2.ui.PlayerView
 import com.longdo.mjpegviewer.MjpegView
 
 
-class MonitoringFragment : Fragment() {
+abstract class MonitoringFragment : Fragment() {
 
-//    private var _binding: FragmentMonitoringBinding? = null
-//    private val binding get() = _binding!!
-//
-//    private var player: ExoPlayer? = null
 
+
+
+    private var viewer: MjpegView? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -31,18 +30,17 @@ class MonitoringFragment : Fragment() {
 
 
     ): View {
-        // Inflate the layout for this fragment
-//        _binding = FragmentMonitoringBinding.inflate(inflater, container, false)
-//        val root: View = binding.root
+
         val view = inflater.inflate(R.layout.fragment_monitoring, container, false)
-        val viewer = view.findViewById<MjpegView>(R.id.mjpegview)
-        viewer.setMode(MjpegView.MODE_FIT_WIDTH);
-        viewer.setAdjustHeight(true);
-        viewer.setSupportPinchZoomAndPan(true);
-        viewer.setUrl("https://app.punyapat.me/mjpeg-server/mjpeg");
-        viewer.startStream();
-        // Initialize PlayerView
-//        initializePlayer() // Call to initialize the player
+        viewer = view.findViewById<MjpegView>(R.id.mjpegview)
+        viewer?.apply {
+            setMode(MjpegView.MODE_FIT_WIDTH)
+            setAdjustHeight(true)
+            setSupportPinchZoomAndPan(true)
+            setUrl(SettingsPreferences.server_address)
+            startStream()
+        }
+
 
         return view
     }
@@ -53,6 +51,7 @@ class MonitoringFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-
+        viewer?.stopStream()
+        viewer = null
     }
 }
