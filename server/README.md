@@ -34,9 +34,10 @@ Folder inne zawiera pliki używane do testowania i tworzenia kodu serwera
 
 ```mermaid
 flowchart LR
-    RPI-- MJPEG_stream -->Server
-    Server-- bounding_box -->RPI
-    Server-- emotions -->mobile_app
+    RPI-- MJPEG_stream -->server
+    RPI-- MJPEG_stream -->mobile_app
+    server-- bounding_box -->RPI
+    server-- emotions -->mobile_app
 ```
 
 **Struktura plików**
