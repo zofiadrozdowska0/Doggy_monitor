@@ -6,9 +6,15 @@ Dane wynikowe z sieci dzielone są na bounding boxy, keypointsy oraz confidence 
 
 Algorytm oblicza kąty poszczególnych części ciała, o ile każdy z punktów należących do danej części ciała jest widoczny.
 
+![Obliczane kąty](./angles.jpg)
+
 Na klatce następnie rysowany jest bounding box, a na podstawie wcześniej obliczonych kątów przypisywana jest pozycja poszczególnych części ciała psa.
 
-Nastepnie dla ustalonych pozycji, przy pomocy drzewa decyzyjnego, przypisana zostaje psu konkretna emocja. 
+Nastepnie dla ustalonych pozycji, przy pomocy drzewa decyzyjnego, przypisana zostaje psu konkretna emocja. Punkt karku jest kluczowy do wyznaczenia pozycji ogona i głowy. Jeśli go brakuje, do obliczeń wykorzystywane są następujące wzory:
+- tailposition = 18.7 + 0.98 × (throat-basedtailposition)
+- headposition = −2.78 + 0.06 × (throat-basedheadposition) 
+
+Wzory i podstawowe informacje o wyznaczaniu emocji zostały zaczerpnięte z artykułu [Predicting Dog Emotions Based on Posture Analysis Using DeepLabCut by Kim Ferres, Timo Schloesser and Peter A. Gloor](https://www.mdpi.com/1999-5903/14/4/97)
 
 ![Drzewo decyzyjne](./drzewo_decyzyjne.png)
 
