@@ -23,6 +23,10 @@ Pojęcia:
 - dfl loss – distance focal loss; strata dotycząca precyzji dopasowania współrzędnych obiektów 
 - P lub B przy wykresach precyzji, czułości i mAP50 oznacza, że wykres dotyczy odpowiednio pozycji lub b-boxa. 
 - Accuracy – skuteczność – nie jest ona bezpośrednio obliczana w trakcie treningu i walidacji w przypadku modelu YOLO, dlatego napisano skrypt testujący, który porównuje obiekty wykryte przez model z anotacjami. Wykorzystywany do tego jest próg określany jako 7% długości psa w pikselach. Na tej podstawie zliczane są przypadki prawdziwie pozytywne (TP) i negatywne (TN) oraz fałszywie pozytywne (FP) i negatywne (FN), a skuteczność obliczana jest ze wzoru: Accuracy = (TP + TN)/(TP + FP + TN + FN)
+- TP - true positive; punkt poprawnie wykryty
+- FP - false positive; punkt poprawnie niewykryty
+- TN - true negative; punkt wykryty, mimo że nie powinien być
+- FN - false negative; punkt niewykryty, mimo że powinien być
 
 ### Grupa 1
 Accuracy = 76,17%
