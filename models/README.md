@@ -26,12 +26,15 @@ Pojęcia:
 
 ### Grupa 1
 Accuracy = 76,17%
-[wykresy]
+
+[wykresy](./train results 1)
 
 ### Grupa 2
 Accuracy = 75,99%
-[wykresy]
+
+[wykresy](./train results 2)
 
 ### Grupa 3
 Accuracy = 76,78%
-[wykresy]
+
+[wykresy](./train results 3)
