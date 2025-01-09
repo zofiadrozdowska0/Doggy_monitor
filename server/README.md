@@ -20,6 +20,8 @@ Wzory i podstawowe informacje o wyznaczaniu emocji zostały zaczerpnięte z arty
 
 Ostateczna emocja wyświetlana użytkownikowi determinowana jest na podstawie ostatnich 10 klatek. Cały skrypt zwraca klatkę z zaznaczonym bounding boxem, dane bounding boxa oraz emocję.
 
+Dla grupy drugiej wykorzystywany jest kąt związany z uszami. W drzewie decyzyjnym jest on sprawdzany, jeśli ogon jest poziomy lub opuszczony. Ich położenie wzdłuż głowy świadczy o smutku psa.
+
 ### Serwer
 
 Serwer odbiera obraz w formacie strumienia MJPEG przesyłanego z kamery pod adresem HTTP. Następnie, korzystając z naszego modelu, wykrywa psa i wyznacza współrzędne środka bounding boxa, w której znajduje się pies. Te współrzędne są przesyłane do Raspberry Pi za pomocą połączenia TCP na porcie 8487. Na podstawie otrzymanych współrzędnych kamera, zamontowana na serwomechanizmach, jest sterowana przez algorytm działający na Raspberry Pi, co umożliwia śledzenie psa.
