@@ -24,6 +24,6 @@ Kamera jest montowana na gimbalu za pomocą wydrukowanego uchwytu 3D. Można pob
 
 **Render adaptera 3D:**
 
-![Zdjęcie adaptera](assets/adapter3d.png)
+![Zdjęcie adaptera](docs/assets/adapter3d.png)
 
 
